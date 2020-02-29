@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Restaurant in Surrey</string>
+    <string name="action_settings">Settings</string>
+    <string name="restaurant_in_surrey">Restaurant in Surrey</string>
+    <string name="welcome">Welcome!</string>
+    <string name="by_argon">By: Argon</string>
+    <string name="title_activity_restaurant_list">restaurant_list</string>
+</resources>
