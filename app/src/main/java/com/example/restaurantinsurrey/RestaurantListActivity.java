@@ -7,10 +7,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class restaurant_list extends AppCompatActivity {
+public class RestaurantListActivity extends AppCompatActivity {
 
-    public static Intent makeLaunchIntent(Context C) {
-        Intent intent = new Intent(C, restaurant_list.class);
+    public static Intent makeLaunchIntent(Context c) {
+        Intent intent = new Intent(c, RestaurantListActivity.class);
         return intent;
     }
 
