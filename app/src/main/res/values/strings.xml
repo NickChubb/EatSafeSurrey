@@ -5,4 +5,8 @@
     <string name="welcome">Welcome!</string>
     <string name="by_argon">By: Argon</string>
     <string name="title_activity_restaurant_list">restaurant_list</string>
+    <string name="title_activity_single_restaurant">SingleRestaurant</string>
+    <string name="single_restaurant_name">Restaurant Name</string>
+    <string name="single_restaurant_address">Restaurant Address</string>
+    <string name="single_restaurant_inspection_tv">Inspections:</string>
 </resources>

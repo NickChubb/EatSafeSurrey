@@ -11,6 +11,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".RestaurantInfoActivity"></activity>
         <activity
+            android:name=".SingleRestaurant"
+            android:label="@string/title_activity_single_restaurant"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".RestaurantListActivity"
             android:label="@string/title_activity_restaurant_list"
             android:theme="@style/AppTheme.NoActionBar" />
