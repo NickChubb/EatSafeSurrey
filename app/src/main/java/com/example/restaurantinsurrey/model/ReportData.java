@@ -2,9 +2,9 @@ package com.example.restaurantinsurrey.model;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-//TODO: Not Finished Yet
 public class ReportData {
 
     public enum InspType{FOLLOW_UP, ROUTINE, OTHER};
@@ -18,16 +18,17 @@ public class ReportData {
     private int numCritical;
     private int numNonCritical;
     private HazardRating hazardRating;
-    private ViolationData violation;
+    private ArrayList<ViolationData> violations;
 
-    public ReportData(String trackingNumber, Date inspectionDate, InspType inspType, int numCritical, int numNonCritical, HazardRating hazardRating, ViolationData violation) {
+
+    public ReportData(String trackingNumber, Date inspectionDate, InspType inspType, int numCritical, int numNonCritical, HazardRating hazardRating, ArrayList<ViolationData> violations) {
         this.trackingNumber = trackingNumber;
         this.inspectionDate = inspectionDate;
         this.inspType = inspType;
         this.numCritical = numCritical;
         this.numNonCritical = numNonCritical;
         this.hazardRating = hazardRating;
-        this.violation = violation;
+        this.violations = violations;
     }
 
     public String getTrackingNumber() {
@@ -78,12 +79,12 @@ public class ReportData {
         this.hazardRating = hazardRating;
     }
 
-    public ViolationData getViolation() {
-        return violation;
+    public ArrayList<ViolationData> getViolations() {
+        return violations;
     }
 
-    public void setViolation(ViolationData violation) {
-        this.violation = violation;
+    public void setViolations(ArrayList<ViolationData> violations) {
+        this.violations = violations;
     }
 
     static public ReportData getReport(String line){
@@ -140,16 +141,21 @@ public class ReportData {
                 }
             }
 
-            String violationAsString = stringBuilder.toString();
+            String violationsAsString = stringBuilder.toString();
+            String[] violationsStringArr = violationsAsString.split("\\|");
 
-            ViolationData violationData;
-            if(violationAsString.length() >= 0){
-                violationData = ViolationData.getViolation(violationAsString);
-            } else {
-                violationData = null;
+            ArrayList<ViolationData> violations = new ArrayList<>();
+
+            for(String violationAsString: violationsStringArr){
+                ViolationData violationData = ViolationData.getViolation(violationAsString);
+                if(violationData == null){
+                    continue;
+                }
+                violations.add(violationData);
             }
 
-            ReportData report = new ReportData(trackingNumber, date, inspType, numCritical, numNonCritical, hazardRating, violationData);
+
+            ReportData report = new ReportData(trackingNumber, date, inspType, numCritical, numNonCritical, hazardRating, violations);
             return report;
         } catch (Exception e){
             Log.i(TAG, "getReport: Cannot convert to ReportData");
@@ -166,7 +172,7 @@ public class ReportData {
                 ", numCritical=" + numCritical +
                 ", numNonCritical=" + numNonCritical +
                 ", hazardRating=" + hazardRating +
-                ", violation=" + violation +
+                ", violations=" + violations +
                 '}';
     }
 }

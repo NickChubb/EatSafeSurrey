@@ -46,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable,3000);
-
-//        ArrayList<String> testL = DataFileProcessor.readLines(this, "inspectionreports_itr1.csv");
-//        ReportData d = ReportData.getReport(testL.get(5));
-//        Log.i("TEST", d.toString());
-
     }
 
     @Override
