@@ -8,7 +8,7 @@ import android.os.Message;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class SingleRestaurant extends AppCompatActivity {
+public class RestaurantActivity extends AppCompatActivity {
 
     private String address = "1600 Pennsylvania Ave NW Washington DC 20502";
 
@@ -16,7 +16,7 @@ public class SingleRestaurant extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_restaurant);
+        setContentView(R.layout.activity_restaurant);
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
@@ -48,9 +48,10 @@ public class SingleRestaurant extends AppCompatActivity {
     }
 
     public static Intent makeLaunchIntent(Context context){
-        Intent intent = new Intent(context, SingleRestaurant.class);
+        Intent intent = new Intent(context, RestaurantActivity.class);
         return intent;
     }
 
 
 }
+//Resources:https://www.youtube.com/watch?v=QquRXzJguQM

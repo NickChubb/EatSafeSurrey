@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SingleRestaurant"
-    tools:showIn="@layout/activity_single_restaurant">
+    tools:context=".RestaurantActivity"
+    tools:showIn="@layout/activity_restaurant">
 
 
     <TextView
