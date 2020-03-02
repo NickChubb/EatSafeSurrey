@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
@@ -13,9 +14,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.restaurantinsurrey.model.DataFileProcessor;
+import com.example.restaurantinsurrey.model.ReportData;
+import com.example.restaurantinsurrey.model.RestaurantData;
+import com.example.restaurantinsurrey.model.ViolationData;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     private Handler handler;
+
+    final public static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable,3000);
+
+//        ArrayList<String> testL = DataFileProcessor.readLines(this, "inspectionreports_itr1.csv");
+//        ReportData d = ReportData.getReport(testL.get(5));
+//        Log.i("TEST", d.toString());
 
     }
 
