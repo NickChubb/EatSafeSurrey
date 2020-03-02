@@ -163,6 +163,19 @@ public class ReportData {
         }
     }
 
+    static public ArrayList<ReportData> getAllReports(ArrayList<String> lines){
+        ArrayList<ReportData> data = new ArrayList<>();
+
+        for (String line: lines) {
+            ReportData report = getReport(line);
+            if(report != null){
+                data.add(report);
+            }
+        }
+
+        return data;
+    }
+
     @Override
     public String toString() {
         return "ReportData{" +
