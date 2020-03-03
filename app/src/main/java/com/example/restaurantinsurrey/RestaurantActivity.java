@@ -7,11 +7,21 @@ import android.os.Message;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
 
-public class RestaurantActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String address = "1600 Pennsylvania Ave NW Washington DC 20502";
 
+    GoogleMap mapAPI;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,20 @@ public class RestaurantActivity extends AppCompatActivity {
         GeoLocation geoLocation = new GeoLocation();
         geoLocation.getAddress(address, getApplicationContext(), new GeoHandler());
 
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
+        mapFragment.getMapAsync(this);
+
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mapAPI = googleMap;
+
+        LatLng SFUSurrey = new LatLng(49.187077, -122.848889);
+        mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title("SFUSurrey"));
+        mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
     }
 
 
