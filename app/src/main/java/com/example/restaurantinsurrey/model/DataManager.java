@@ -14,12 +14,21 @@ public class DataManager {
     static public void createInstance(Context context){
         instance = new DataManager(context);
     }
+
     static public DataManager getInstance(){
         if(instance == null){
             Log.e(TAG, "getInstance: Should call createInstance() at least once." );
             return null;
         }
         return instance;
+    }
+
+    private DataManager(Context context) {
+        ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
+        this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
+
+        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, REPORTS_FILE);
+        this.reportData = ReportData.getAllReports(reportStrings);
     }
     //----------------------------
 
@@ -29,13 +38,6 @@ public class DataManager {
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
 
-    private DataManager(Context context) {
-        ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
-        this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
-
-        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, REPORTS_FILE);
-        this.reportData = ReportData.getAllReports(reportStrings);
-    }
 
     public int getRestaurantsSize(){
         return restaurantData.size();
