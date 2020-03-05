@@ -1,9 +1,12 @@
 package com.example.restaurantinsurrey;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,17 +25,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String address = "1600 Pennsylvania Ave NW Washington DC 20502";
+    private String address = "15-228 Schoolhouse St, Coquitlam, BC V3K 6V7";
+    private String restaurantName = "Big Chicken Town";
     private float zoomLevel = 16.0f;
 
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
 
     private ListView inspectionListView;
-    private int[] warningSigns = {R.drawable.green_warning_sign};
+    private int GREEN_WARNING_SIGN = R.drawable.green_warning_sign;
     private int NUMBER_OF_INSPECTIONS = 1;
+
+
+    private double LONGTITUDE;
+    private double LATITUDE ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +53,15 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
-        GeoLocation geoLocation = new GeoLocation();
-        geoLocation.getAddress(address, getApplicationContext(), new GeoHandler());
+//        GeoLocation geoLocation = new GeoLocation();
+//        geoLocation.getAddress(address, getApplicationContext(), new GeoHandler());
+//
+//        LONGTITUDE = geoLocation.getLongtitude();
+//        LATITUDE = geoLocation.getLatitude();
+//
+//        Log.d("longtitude in activity", ""+LONGTITUDE + "\n");
+//        Log.d("latitude in activity", ""+LATITUDE + "\n");
+
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -85,7 +104,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
             ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
             TextView inspectionDate = view.findViewById(R.id.inspectionDateTV);
 
-            warningSign.setImageResource(warningSigns[position]);
+            warningSign.setImageResource(GREEN_WARNING_SIGN);
             inspectionDate.setText("A date/ days ago");
             return view;
         }
@@ -96,12 +115,38 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        getCoordinates();
         mapAPI = googleMap;
-
-        LatLng SFUSurrey = new LatLng(49.187077, -122.848889);
-        mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title("SFUSurrey"));
+        LatLng SFUSurrey = new LatLng(LATITUDE, LONGTITUDE);
+        mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title(restaurantName));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,zoomLevel));
+    }
+
+
+    private void getCoordinates() {
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        String result = null;
+        try {
+            List addressList = geocoder.getFromLocationName(address,1);
+
+            if(addressList != null && addressList.size() > 0){
+                Address address = (Address) addressList.get(0);
+
+                LATITUDE = address.getLatitude();
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(address.getLatitude()).append("\n");
+
+                LONGTITUDE = address.getLongitude();
+
+                stringBuilder.append(address.getLongitude()).append("\n");
+                result = stringBuilder.toString();
+            }
+        } catch (IOException e) {
+            Log.d("failed", "ERROR in geolocation\n");
+            e.printStackTrace();
+        }
     }
 
 

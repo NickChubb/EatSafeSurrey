@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.Locale;
 
 
 public class GeoLocation{
+
+    private static double longtitude;
+    private static double latitude;
 
     public static void getAddress(final String locationAddress, final Context context, final Handler handler){
 
@@ -27,14 +31,21 @@ public class GeoLocation{
 
                     if(addressList != null && addressList.size() > 0){
                         Address address = (Address) addressList.get(0);
+
+                        latitude = address.getLatitude();
+
                         StringBuilder stringBuilder = new StringBuilder();
-                        System.out.println(address.getLatitude());
+                        Log.d("latitude", "LAT is:" + latitude);
                         stringBuilder.append(address.getLatitude()).append("\n");
-                        System.out.println(address.getLongitude());
+
+                        longtitude = address.getLongitude();
+
+                        Log.d("longtitude", "LNG is: " + longtitude);
                         stringBuilder.append(address.getLongitude()).append("\n");
                         result = stringBuilder.toString();
                     }
                 } catch (IOException e) {
+                    Log.d("failed", "ERROR in geolocation\n");
                     e.printStackTrace();
                 } finally {
                     Message message = Message.obtain();
@@ -63,6 +74,14 @@ public class GeoLocation{
         };
         thread.start();
 
+    }
+
+    public double getLongtitude() {
+        return this.longtitude;
+    }
+
+    public double getLatitude() {
+        return this.latitude;
     }
 
 
