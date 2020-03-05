@@ -11,4 +11,7 @@
     <string name="single_restaurant_inspection_tv">Inspections:</string>
     <string name="title_activity_maps">Map</string>
     <string name="date_of_inspection">Inspection Date</string>
+    <string name="number_of_issues">0 issues</string>
+    <string name="number_of_critical_issues">0 critical issues</string>
+    <string name="number_of_non_critical_issues">0 non-critical issues</string>
 </resources>

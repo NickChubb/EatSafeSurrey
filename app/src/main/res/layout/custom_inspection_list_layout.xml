@@ -28,4 +28,40 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/inspectionHarzardLevelImageView"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/numberOfIssuesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/number_of_issues"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/numberOfCriticalIssuesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/number_of_critical_issues"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/inspectionHarzardLevelImageView"
+        app:layout_constraintTop_toBottomOf="@+id/inspectionDateTV" />
+
+    <TextView
+        android:id="@+id/numberOfNonCriticalIssuesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/number_of_non_critical_issues"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/inspectionHarzardLevelImageView"
+        app:layout_constraintTop_toBottomOf="@+id/numberOfCriticalIssuesTV" />
 </androidx.constraintlayout.widget.ConstraintLayout>

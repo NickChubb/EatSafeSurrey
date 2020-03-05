@@ -12,7 +12,7 @@
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/single_restaurant_name"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/single_restaurant_inspection_tv"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
@@ -57,10 +58,10 @@
     <ListView
         android:id="@+id/restaurantInspectionListView"
         android:layout_width="match_parent"
-        android:layout_height="251dp"
+        android:layout_height="300dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/singleRestaurantInspectionsTV" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,10 +37,13 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     private ListView inspectionListView;
     private int GREEN_WARNING_SIGN = R.drawable.green_warning_sign;
-    private int NUMBER_OF_INSPECTIONS = 1;
+    private int YELLOW_WARNING_SIGN = R.drawable.yellow_warning_sign;
+    private int RED_WARNING_SIGN = R.drawable.red_warning_sign;
 
 
-    private double LONGTITUDE;
+
+    private int NUMBER_OF_INSPECTIONS = 3;
+    private double LONGITUDE;
     private double LATITUDE ;
 
     @Override
@@ -89,11 +89,22 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
             View view = getLayoutInflater().inflate(R.layout.custom_inspection_list_layout,null);
 
+
             ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
             TextView inspectionDate = view.findViewById(R.id.inspectionDateTV);
 
-            warningSign.setImageResource(GREEN_WARNING_SIGN);
-            inspectionDate.setText("A date/ days ago");
+            if(position == 0) {
+                warningSign.setImageResource(GREEN_WARNING_SIGN);
+                inspectionDate.setText("2 days ago");
+            }
+            if(position == 1) {
+                warningSign.setImageResource(YELLOW_WARNING_SIGN);
+                inspectionDate.setText("4 days ago");
+            }
+            if(position == 2) {
+                warningSign.setImageResource(RED_WARNING_SIGN);
+                inspectionDate.setText("6 days ago");
+            }
             return view;
         }
     }
@@ -105,7 +116,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
         getCoordinates();
         mapAPI = googleMap;
-        LatLng SFUSurrey = new LatLng(LATITUDE, LONGTITUDE);
+        LatLng SFUSurrey = new LatLng(LATITUDE, LONGITUDE);
         mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title(restaurantName));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,zoomLevel));
@@ -126,7 +137,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(address.getLatitude()).append("\n");
 
-                LONGTITUDE = address.getLongitude();
+                LONGITUDE = address.getLongitude();
 
                 stringBuilder.append(address.getLongitude()).append("\n");
                 result = stringBuilder.toString();
@@ -146,4 +157,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
 
 }
-//Resources:https://www.youtube.com/watch?v=QquRXzJguQM
+//Resources:
+// https://www.youtube.com/watch?v=tLVz5wmNyrw
+// https://www.youtube.com/watch?v=QquRXzJguQM
