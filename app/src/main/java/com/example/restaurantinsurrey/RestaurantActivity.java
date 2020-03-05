@@ -91,7 +91,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
 
             ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
-            TextView inspectionDate = view.findViewById(R.id.inspectionDateTV);
+            TextView inspectionDate = view.findViewById(R.id.inspectionDetailsDateTV);
 
             if(position == 0) {
                 warningSign.setImageResource(GREEN_WARNING_SIGN);
