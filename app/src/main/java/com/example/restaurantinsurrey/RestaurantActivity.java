@@ -53,22 +53,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
-//        GeoLocation geoLocation = new GeoLocation();
-//        geoLocation.getAddress(address, getApplicationContext(), new GeoHandler());
-//
-//        LONGTITUDE = geoLocation.getLongtitude();
-//        LATITUDE = geoLocation.getLatitude();
-//
-//        Log.d("longtitude in activity", ""+LONGTITUDE + "\n");
-//        Log.d("latitude in activity", ""+LATITUDE + "\n");
-
-
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
 
         setUpInspectionListView();
-
-
     }
 
     private void setUpInspectionListView() {
@@ -150,23 +138,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     }
 
 
-    private class GeoHandler extends Handler {
-        @Override
-        public  void handleMessage(Message message){
-            String locationAddress;
-            switch (message.what){
-                case 1:
-                    Bundle bundle = message.getData();
-                    locationAddress = bundle.getString("address");
-                    break;
-
-                default:
-                    locationAddress = null;
-            }
-
-        }
-
-    }
 
     public static Intent makeLaunchIntent(Context context){
         Intent intent = new Intent(context, RestaurantActivity.class);
