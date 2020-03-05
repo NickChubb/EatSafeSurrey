@@ -4,6 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +30,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
 
+    private ListView inspectionListView;
+    private int[] warningSigns = {R.drawable.green_warning_sign};
+    private int NUMBER_OF_INSPECTIONS = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +47,51 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
 
+        setUpInspectionListView();
+
 
     }
+
+    private void setUpInspectionListView() {
+        inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
+
+        CustomAdaptor customAdaptor = new CustomAdaptor();
+        inspectionListView.setAdapter(customAdaptor);
+
+    }
+
+    private class CustomAdaptor extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return NUMBER_OF_INSPECTIONS;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View view = getLayoutInflater().inflate(R.layout.custom_inspection_list_layout,null);
+
+            ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
+            TextView inspectionDate = view.findViewById(R.id.inspectionDateTV);
+
+            warningSign.setImageResource(warningSigns[position]);
+            inspectionDate.setText("A date/ days ago");
+            return view;
+        }
+    }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -55,9 +108,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private class GeoHandler extends Handler {
         @Override
         public  void handleMessage(Message message){
-
             String locationAddress;
-
             switch (message.what){
                 case 1:
                     Bundle bundle = message.getData();
@@ -67,7 +118,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
                 default:
                     locationAddress = null;
             }
-
 
         }
 
