@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String address = "1600 Pennsylvania Ave NW Washington DC 20502";
+    private float zoomLevel = 16.0f;
 
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
@@ -47,6 +48,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         LatLng SFUSurrey = new LatLng(49.187077, -122.848889);
         mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title("SFUSurrey"));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
+        mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,zoomLevel));
     }
 
 
