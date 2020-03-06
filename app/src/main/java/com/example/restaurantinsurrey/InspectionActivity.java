@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.restaurantinsurrey.model.DataManager;
 import com.example.restaurantinsurrey.model.RestaurantData;
 
 public class InspectionActivity extends AppCompatActivity {
 
     // Class Data
     private int index;
-    private RestaurantManager manager;
+    private DataManager manager;
     private RestaurantData restaurant;
 
 
@@ -33,7 +34,7 @@ public class InspectionActivity extends AppCompatActivity {
 
 
         // Get instance of the RestaurantManager singleton
-        manager = RestaurantManager.getInstance();
+        manager = DataManager.getInstance();
 
 
         // Get restaurant object from the RestaurantManager object
