@@ -5,8 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SingleRestaurant"
-    tools:showIn="@layout/activity_single_restaurant">
+    tools:context=".RestaurantActivity"
+    tools:showIn="@layout/activity_restaurant">
+
+    <fragment
+        android:id="@+id/mapAPI"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".model.RestaurantActivity" />
 
 
     <TextView
@@ -14,12 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/single_restaurant_name"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
         android:id="@+id/singleRestaurantAddressTV"
@@ -34,11 +44,11 @@
         app:layout_constraintTop_toBottomOf="@+id/singleRestaurantNameTV" />
 
     <TextView
-        android:id="@+id/singleRestaurantInspectionsTV"
+        android:id="@+id/restaurantInspectionsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/single_restaurant_inspection_tv"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
@@ -46,13 +56,12 @@
         app:layout_constraintTop_toBottomOf="@+id/singleRestaurantAddressTV" />
 
     <ListView
-        android:id="@+id/singleRestaurantInspectionLV"
-        android:layout_width="366dp"
-        android:layout_height="255dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/restaurantInspectionListView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singleRestaurantInspectionsTV" />
+        app:layout_constraintTop_toBottomOf="@+id/restaurantInspectionsTV" />
 </androidx.constraintlayout.widget.ConstraintLayout>

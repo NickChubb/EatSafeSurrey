@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
 import com.example.restaurantinsurrey.RestaurantListActivity;
-import com.example.restaurantinsurrey.SingleRestaurant;
+//import com.example.restaurantinsurrey.SingleRestaurant;
 import com.example.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
@@ -57,8 +57,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             @Override
             public void onClick(View v) {
                 //launches calculate activity on ListView item click
-                Intent i = SingleRestaurant.makeLaunchIntent(RestaurantListActivity.this, position);
-                mContext.startActivity(i);
+
+//                Intent i = SingleRestaurant.makeLaunchIntent(RestaurantListActivity.this, position);
+//                mContext.startActivity(i);
+
             }
         });
 

@@ -9,4 +9,19 @@
     <string name="single_restaurant_name">Restaurant Name</string>
     <string name="single_restaurant_address">Restaurant Address</string>
     <string name="single_restaurant_inspection_tv">Inspections:</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="date_of_inspection">Inspection Date</string>
+    <string name="number_of_issues">0 issues</string>
+    <string name="number_of_critical_issues">0 critical issues</string>
+    <string name="number_of_non_critical_issues">0 non-critical issues</string>
+    <string name="title_activity_inspection_details">InspectionDetailsActivity</string>
+    <string name="inspection_details_date">Inspection date: </string>
+    <string name="inspection_details_type">Inspection type: </string>
+    <string name="inspection_details_critical_issues">0 critical issues</string>
+    <string name="inspection_details_non_critical_issues">0 non-critical issues</string>
+    <string name="inspection_details_hazard_level">Hazard level: Medium</string>
+    <string name="inspection_details_violations">Violations: </string>
+    <string name="sample_violation">209, Not Critical, Food not protected from contamination
+                                    [s,12(a)], Not Repeat</string>
+
 </resources>
