@@ -55,6 +55,8 @@ public class DataManager {
         return restaurantData.get(index);
     }
 
+    public ArrayList<RestaurantData> getAllRestaurants(){ return restaurantData; }
+
     @Override
     public String toString() {
         return "DataManager{" +
