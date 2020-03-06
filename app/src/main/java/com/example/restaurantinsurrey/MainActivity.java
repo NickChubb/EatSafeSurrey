@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent i = RestaurantActivity.makeLaunchIntent(MainActivity.this);
+                Intent i = InspectionDetailsActivity.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }
         };
