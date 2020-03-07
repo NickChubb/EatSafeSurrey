@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.restaurantinsurrey.model.DataManager;
+import com.example.restaurantinsurrey.model.ReportData;
+import com.example.restaurantinsurrey.model.RestaurantData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,13 +26,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String address = "15-228 Schoolhouse St, Coquitlam, BC V3K 6V7";
-    private String restaurantName = "Big Chicken Town";
+    public static final String INDEX_VALUE = "index_value";
+    private String address;
+    private String restaurantName;
     private float zoomLevel = 16.0f;
 
     GoogleMap mapAPI;
@@ -40,11 +45,16 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private int YELLOW_WARNING_SIGN = R.drawable.yellow_warning_sign;
     private int RED_WARNING_SIGN = R.drawable.red_warning_sign;
 
-
-
     private int NUMBER_OF_INSPECTIONS = 3;
     private double LONGITUDE;
-    private double LATITUDE ;
+    private double LATITUDE;
+
+    private DataManager manager;
+    private ArrayList<RestaurantData> restaurants;
+    private RestaurantData restaurantData;
+    private ArrayList<ReportData> reportDatas;
+    private ReportData inspectionReport;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +66,35 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
 
-        setUpInspectionListView();
+
+        restaurantData = getSingleRestaurant();
+        setUpRestaurantInfo(restaurantData);
+        setUpInspectionListView(restaurantData);
+
     }
 
-    private void setUpInspectionListView() {
+    private RestaurantData getSingleRestaurant() {
+        DataManager.createInstance(this);
+        manager = DataManager.getInstance();
+        restaurants = manager.getAllRestaurants();
+        Intent intent = getIntent();
+        int restaurantIndex = intent.getIntExtra(INDEX_VALUE, 0);
+        restaurantData = restaurants.get(restaurantIndex);
+        return restaurantData;
+    }
+
+    private void setUpRestaurantInfo(RestaurantData restaurant){
+        TextView restaurantAddressTV = findViewById(R.id.singleRestaurantAddressTV);
+        TextView restaurantNameTV = findViewById(R.id.singleRestaurantNameTV);
+
+        address = restaurant.getAddress();
+        restaurantName = restaurant.getName();
+
+        restaurantAddressTV.setText(address);
+        restaurantNameTV.setText(restaurantName);
+    }
+
+    private void setUpInspectionListView(RestaurantData restaurant) {
         inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
 
         CustomAdaptor customAdaptor = new CustomAdaptor();
@@ -113,7 +148,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         getCoordinates();
         mapAPI = googleMap;
         LatLng SFUSurrey = new LatLng(LATITUDE, LONGITUDE);
@@ -125,22 +159,16 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     private void getCoordinates() {
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        String result = null;
+        restaurantData = getSingleRestaurant();
+        address = restaurantData.getAddress();
+
         try {
             List addressList = geocoder.getFromLocationName(address,1);
 
             if(addressList != null && addressList.size() > 0){
                 Address address = (Address) addressList.get(0);
-
                 LATITUDE = address.getLatitude();
-
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(address.getLatitude()).append("\n");
-
                 LONGITUDE = address.getLongitude();
-
-                stringBuilder.append(address.getLongitude()).append("\n");
-                result = stringBuilder.toString();
             }
         } catch (IOException e) {
             Log.d("failed", "ERROR in geolocation\n");
@@ -149,9 +177,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     }
 
 
-
-    public static Intent makeLaunchIntent(Context context){
+    public static Intent makeLaunchIntent(Context context, int index){
         Intent intent = new Intent(context, RestaurantActivity.class);
+        intent.putExtra(INDEX_VALUE, index);
         return intent;
     }
 

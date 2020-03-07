@@ -42,10 +42,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
 
         DataManager.createInstance(this);
-
         manager = DataManager.getInstance();
-
-
 
         // Search bar
 

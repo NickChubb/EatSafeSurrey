@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
+import com.example.restaurantinsurrey.RestaurantActivity;
 import com.example.restaurantinsurrey.RestaurantListActivity;
 //import com.example.restaurantinsurrey.SingleRestaurant;
 import com.example.restaurantinsurrey.model.RestaurantData;
@@ -46,7 +47,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageViewHolder holder, final int position) {
 
         RestaurantData current_restaurant = restaurants.get(position);
 
@@ -57,10 +58,8 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             @Override
             public void onClick(View v) {
                 //launches calculate activity on ListView item click
-
-//                Intent i = SingleRestaurant.makeLaunchIntent(RestaurantListActivity.this, position);
-//                mContext.startActivity(i);
-
+                Intent intent = RestaurantActivity.makeLaunchIntent(mContext, position);
+                mContext.startActivity(intent);
             }
         });
 

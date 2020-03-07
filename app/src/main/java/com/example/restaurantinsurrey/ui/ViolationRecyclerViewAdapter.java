@@ -1,6 +1,7 @@
 package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
+import com.example.restaurantinsurrey.RestaurantActivity;
+import com.example.restaurantinsurrey.RestaurantListActivity;
 
 public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<ViolationRecyclerViewAdapter.ViewHolder>{
 
