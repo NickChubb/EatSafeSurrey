@@ -57,6 +57,27 @@ public class DataManager {
 
     public ArrayList<RestaurantData> getAllRestaurants(){ return restaurantData; }
 
+    public ArrayList<Integer> getReportsIndexes(String trackingNumber){
+        ArrayList<Integer> ret = new ArrayList<>();
+        for(int i = 0; i < getReportsSize(); i++){
+            ReportData report = getReport(i);
+            if(report.getTrackingNumber().equals(trackingNumber)){
+                ret.add(i);
+            }
+        }
+        return ret;
+    }
+
+    public int getRestaurantIndex(String trackingNumber){
+        for(int i = 0; i < getRestaurantsSize(); i++){
+            RestaurantData restaurant = getRestaurant(i);
+            if(restaurant.getTrackingNumber().equals(trackingNumber)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         return "DataManager{" +
