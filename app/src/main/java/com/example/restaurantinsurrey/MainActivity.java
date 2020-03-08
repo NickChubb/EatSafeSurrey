@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.restaurantinsurrey.model.DataFileProcessor;
+import com.example.restaurantinsurrey.model.DataManager;
 import com.example.restaurantinsurrey.model.ReportData;
 import com.example.restaurantinsurrey.model.RestaurantData;
 import com.example.restaurantinsurrey.model.ViolationData;
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable,3000);
+
+        DataManager.createInstance(this);
+        DataManager manager = DataManager.getInstance();
+        for(int i = 0; i < manager.getReportsSize(); i++){
+            Log.i(TAG, manager.getReport(i).toString());
+        }
+        Log.i(TAG,  manager.getReportsIndexes("SWOD-AHZUMF").toString());
     }
 
     @Override
