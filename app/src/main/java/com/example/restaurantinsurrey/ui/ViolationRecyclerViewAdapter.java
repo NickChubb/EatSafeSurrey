@@ -14,8 +14,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.RestaurantActivity;
-import com.example.restaurantinsurrey.RestaurantListActivity;
 
 public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<ViolationRecyclerViewAdapter.ViewHolder>{
 

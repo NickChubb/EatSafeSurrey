@@ -41,7 +41,6 @@ public class RestaurantListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        DataManager.createInstance(this);
         manager = DataManager.getInstance();
 
         // Search bar
