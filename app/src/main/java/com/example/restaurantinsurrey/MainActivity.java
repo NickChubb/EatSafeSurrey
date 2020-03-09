@@ -75,6 +75,22 @@ public class MainActivity extends AppCompatActivity {
     private void setWelcomeAnim() {
         TextView Welcome = (TextView) findViewById(R.id.txt_welcome);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.fadein);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         Welcome.startAnimation(animation);
     }
 
