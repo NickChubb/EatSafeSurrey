@@ -56,7 +56,9 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         holder.name.setText(current_restaurant.getName());
         holder.date.setText("28 days ago");
-        holder.image.setImageBitmap(current_restaurant.getImage());
+        Bitmap bitmap = current_restaurant.getImage();
+        bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
+        holder.image.setImageBitmap(bitmap);
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override

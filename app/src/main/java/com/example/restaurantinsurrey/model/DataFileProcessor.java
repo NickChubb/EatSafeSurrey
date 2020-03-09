@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -59,7 +60,7 @@ public class DataFileProcessor {
         return date;
     }
 
-    public static Bitmap getImageFromInternet(String urlString){
+    private static Bitmap getImageFromInternet(String urlString){
         HttpURLConnection connection = null;
         try {
             URL url = new URL(urlString);
@@ -77,6 +78,25 @@ public class DataFileProcessor {
             connection.disconnect();
         }
         return null;
+    }
+
+    private static final String IMAGE_URL = "http://www.magicspica.com/files/images/";
+
+    public static Bitmap getImage(String trackingNumber){
+        String urlString = IMAGE_URL + trackingNumber + ".jpg";
+        return getImageFromInternet(urlString);
+    }
+
+
+    public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidth = ((float) w / width);
+        float scaleHeight = ((float) h / height);
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap ret = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        return ret;
     }
 
 }

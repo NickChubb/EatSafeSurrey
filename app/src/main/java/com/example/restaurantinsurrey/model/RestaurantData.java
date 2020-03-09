@@ -113,7 +113,7 @@ public class RestaurantData {
             String type = noQuotesSplitString[4];
             double lat = Double.valueOf(noQuotesSplitString[5]);
             double lon = Double.valueOf(noQuotesSplitString[6]);
-            Bitmap image = DataFileProcessor.getImageFromInternet("https://cdn130.picsart.com/305973546050201.jpg");
+            Bitmap image = DataFileProcessor.getImage(trackingNumber);
             RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
             return restaurant;
         } catch (Exception e){

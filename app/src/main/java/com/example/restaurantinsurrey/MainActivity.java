@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i(TAG, manager.getReport(i).toString());
 //        }
 //        Log.i(TAG,  manager.getReportsIndexes("SWOD-AHZUMF").toString());
+
     }
 
     @Override
