@@ -40,7 +40,7 @@ public class RestaurantListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
-
+        DataManager.createInstance(this);
         manager = DataManager.getInstance();
 
         // Search bar

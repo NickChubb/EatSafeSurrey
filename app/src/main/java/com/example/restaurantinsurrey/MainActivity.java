@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     private Handler handler;
-    DataManager manager;
     final public static String TAG = "MainActivity";
 
     @Override
@@ -54,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable,3000);
-
-        DataManager.createInstance(this);
-        manager = DataManager.getInstance();
 
     }
 
