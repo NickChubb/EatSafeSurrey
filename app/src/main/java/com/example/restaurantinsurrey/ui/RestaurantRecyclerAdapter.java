@@ -2,10 +2,13 @@ package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.restaurantinsurrey.R;
 import com.example.restaurantinsurrey.RestaurantListActivity;
 //import com.example.restaurantinsurrey.SingleRestaurant;
+import com.example.restaurantinsurrey.model.DataFileProcessor;
 import com.example.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
@@ -52,6 +56,9 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         holder.name.setText(current_restaurant.getName());
         holder.date.setText("28 days ago");
+        Bitmap bitmap = current_restaurant.getImage();
+        bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
+        holder.image.setImageBitmap(bitmap);
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,13 +86,12 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         TextView name;
         TextView date;
+        ImageView image;
         ConstraintLayout parentLayout;
-
-
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            image = itemView.findViewById(R.id.imageRestaurant);
             name = itemView.findViewById(R.id.txtName);
             date = itemView.findViewById(R.id.txtDate);
 

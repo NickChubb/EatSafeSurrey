@@ -2,11 +2,17 @@ package com.example.restaurantinsurrey.model;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,5 +60,43 @@ public class DataFileProcessor {
         return date;
     }
 
+    private static Bitmap getImageFromInternet(String urlString){
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(2000);
+            connection.setReadTimeout(2000);
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
+        return null;
+    }
+
+    private static final String IMAGE_URL = "http://www.magicspica.com/files/images/";
+
+    public static Bitmap getImage(String trackingNumber){
+        String urlString = IMAGE_URL + trackingNumber + ".jpg";
+        return getImageFromInternet(urlString);
+    }
+
+
+    public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidth = ((float) w / width);
+        float scaleHeight = ((float) h / height);
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap ret = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        return ret;
+    }
 
 }
