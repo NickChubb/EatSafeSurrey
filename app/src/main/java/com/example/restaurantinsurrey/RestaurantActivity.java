@@ -67,14 +67,16 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
 
+
+
         restaurantData = getSingleRestaurant();
         setUpRestaurantInfo(restaurantData);
-        setUpInspectionListView(restaurantData);
+        getReport();
+        setUpInspectionListView();
 
     }
 
     private RestaurantData getSingleRestaurant() {
-        DataManager.createInstance(this);
         manager = DataManager.getInstance();
         restaurants = manager.getAllRestaurants();
         Intent intent = getIntent();
@@ -94,11 +96,19 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         restaurantNameTV.setText(restaurantName);
     }
 
-    private void setUpInspectionListView(RestaurantData restaurant) {
+    private void setUpInspectionListView() {
+
         inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
 
         CustomAdaptor customAdaptor = new CustomAdaptor();
         inspectionListView.setAdapter(customAdaptor);
+
+    }
+
+    private void getReport(){
+
+        manager = DataManager.getInstance();
+
 
     }
 
