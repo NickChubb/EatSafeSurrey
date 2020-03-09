@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -102,6 +103,14 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
         CustomAdaptor customAdaptor = new CustomAdaptor();
         inspectionListView.setAdapter(customAdaptor);
+
+        inspectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = InspectionDetailsActivity.makeLaunchIntent(RestaurantActivity.this);
+                startActivity(intent);
+            }
+        });
 
     }
 
