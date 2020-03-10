@@ -23,7 +23,10 @@ public class InspectionListAdapter extends ArrayAdapter<ReportData> {
     private static final String TAG = "InspectionListAdapter";
     private static final String CRITICAL_ISSUES = "critical issues";
     private static final String NON_CRITICAL_ISSUES = "non critical issues";
+    private static final String CRITICAL_ISSUE = "critical issue";
+    private static final String NON_CRITICAL_ISSUE = "non critical issue";
     private static final String ISSUES = "issues";
+    private static final String ISSUE = "issue";
     private static final String HIGH = "HIGH";
     private static final String MODERATE = "MODERATE";
     private static final String LOW = "LOW";
@@ -61,14 +64,31 @@ public class InspectionListAdapter extends ArrayAdapter<ReportData> {
         TextView hazardLevel = (TextView) convertView.findViewById(R.id.levelsTV);
         TextView inspectionDateTV = (TextView) convertView.findViewById(R.id.inspectionDetailsDateTV);
 
-        critialIssuesTV.setText(""+ numberOfCriticalIssues + " " + CRITICAL_ISSUES);
-        nonCritialIssuesTV.setText(""+ numberOfNonCriticalIssues + " " + NON_CRITICAL_ISSUES);
-        totalIssuesTV.setText("" + totalIssues + " " + ISSUES);
+        if(numberOfCriticalIssues == 1) {
+            critialIssuesTV.setText("" + numberOfCriticalIssues + " " + CRITICAL_ISSUE);
+        }
+        else{
+            critialIssuesTV.setText("" + numberOfCriticalIssues + " " + CRITICAL_ISSUES);
+        }
+
+        if(numberOfNonCriticalIssues == 1) {
+            nonCritialIssuesTV.setText("" + numberOfNonCriticalIssues + " " + NON_CRITICAL_ISSUE);
+        }
+        else {
+            nonCritialIssuesTV.setText("" + numberOfNonCriticalIssues + " " + NON_CRITICAL_ISSUES);
+        }
+
+        if(totalIssues == 1){
+            totalIssuesTV.setText("" + totalIssues + " " + ISSUE);
+
+        }
+        else {
+            totalIssuesTV.setText("" + totalIssues + " " + ISSUES);
+        }
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = (String)dateFormat.format(inspectionDate);
-//        System.out.println(date);
         inspectionDateTV.setText(""+ date);
 
 
