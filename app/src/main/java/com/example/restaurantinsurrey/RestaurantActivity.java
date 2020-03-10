@@ -35,6 +35,7 @@ import java.util.Locale;
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String INDEX_VALUE = "index_value";
+    public static final String NO_INSPECTION_REPORTS_AVAILABLE = "No inspection reports available";
     private String address;
     private String restaurantName;
     private float zoomLevel = 16.0f;
@@ -101,6 +102,11 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private void setUpInspectionListView(ArrayList<ReportData> reports, RestaurantData restaurant) {
         String restaurantTrackingNumber = restaurant.getTrackingNumber();
         inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
+
+        if(reports.isEmpty()){
+            TextView inspectionTV = (TextView) findViewById(R.id.restaurantInspectionsTV);
+            inspectionTV.setText(NO_INSPECTION_REPORTS_AVAILABLE);
+        }
 
         InspectionListAdapter adapter = new InspectionListAdapter(this, R.layout.custom_inspection_list_layout, reports);
         inspectionListView.setAdapter(adapter);
