@@ -149,7 +149,6 @@ public class ReportData {
             ArrayList<ViolationData> violations = new ArrayList<>();
             while (matcher.find()){
                 String match = matcher.group();
-                Log.i(TAG, "getReport: " + match);
                 int violationNumber = Integer.valueOf(match);
                 ViolationData violationData = ViolationData.getViolationByNumber(violationNumber, validViolations);
                 if(violationData == null){
