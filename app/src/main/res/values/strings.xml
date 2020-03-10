@@ -22,7 +22,8 @@
     <string name="inspection_details_hazard_level">Hazard level: Medium</string>
     <string name="inspection_details_violations">Violations: </string>
     <string name="text_inspection">%d days ago</string>
-    <string name="text_inspection_by_date">%d/%d/%d</string>
+    <string name="text_inspection_by_date_less_one_year">%s %d</string>
+    <string name="text_inspection_by_date">%s %d</string>
     <string name="text_inspection_no_date">None</string>
     <string name="text_issue_num">%d issues</string>
     <string name="sample_violation">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</string>
