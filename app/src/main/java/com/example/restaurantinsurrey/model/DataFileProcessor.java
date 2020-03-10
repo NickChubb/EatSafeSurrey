@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DataFileProcessor {
 
@@ -113,11 +114,18 @@ public class DataFileProcessor {
         if (dayCount <= 30){
             return context.getString(R.string.text_inspection, dayCount);
         }
+        else if(dayCount >30 && dayCount <= 365){
+//          int month = calTargetDate.get(Calendar.MONTH) + 1;
+            String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+            int day = calTargetDate.get(Calendar.DATE);
+            return context.getString(R.string.text_inspection_by_date_less_one_year, month, day);
+        }
         else {
             int year = calTargetDate.get(Calendar.YEAR);
-            int month = calTargetDate.get(Calendar.MONTH) + 1;
-            int day = calTargetDate.get(Calendar.DATE);
-            return context.getString(R.string.text_inspection_by_date, month, day, year);
+            String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+//            int month = calTargetDate.get(Calendar.MONTH) + 1;
+//            int day = calTargetDate.get(Calendar.DATE);
+            return context.getString(R.string.text_inspection_by_date, month, year);
         }
     }
 

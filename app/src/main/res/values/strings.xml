@@ -23,7 +23,8 @@
     <string name="inspection_details_violations">Violations: </string>
     <string name="sample_violation">209, Not Critical, Food not protected from contamination[s,12(a)], Not Repeat</string>
     <string name="text_inspection">%d days ago</string>
-    <string name="text_inspection_by_date">%d/%d/%d</string>
+    <string name="text_inspection_by_date_less_one_year">%s %d</string>
+    <string name="text_inspection_by_date">%s %d</string>
     <string name="text_inspection_no_date">None</string>
     <string name="text_issue_num">%d issues</string>
 </resources>
