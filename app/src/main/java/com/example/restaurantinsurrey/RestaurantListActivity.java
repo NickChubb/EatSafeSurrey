@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +48,8 @@ public class RestaurantListActivity extends AppCompatActivity {
         DataManager.createInstance(this);
         manager = DataManager.getInstance();
 
+
+
         // Search bar
 
         populateListView();
@@ -55,14 +62,31 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.recRestaurants);
         list.setHasFixedSize(true);
+        list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         layoutManager = new LinearLayoutManager(this);
 
         list.setLayoutManager(layoutManager);
 
-        adapter = new RestaurantRecyclerAdapter(restaurants, this);
+        adapter = new RestaurantRecyclerAdapter(this);
 
         list.setAdapter(adapter);
+
+
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText){
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
 
     }
 

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     private Handler handler;
+    DataManager manager;
     final public static String TAG = "MainActivity";
 
     @Override
@@ -48,11 +49,19 @@ public class MainActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
+//                Intent i = InspectionDetailsActivity.makeLaunchIntent(MainActivity.this);
                 Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }
         };
         handler.postDelayed(runnable,3000);
+
+        DataManager.createInstance(this);
+        manager = DataManager.getInstance();
+//        for(int i = 0; i < manager.getReportsSize(); i++){
+//            Log.i(TAG, manager.getReport(i).toString());
+//        }
+//        Log.i(TAG,  manager.getReportsIndexes("SWOD-AHZUMF").toString());
 
     }
 
