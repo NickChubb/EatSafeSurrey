@@ -54,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         };
-        handler.postDelayed(runnable,3000);
-
         DataManager.createInstance(this);
+        handler.postDelayed(runnable,3000);
     }
 
     @Override
