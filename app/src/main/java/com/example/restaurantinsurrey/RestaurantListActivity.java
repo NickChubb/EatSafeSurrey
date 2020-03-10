@@ -61,7 +61,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         list.setLayoutManager(layoutManager);
 
-        adapter = new RestaurantRecyclerAdapter(restaurants, this);
+        adapter = new RestaurantRecyclerAdapter(this);
 
         list.setAdapter(adapter);
 

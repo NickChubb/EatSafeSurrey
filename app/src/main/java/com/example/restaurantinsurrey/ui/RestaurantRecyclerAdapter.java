@@ -20,6 +20,7 @@ import com.example.restaurantinsurrey.R;
 import com.example.restaurantinsurrey.RestaurantListActivity;
 //import com.example.restaurantinsurrey.SingleRestaurant;
 import com.example.restaurantinsurrey.model.DataFileProcessor;
+import com.example.restaurantinsurrey.model.DataManager;
 import com.example.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
@@ -28,13 +29,12 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     final public static String TAG = "RestaurantRecyclerAdapter";
 
+    private DataManager manager;
 
-    private ArrayList<RestaurantData> restaurants;
     private Context mContext;
 
-    public RestaurantRecyclerAdapter(ArrayList<RestaurantData> restaurants, Context mContext){
-
-        this.restaurants = restaurants;
+    public RestaurantRecyclerAdapter(Context mContext){
+        this.manager = DataManager.getInstance();
         this.mContext = mContext;
     }
 
@@ -51,14 +51,19 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-
+        ArrayList<RestaurantData> restaurants = manager.getAllRestaurants();
         RestaurantData current_restaurant = restaurants.get(position);
+        String trackingNumber = current_restaurant.getTrackingNumber();
 
         holder.name.setText(current_restaurant.getName());
-        holder.date.setText("28 days ago");
+        String inspectionDateText = manager.getLastInspection(trackingNumber);
+        holder.date.setText(inspectionDateText);
         Bitmap bitmap = current_restaurant.getImage();
         bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
         holder.image.setImageBitmap(bitmap);
+        int issues = manager.getRestaurantIssuesLength(trackingNumber);
+        String issuesText = mContext.getString(R.string.text_issue_num, issues);
+        holder.issues.setText(issuesText);
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +80,8 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     @Override
     public int getItemCount() {
-        return restaurants.size();
-    }
+        return manager.getRestaurantsSize();
+}
 
 
 
@@ -88,13 +93,14 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         TextView date;
         ImageView image;
         ConstraintLayout parentLayout;
+        TextView issues;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageRestaurant);
             name = itemView.findViewById(R.id.txtName);
             date = itemView.findViewById(R.id.txtDate);
-
+            issues = itemView.findViewById(R.id.txtIssueNum);
             parentLayout = itemView.findViewById(R.id.restaurantRecyclerLayout);
 
         }
