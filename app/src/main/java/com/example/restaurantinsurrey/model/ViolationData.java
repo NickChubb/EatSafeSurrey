@@ -82,6 +82,15 @@ public class ViolationData {
         return data;
     }
 
+    public static ViolationData getViolationByNumber(int violationNumber, ArrayList<ViolationData> violationDataList){
+        for(ViolationData violationData: violationDataList){
+            if(violationData.getViolationNumber() == violationNumber){
+                return violationData;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "ViolationData{" +

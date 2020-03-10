@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReportData {
 
@@ -87,18 +89,16 @@ public class ReportData {
         this.violations = violations;
     }
 
-    static public ReportData getReport(String line){
+    static public ReportData getReport(String line, ArrayList<ViolationData> validViolations){
         String[] splitString = line.split(",");
-
         String[] noQuotesSplitString = DataFileProcessor.removeQuotesMark(splitString);
 
-        if(noQuotesSplitString.length < 7){
+        if(noQuotesSplitString.length < 6){
             Log.i(TAG, "getReport: UnavaliableData");
             return null;
         }
 
         try {
-
             String trackingNumber = noQuotesSplitString[0];
             if(trackingNumber.equals("TrackingNumber")){
                 return null;
@@ -142,32 +142,36 @@ public class ReportData {
             }
 
             String violationsAsString = stringBuilder.toString();
-            String[] violationsStringArr = violationsAsString.split("\\|");
+            String violationNumberRegex = "(\\d\\d\\d)";
+            Pattern pattern = Pattern.compile(violationNumberRegex);
+            Matcher matcher = pattern.matcher(violationsAsString);
 
             ArrayList<ViolationData> violations = new ArrayList<>();
-
-            for(String violationAsString: violationsStringArr){
-                ViolationData violationData = ViolationData.getViolation(violationAsString);
+            while (matcher.find()){
+                String match = matcher.group();
+                Log.i(TAG, "getReport: " + match);
+                int violationNumber = Integer.valueOf(match);
+                ViolationData violationData = ViolationData.getViolationByNumber(violationNumber, validViolations);
                 if(violationData == null){
                     continue;
                 }
                 violations.add(violationData);
             }
 
-
             ReportData report = new ReportData(trackingNumber, date, inspType, numCritical, numNonCritical, hazardRating, violations);
             return report;
         } catch (Exception e){
+            e.printStackTrace();
             Log.i(TAG, "getReport: Cannot convert to ReportData");
             return null;
         }
     }
 
-    static public ArrayList<ReportData> getAllReports(ArrayList<String> lines){
+    static public ArrayList<ReportData> getAllReports(ArrayList<String> lines, ArrayList<ViolationData> validViolations){
         ArrayList<ReportData> data = new ArrayList<>();
 
         for (String line: lines) {
-            ReportData report = getReport(line);
+            ReportData report = getReport(line, validViolations);
             if(report != null){
                 data.add(report);
             }

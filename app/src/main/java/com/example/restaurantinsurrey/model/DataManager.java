@@ -40,8 +40,11 @@ public class DataManager {
             }
         });
 
-        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, REPORTS_FILE);
-        this.reportData = ReportData.getAllReports(reportStrings);
+        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, INSPECTIONS_REPORTS_FILE);
+        ArrayList<String> validReportsStrings = DataFileProcessor.readLines(context, ALL_REPORTS_FILE);
+        ArrayList<ViolationData> validReports = ViolationData.getAllViolations(validReportsStrings);
+
+        this.reportData = ReportData.getAllReports(reportStrings, validReports);
         this.reportData.sort(new Comparator<ReportData>() {
             @Override
             public int compare(ReportData o1, ReportData o2) {
@@ -53,7 +56,8 @@ public class DataManager {
     //----------------------------
 
     final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
-    final private static String REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String ALL_REPORTS_FILE = "AllViolations.txt";
 
     private Context context;
     private ArrayList<ReportData> reportData;
