@@ -2,6 +2,7 @@ package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,22 +56,26 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         ReportData report = manager.getLastInspection(trackingNumber);
 
         String inspectionDateText;
-        int harzardResourceId;
+        int hazardResourceId;
+        int hazardBackgroundColorId;
         int issues;
         if(report != null){
             inspectionDateText = DataFileProcessor.getFormattedDate(mContext, report.getInspectionDate());
-            harzardResourceId = DataFileProcessor.getHazardRatingImage(report.getHazardRating());
+            hazardResourceId = DataFileProcessor.getHazardRatingImage(report.getHazardRating());
+            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
             issues = report.getNumNonCritical() + report.getNumNonCritical();
         } else {
             inspectionDateText = mContext.getString(R.string.text_inspection_no_date);
-            harzardResourceId = R.drawable.green_warning_sign;
+            hazardResourceId = R.drawable.green_warning_sign;
+            hazardBackgroundColorId = R.color.hazardBackgroundLow;
             issues = 0;
         }
+        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
         holder.date.setText(inspectionDateText);
-        holder.hazardImage.setImageResource(harzardResourceId);
+        holder.hazardImage.setImageResource(hazardResourceId);
         String issuesText = mContext.getString(R.string.text_issue_num, issues);
         holder.issues.setText(issuesText);
-
+        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
         Bitmap bitmap = current_restaurant.getImage();
         if(bitmap != null) {
             bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
@@ -85,7 +90,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 //launches calculate activity on ListView item click
 
 //                Intent i = SingleRestaurant.makeLaunchIntent(RestaurantListActivity.this, position);
-//                mContext.startActivity(i);
+////                mContext.startActivity(i);
 
             }
         });

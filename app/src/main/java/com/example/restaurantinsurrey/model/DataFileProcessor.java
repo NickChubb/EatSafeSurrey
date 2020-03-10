@@ -134,4 +134,16 @@ public class DataFileProcessor {
         }
     }
 
+    public static int getHazardRatingBackgroundColor(ReportData.HazardRating hazardRating){
+        switch (hazardRating){
+            case LOW:
+                return R.color.hazardBackgroundLow;
+            case MODERATE:
+                return R.color.hazardBackgroundModerate;
+            case HIGH:
+                return R.color.hazardBackgroundHigh;
+            default:
+                return R.color.hazardBackgroundLow;
+        }
+    }
 }

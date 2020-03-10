@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="hazardBackgroundHigh">#EED5D2</color>
+    <color name="hazardBackgroundModerate">#FAFAD2</color>
+    <color name="hazardBackgroundLow">#E0EEE0</color>
 </resources>
