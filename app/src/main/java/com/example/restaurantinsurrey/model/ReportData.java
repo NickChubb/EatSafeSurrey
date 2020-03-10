@@ -186,6 +186,6 @@ public class ReportData {
                 ", numNonCritical=" + numNonCritical +
                 ", hazardRating=" + hazardRating +
                 ", violations=" + violations +
-                '}';
+                '}'+"\n";
     }
 }

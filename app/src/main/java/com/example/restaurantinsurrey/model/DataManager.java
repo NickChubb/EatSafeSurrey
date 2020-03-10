@@ -57,6 +57,10 @@ public class DataManager {
 
     public ArrayList<RestaurantData> getAllRestaurants(){ return restaurantData; }
 
+    public ArrayList<ReportData> getAllResports(){
+        return reportData;
+    }
+
     public ArrayList<Integer> getReportsIndexes(String trackingNumber){
         ArrayList<Integer> ret = new ArrayList<>();
         for(int i = 0; i < getReportsSize(); i++){

@@ -53,7 +53,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private DataManager manager;
     private ArrayList<RestaurantData> restaurants;
     private RestaurantData restaurantData;
-    private ArrayList<ReportData> reportDatas;
+    private ArrayList<ReportData> allReports;
+    private ArrayList<ReportData> restaurantReports;
     private ReportData inspectionReport;
 
 
@@ -67,14 +68,15 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
 
-
+        manager = DataManager.getInstance();
+        allReports = manager.getAllResports();
 
 
         restaurantData = getSingleRestaurant();
         setUpRestaurantInfo(restaurantData);
-        getReport();
-        setUpInspectionListView();
+        restaurantReports = getReports(allReports, restaurantData);
 
+        setUpInspectionListView(restaurantReports);
     }
 
     private RestaurantData getSingleRestaurant() {
@@ -97,11 +99,14 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         restaurantNameTV.setText(restaurantName);
     }
 
-    private void setUpInspectionListView() {
+    private void setUpInspectionListView(ArrayList<ReportData> reports) {
+        System.out.println(reports.size());
+        System.out.println(reports);
+
 
         inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
 
-        CustomAdaptor customAdaptor = new CustomAdaptor();
+        CustomAdaptor customAdaptor = new CustomAdaptor(reports);
         inspectionListView.setAdapter(customAdaptor);
 
         inspectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,14 +119,29 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-    private void getReport(){
+    private ArrayList<ReportData> getReports(ArrayList<ReportData> allReports, RestaurantData restaurant){
 
-        manager = DataManager.getInstance();
+        String restaurantTrackingNumber = restaurant.getTrackingNumber();
+        System.out.println(restaurantTrackingNumber);
+        List<ReportData> reportsOfRestaurant = new ArrayList<>();
 
+        for(ReportData report : allReports){
+            if(report.getTrackingNumber().equals(restaurantTrackingNumber)){
+                reportsOfRestaurant.add(report);
+            }
 
+        }
+
+        return (ArrayList<ReportData>) reportsOfRestaurant;
     }
 
     private class CustomAdaptor extends BaseAdapter{
+        private ArrayList<ReportData> reports;
+
+        public CustomAdaptor(ArrayList<ReportData> reports) {
+            this.reports = reports;
+        }
+
 
         @Override
         public int getCount() {
@@ -145,7 +165,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
 
             ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
+
             TextView inspectionDate = view.findViewById(R.id.inspectionDetailsDateTV);
+
 
             if(position == 0) {
                 warningSign.setImageResource(GREEN_WARNING_SIGN);
