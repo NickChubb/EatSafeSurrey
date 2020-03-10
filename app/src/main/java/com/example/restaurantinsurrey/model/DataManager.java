@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.restaurantinsurrey.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class DataManager {
@@ -32,8 +33,22 @@ public class DataManager {
         ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
 
+        this.restaurantData.sort(new Comparator<RestaurantData>() {
+            @Override
+            public int compare(RestaurantData o1, RestaurantData o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         ArrayList<String> reportStrings = DataFileProcessor.readLines(context, REPORTS_FILE);
         this.reportData = ReportData.getAllReports(reportStrings);
+        this.reportData.sort(new Comparator<ReportData>() {
+            @Override
+            public int compare(ReportData o1, ReportData o2) {
+                int ret = o1.getInspectionDate().after(o2.getInspectionDate())? -1: 1;
+                return ret;
+            }
+        });
     }
     //----------------------------
 
@@ -98,12 +113,8 @@ public class DataManager {
     public String getLastInspection(String trackingNumber){
         Date newestDate = null;
         ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
-        for (int index : reportsIndexes) {
-            ReportData report = getReport(index);
-            Date inspectionDate = report.getInspectionDate();
-            if (newestDate == null || inspectionDate.after(newestDate)){
-                newestDate = inspectionDate;
-            }
+        if (reportsIndexes.size() > 0){
+            newestDate = getReport(reportsIndexes.get(0)).getInspectionDate();
         }
         if (newestDate == null){
             return context.getString(R.string.text_inspection_no_date);
