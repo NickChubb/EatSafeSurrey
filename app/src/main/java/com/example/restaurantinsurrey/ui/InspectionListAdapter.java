@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.restaurantinsurrey.R;
 import com.example.restaurantinsurrey.model.ReportData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -58,10 +59,18 @@ public class InspectionListAdapter extends ArrayAdapter<ReportData> {
         TextView nonCritialIssuesTV = (TextView) convertView.findViewById(R.id.numberOfNonCriticalIssuesTV);
         TextView totalIssuesTV = (TextView) convertView.findViewById(R.id.numberOfIssuesTV);
         TextView hazardLevel = (TextView) convertView.findViewById(R.id.levelsTV);
+        TextView inspectionDateTV = (TextView) convertView.findViewById(R.id.inspectionDetailsDateTV);
 
         critialIssuesTV.setText(""+ numberOfCriticalIssues + " " + CRITICAL_ISSUES);
         nonCritialIssuesTV.setText(""+ numberOfNonCriticalIssues + " " + NON_CRITICAL_ISSUES);
         totalIssuesTV.setText("" + totalIssues + " " + ISSUES);
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date = (String)dateFormat.format(inspectionDate);
+//        System.out.println(date);
+        inspectionDateTV.setText(""+ date);
+
 
         if(HazardRating == ReportData.HazardRating.HIGH){
             hazardLevel.setText(HIGH);
@@ -77,7 +86,11 @@ public class InspectionListAdapter extends ArrayAdapter<ReportData> {
             hazardLevel.setText(LOW);
             hazardLevel.setTextColor(mContext.getResources().getColor(R.color.colorGreen));
             warningSign.setImageResource(R.drawable.green_warning_sign);
-
+        }
+        if(HazardRating == ReportData.HazardRating.OTHER){
+            hazardLevel.setText(OTHER);
+            hazardLevel.setTextColor(mContext.getResources().getColor(R.color.colorGrey));
+            warningSign.setImageResource(R.drawable.grey_warning_sign);
         }
 
         return convertView;
