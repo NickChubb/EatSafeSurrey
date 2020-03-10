@@ -30,6 +30,9 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
     private ArrayList<ViolationData> violationData;
 
     private int FOOD_ICON = R.drawable.food_icon;
+    private int DOCUMENTATION_ICON = R.drawable.documentation_icon;
+    private int UTENSILES_ICON = R.drawable.utensiles_icon;
+    private int UNSANITARY_ICON = R.drawable.unsanitary_icon;
     private int CRITICAL_ICON = R.drawable.critical;
     private int NON_CRITICAL_ICON = R.drawable.non_critical;
     private int RED_WARNING_SIGN = R.drawable.red_warning_sign;
@@ -78,12 +81,22 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
             }
         }
 
-        System.out.println(violationCodesArray[violationIndex]);
 
         holder.violationDescription.setText(violationDescriptionArray[violationIndex]);
 
+        if(violationNumber > 100 && violationNumber < 200){
+            holder.natureOfViolationImage.setImageResource(DOCUMENTATION_ICON);
+        }
+        if(violationNumber > 200 && violationNumber < 300){
+            holder.natureOfViolationImage.setImageResource(FOOD_ICON);
+        }
+        if(violationNumber > 300 && violationNumber < 400){
+            holder.natureOfViolationImage.setImageResource(UTENSILES_ICON);
+        }
+        if(violationNumber > 400 && violationNumber < 500){
+            holder.natureOfViolationImage.setImageResource(UNSANITARY_ICON);
+        }
 
-        holder.natureOfViolationImage.setImageResource(FOOD_ICON);
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
