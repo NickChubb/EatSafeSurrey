@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.RestaurantActivity;
 import com.example.restaurantinsurrey.model.ReportData;
 
 import java.util.ArrayList;
@@ -21,13 +20,13 @@ import java.util.Date;
 public class InspectionListAdapter extends ArrayAdapter<ReportData> {
 
     private static final String TAG = "InspectionListAdapter";
-    public static final String CRITICAL_ISSUES = "critical issues";
-    public static final String NON_CRITICAL_ISSUES = "non critical issues";
-    public static final String ISSUES = "issues";
-    public static final String HIGH = "HIGH";
-    public static final String MODERATE = "MODERATE";
-    public static final String LOW = "LOW";
-    public static final String OTHER = "OTHER";
+    private static final String CRITICAL_ISSUES = "critical issues";
+    private static final String NON_CRITICAL_ISSUES = "non critical issues";
+    private static final String ISSUES = "issues";
+    private static final String HIGH = "HIGH";
+    private static final String MODERATE = "MODERATE";
+    private static final String LOW = "LOW";
+    private static final String OTHER = "OTHER";
 
 
     private Context mContext;

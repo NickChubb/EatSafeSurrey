@@ -109,7 +109,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
 
         InspectionListAdapter adapter = new InspectionListAdapter(this, R.layout.custom_inspection_list_layout, reports);
-       //CustomAdaptor customAdaptor = new CustomAdaptor(reports);
         inspectionListView.setAdapter(adapter);
 
         inspectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,57 +136,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
         return (ArrayList<ReportData>) reportsOfRestaurant;
     }
-
-//    private class CustomAdaptor extends BaseAdapter{
-//        private ArrayList<ReportData> reports;
-//
-//        public CustomAdaptor(ArrayList<ReportData> reports) {
-//            this.reports = reports;
-//        }
-//
-//
-//        @Override
-//        public int getCount() {
-//            return NUMBER_OF_INSPECTIONS;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//
-//            View view = getLayoutInflater().inflate(R.layout.custom_inspection_list_layout,null);
-//
-//
-//            ImageView warningSign = view.findViewById(R.id.inspectionHarzardLevelImageView);
-//
-//            TextView inspectionDate = view.findViewById(R.id.inspectionDetailsDateTV);
-//
-//
-//            if(position == 0) {
-//                warningSign.setImageResource(GREEN_WARNING_SIGN);
-//                inspectionDate.setText("2 days ago");
-//            }
-//            if(position == 1) {
-//                warningSign.setImageResource(YELLOW_WARNING_SIGN);
-//                inspectionDate.setText("4 days ago");
-//            }
-//            if(position == 2) {
-//                warningSign.setImageResource(RED_WARNING_SIGN);
-//                inspectionDate.setText("6 days ago");
-//            }
-//            return view;
-//        }
-//    }
-
 
 
     @Override
