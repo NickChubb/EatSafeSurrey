@@ -121,4 +121,17 @@ public class DataFileProcessor {
         }
     }
 
+    public static int getHazardRatingImage(ReportData.HazardRating hazardRating){
+        switch (hazardRating){
+            case LOW:
+                return R.drawable.green_warning_sign;
+            case MODERATE:
+                return R.drawable.yellow_warning_sign;
+            case HIGH:
+                return R.drawable.red_warning_sign;
+            default:
+                return R.drawable.green_warning_sign;
+        }
+    }
+
 }
