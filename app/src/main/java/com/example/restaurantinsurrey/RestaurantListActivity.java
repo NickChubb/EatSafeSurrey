@@ -42,8 +42,6 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         manager = DataManager.getInstance();
 
-
-
         // Search bar
 
         populateListView();
