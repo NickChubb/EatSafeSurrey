@@ -3,7 +3,11 @@ package com.example.restaurantinsurrey.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.restaurantinsurrey.R;
+
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
 public class DataManager {
 
@@ -24,17 +28,38 @@ public class DataManager {
     }
 
     private DataManager(Context context) {
+        this.context = context;
+
         ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
 
-        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, REPORTS_FILE);
-        this.reportData = ReportData.getAllReports(reportStrings);
+        this.restaurantData.sort(new Comparator<RestaurantData>() {
+            @Override
+            public int compare(RestaurantData o1, RestaurantData o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
+        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, INSPECTIONS_REPORTS_FILE);
+        ArrayList<String> validReportsStrings = DataFileProcessor.readLines(context, ALL_REPORTS_FILE);
+        ArrayList<ViolationData> validReports = ViolationData.getAllViolations(validReportsStrings);
+
+        this.reportData = ReportData.getAllReports(reportStrings, validReports);
+        this.reportData.sort(new Comparator<ReportData>() {
+            @Override
+            public int compare(ReportData o1, ReportData o2) {
+                int ret = o1.getInspectionDate().after(o2.getInspectionDate())? -1: 1;
+                return ret;
+            }
+        });
     }
     //----------------------------
 
     final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
-    final private static String REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String ALL_REPORTS_FILE = "AllViolations.txt";
 
+    private Context context;
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
 
@@ -56,6 +81,40 @@ public class DataManager {
     }
 
     public ArrayList<RestaurantData> getAllRestaurants(){ return restaurantData; }
+
+    public ArrayList<ReportData> getAllResports(){
+        return reportData;
+    }
+
+    public ArrayList<Integer> getReportsIndexes(String trackingNumber){
+        ArrayList<Integer> ret = new ArrayList<>();
+        for(int i = 0; i < getReportsSize(); i++){
+            ReportData report = getReport(i);
+            if(report.getTrackingNumber().equals(trackingNumber)){
+                ret.add(i);
+            }
+        }
+        return ret;
+    }
+
+    public int getRestaurantIndex(String trackingNumber){
+        for(int i = 0; i < getRestaurantsSize(); i++){
+            RestaurantData restaurant = getRestaurant(i);
+            if(restaurant.getTrackingNumber().equals(trackingNumber)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ReportData getLastInspection(String trackingNumber){
+        ReportData ret = null;
+        ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
+        if (reportsIndexes.size() > 0){
+            ret = getReport(reportsIndexes.get(0));
+        }
+        return ret;
+    }
 
     @Override
     public String toString() {

@@ -7,34 +7,24 @@
     android:layout_height="wrap_content"
     android:id="@+id/violationParentLayout">
 
-    <ImageView
-        android:id="@+id/violationItemImageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
-
     <TextView
         android:id="@+id/violationTV"
-        android:layout_width="250dp"
+        android:layout_width="325dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="@string/sample_violation"
         android:textColor="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="@+id/violationItemImageView"
-        app:layout_constraintEnd_toStartOf="@+id/natureOfViolationImageView"
-        app:layout_constraintStart_toEndOf="@+id/violationItemImageView"
-        app:layout_constraintTop_toTopOf="@+id/violationItemImageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/natureOfViolationImageView"
+        app:layout_constraintStart_toEndOf="@+id/natureOfViolationImageView"
+        app:layout_constraintTop_toTopOf="@+id/natureOfViolationImageView" />
 
     <ImageView
         android:id="@+id/natureOfViolationImageView"
         android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/violationItemImageView"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
 </androidx.constraintlayout.widget.ConstraintLayout>

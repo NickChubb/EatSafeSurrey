@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.restaurantinsurrey.model.DataFileProcessor;
+import com.example.restaurantinsurrey.model.DataManager;
 import com.example.restaurantinsurrey.model.ReportData;
 import com.example.restaurantinsurrey.model.RestaurantData;
 import com.example.restaurantinsurrey.model.ViolationData;
@@ -24,12 +26,18 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     private Handler handler;
-
+    DataManager manager;
     final public static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         setContentView(R.layout.activity_main);
 
         // animation of the splash screen
@@ -41,11 +49,20 @@ public class MainActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent i = InspectionDetailsActivity.makeLaunchIntent(MainActivity.this);
+//                Intent i = InspectionDetailsActivity.makeLaunchIntent(MainActivity.this);
+                Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }
         };
         handler.postDelayed(runnable,3000);
+
+        DataManager.createInstance(this);
+        manager = DataManager.getInstance();
+//        for(int i = 0; i < manager.getReportsSize(); i++){
+//            Log.i(TAG, manager.getReport(i).toString());
+//        }
+//        Log.i(TAG,  manager.getReportsIndexes("SWOD-AHZUMF").toString());
+
     }
 
     @Override
@@ -58,6 +75,22 @@ public class MainActivity extends AppCompatActivity {
     private void setWelcomeAnim() {
         TextView Welcome = (TextView) findViewById(R.id.txt_welcome);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.fadein);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         Welcome.startAnimation(animation);
     }
 

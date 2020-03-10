@@ -1,8 +1,7 @@
 package com.example.restaurantinsurrey.model;
 
+import android.graphics.Bitmap;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -17,8 +16,9 @@ public class RestaurantData {
     private String type;
     private double lat;
     private double lon;
+    private Bitmap image;
 
-    public RestaurantData(String name, String address, String trackingNumber, String city, String type, double lat, double lon) {
+    public RestaurantData(String name, String address, String trackingNumber, String city, String type, double lat, double lon, Bitmap image) {
         this.name = name;
         this.address = address;
         this.trackingNumber = trackingNumber;
@@ -26,6 +26,15 @@ public class RestaurantData {
         this.type = type;
         this.lat = lat;
         this.lon = lon;
+        this.image = image;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -104,7 +113,8 @@ public class RestaurantData {
             String type = noQuotesSplitString[4];
             double lat = Double.valueOf(noQuotesSplitString[5]);
             double lon = Double.valueOf(noQuotesSplitString[6]);
-            RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon);
+            Bitmap image = DataFileProcessor.getImage(trackingNumber);
+            RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
             return restaurant;
         } catch (Exception e){
             Log.e(TAG, "getRestaurant: Cannot convert to restaurant data.");
@@ -113,9 +123,7 @@ public class RestaurantData {
     }
 
     public static ArrayList<RestaurantData> getAllRestaurants(ArrayList<String> lines){
-
         ArrayList<RestaurantData> data = new ArrayList<>();
-
         for (String line: lines) {
             RestaurantData restaurantData = getRestaurant(line);
             if(restaurantData != null){
