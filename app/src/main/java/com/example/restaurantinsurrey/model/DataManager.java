@@ -3,7 +3,10 @@ package com.example.restaurantinsurrey.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.restaurantinsurrey.R;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DataManager {
 
@@ -24,6 +27,8 @@ public class DataManager {
     }
 
     private DataManager(Context context) {
+        this.context = context;
+
         ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
 
@@ -35,6 +40,7 @@ public class DataManager {
     final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
     final private static String REPORTS_FILE = "inspectionreports_itr1.csv";
 
+    private Context context;
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
 
@@ -76,6 +82,33 @@ public class DataManager {
             }
         }
         return -1;
+    }
+
+    public int getRestaurantIssuesLength(String trackingNumber){
+        int issues = 0;
+        ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
+        for (int index: reportsIndexes) {
+            ReportData report = getReport(index);
+            issues += report.getNumCritical();
+            issues += report.getNumNonCritical();
+        }
+        return issues;
+    }
+
+    public String getLastInspection(String trackingNumber){
+        Date newestDate = null;
+        ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
+        for (int index : reportsIndexes) {
+            ReportData report = getReport(index);
+            Date inspectionDate = report.getInspectionDate();
+            if (newestDate == null || inspectionDate.after(newestDate)){
+                newestDate = inspectionDate;
+            }
+        }
+        if (newestDate == null){
+            return context.getString(R.string.text_inspection_no_date);
+        }
+        return DataFileProcessor.getFormattedDate(context, newestDate);
     }
 
     @Override
