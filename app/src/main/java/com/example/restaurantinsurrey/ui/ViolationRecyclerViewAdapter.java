@@ -14,18 +14,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
+import com.example.restaurantinsurrey.model.ReportData;
+import com.example.restaurantinsurrey.model.ViolationData;
+
+import java.util.ArrayList;
 
 public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<ViolationRecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "ViolationRecyclerViewAd";
 
     private Context mContext;
+    private ArrayList<ViolationData> violationData;
+
     private int FOOD_ICON = R.drawable.food_icon;
-    private int WARNING_EXCLAMATION_MARK = R.drawable.warning_exclamation;
+    private int CRITICAL_ICON = R.drawable.critical;
+    private int NON_CRITICAL_ICON = R.drawable.non_critical;
     private int RED_WARNING_SIGN = R.drawable.red_warning_sign;
 
-    public ViolationRecyclerViewAdapter(Context mContext) {
+    public ViolationRecyclerViewAdapter(Context mContext, ArrayList<ViolationData> violationData) {
         this.mContext = mContext;
+        this.violationData = violationData;
     }
 
     @NonNull
@@ -42,13 +50,23 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, " onBindViewHolder: called.");
 
-        holder.violationImage.setImageResource(WARNING_EXCLAMATION_MARK);
+        ViolationData violation = violationData.get(position);
+        String violationDetails = violation.getDetail();
+
+        if(violation.isCritical() == true){
+            holder.violationImage.setImageResource(CRITICAL_ICON);
+        }
+        else {
+            holder.violationImage.setImageResource(NON_CRITICAL_ICON);
+        }
+
+
         holder.natureOfViolationImage.setImageResource(FOOD_ICON);
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "clicked on violation", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, violationDetails, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -56,7 +74,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
 
     @Override
     public int getItemCount() {
-        return 1;
+        return violationData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

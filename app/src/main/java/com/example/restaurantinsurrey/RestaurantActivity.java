@@ -56,8 +56,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private RestaurantData restaurantData;
     private ArrayList<ReportData> allReports;
     private ArrayList<ReportData> restaurantReports;
-    private ReportData inspectionReport;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         setUpRestaurantInfo(restaurantData);
         restaurantReports = getReports(allReports, restaurantData);
 
-        setUpInspectionListView(restaurantReports);
+        setUpInspectionListView(restaurantReports, restaurantData);
     }
 
     private RestaurantData getSingleRestaurant() {
@@ -100,13 +98,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         restaurantNameTV.setText(restaurantName);
     }
 
-    private void setUpInspectionListView(ArrayList<ReportData> reports) {
-        System.out.println(reports.size());
-        System.out.println(reports);
-
-
+    private void setUpInspectionListView(ArrayList<ReportData> reports, RestaurantData restaurant) {
+        String restaurantTrackingNumber = restaurant.getTrackingNumber();
         inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
-
 
         InspectionListAdapter adapter = new InspectionListAdapter(this, R.layout.custom_inspection_list_layout, reports);
         inspectionListView.setAdapter(adapter);
@@ -114,7 +108,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         inspectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = InspectionDetailsActivity.makeLaunchIntent(RestaurantActivity.this);
+                Intent intent = InspectionDetailsActivity.makeLaunchIntent(RestaurantActivity.this, restaurantTrackingNumber, position);
                 startActivity(intent);
             }
         });
