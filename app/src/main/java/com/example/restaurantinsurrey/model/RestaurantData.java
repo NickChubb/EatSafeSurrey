@@ -123,9 +123,7 @@ public class RestaurantData {
     }
 
     public static ArrayList<RestaurantData> getAllRestaurants(ArrayList<String> lines){
-
         ArrayList<RestaurantData> data = new ArrayList<>();
-
         for (String line: lines) {
             RestaurantData restaurantData = getRestaurant(line);
             if(restaurantData != null){
