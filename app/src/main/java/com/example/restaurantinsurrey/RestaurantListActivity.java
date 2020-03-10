@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,7 @@ public class RestaurantListActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.recRestaurants);
         list.setHasFixedSize(true);
+        list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         layoutManager = new LinearLayoutManager(this);
 
