@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="violation_codes">
+        <item>101</item>
+        <item>102</item>
+        <item>103</item>
+        <item>104</item>
+        <item>201</item>
+        <item>202</item>
+        <item>203</item>
+        <item>204</item>
+        <item>205</item>
+        <item>206</item>
+        <item>208</item>
+        <item>209</item>
+        <item>210</item>
+        <item>211</item>
+        <item>212</item>
+        <item>301</item>
+        <item>302</item>
+        <item>303</item>
+        <item>304</item>
+        <item>305</item>
+        <item>306</item>
+        <item>307</item>
+        <item>308</item>
+        <item>309</item>
+        <item>310</item>
+        <item>311</item>
+        <item>312</item>
+        <item>313</item>
+        <item>314</item>
+        <item>315</item>
+        <item>401</item>
+        <item>402</item>
+        <item>403</item>
+        <item>404</item>
+        <item>501</item>
+        <item>502</item>
+    </integer-array>
+
+
+</resources>

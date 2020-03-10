@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="violation_short_descriptions">
+        <item>101, Plans not in accordance</item>
+        <item>102, Unapproved food premises</item>
+        <item>103, Failure to hold valid permit</item>
+        <item>104, Permit not posted</item>
+        <item>201, Food contaminated or unfit</item>
+        <item>202, Food not processed safely</item>
+        <item>203, Food not adequately cooled </item>
+        <item>204, Food not cooked or reheated</item>
+        <item>205, Cold food stored above 4 °C</item>
+        <item>206, Hot food stored below 60 °C</item>
+        <item>208, Unapproved food sources</item>
+        <item>209, Food unprotected</item>
+        <item>210, Food not thawed</item>
+        <item>211, Frozen food stored above -18 °C</item>
+        <item>212, Unprovided handling procedures</item>
+        <item>301, Equipments not sanitary</item>
+        <item>302, Contact surfaces not sanitized</item>
+        <item>303, Sanitary maintenance inadequate</item>
+        <item>304, Premises not free og pests</item>
+        <item>305, Conditions allow entrance of pests</item>
+        <item>306, Food premises not sanitary</item>
+        <item>307, Unsuitable contact surfaces</item>
+        <item>308, Bad working order of surfaces</item>
+        <item>309, Chemicals handled improperly</item>
+        <item>310, Multiple uses of equipments</item>
+        <item>311, Premises not maintained</item>
+        <item>312, Storage of unrequired items</item>
+        <item>313, Live animal on premises</item>
+        <item>314, Written procedures unprovided</item>
+        <item>315, Lack accuracy of thermometers</item>
+        <item>401, Inadequate washing stations</item>
+        <item>402, Hands not washed properly</item>
+        <item>403, Lack good personal hygiene</item>
+        <item>404, Smoking on premises</item>
+        <item>501, Lack certifications of operator</item>
+        <item>502, Lack certifications of staffs</item>
+
+    </string-array>
+</resources>

@@ -2,11 +2,14 @@ package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,11 +57,30 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
         String violationDetails = violation.getDetail();
 
         if(violation.isCritical() == true){
-            holder.violationImage.setImageResource(CRITICAL_ICON);
+            holder.itemView.setBackgroundColor(mContext.getColor(R.color.colorLightRed));
         }
         else {
-            holder.violationImage.setImageResource(NON_CRITICAL_ICON);
+            holder.itemView.setBackgroundColor(mContext.getColor(R.color.colorLightGreen));
         }
+
+        Resources r = mContext.getResources();
+
+        int violationIndex = 0;
+        int violationNumber = violation.getViolationNumber();
+
+
+        int[] violationCodesArray = r.getIntArray(R.array.violation_codes);
+        String[] violationDescriptionArray = r.getStringArray(R.array.violation_short_descriptions);
+        for(int i = 0; i < violationCodesArray.length; i++){
+            if (violationNumber == violationCodesArray[i]){
+                violationIndex = i;
+                break;
+            }
+        }
+
+        System.out.println(violationCodesArray[violationIndex]);
+
+        holder.violationDescription.setText(violationDescriptionArray[violationIndex]);
 
 
         holder.natureOfViolationImage.setImageResource(FOOD_ICON);
@@ -81,11 +103,13 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
 
         ImageView violationImage;
         ImageView natureOfViolationImage;
+        TextView violationDescription;
         ConstraintLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            violationImage = itemView.findViewById(R.id.violationItemImageView);
+            //violationImage = itemView.findViewById(R.id.violationItemImageView);
+            violationDescription = itemView.findViewById(R.id.violationTV);
             natureOfViolationImage = itemView.findViewById(R.id.natureOfViolationImageView);
             parentLayout = itemView.findViewById(R.id.violationParentLayout);
         }
