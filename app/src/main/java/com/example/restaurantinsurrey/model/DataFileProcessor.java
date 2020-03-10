@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 
+import com.example.restaurantinsurrey.R;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +18,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DataFileProcessor {
 
@@ -97,6 +101,24 @@ public class DataFileProcessor {
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap ret = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
         return ret;
+    }
+
+    public static String getFormattedDate(Context context, Date date){
+        GregorianCalendar calTargetDate = new GregorianCalendar();
+        GregorianCalendar calCurrentDate = new GregorianCalendar();
+        Date curDate = new Date(System.currentTimeMillis());
+        calTargetDate.setTime(date);
+        calCurrentDate.setTime(curDate);
+        long dayCount = (calCurrentDate.getTimeInMillis()-calTargetDate.getTimeInMillis())/(1000*3600*24);
+        if (dayCount <= 30){
+            return context.getString(R.string.text_inspection, dayCount);
+        }
+        else {
+            int year = calTargetDate.get(Calendar.YEAR);
+            int month = calTargetDate.get(Calendar.MONTH) + 1;
+            int day = calTargetDate.get(Calendar.DATE);
+            return context.getString(R.string.text_inspection_by_date, month, day, year);
+        }
     }
 
 }
