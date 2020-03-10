@@ -103,27 +103,13 @@ public class DataManager {
         return -1;
     }
 
-    public int getRestaurantIssuesLength(String trackingNumber){
-        int issues = 0;
-        ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
-        for (int index: reportsIndexes) {
-            ReportData report = getReport(index);
-            issues += report.getNumCritical();
-            issues += report.getNumNonCritical();
-        }
-        return issues;
-    }
-
-    public String getLastInspection(String trackingNumber){
-        Date newestDate = null;
+    public ReportData getLastInspection(String trackingNumber){
+        ReportData ret = null;
         ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
         if (reportsIndexes.size() > 0){
-            newestDate = getReport(reportsIndexes.get(0)).getInspectionDate();
+            ret = getReport(reportsIndexes.get(0));
         }
-        if (newestDate == null){
-            return context.getString(R.string.text_inspection_no_date);
-        }
-        return DataFileProcessor.getFormattedDate(context, newestDate);
+        return ret;
     }
 
     @Override

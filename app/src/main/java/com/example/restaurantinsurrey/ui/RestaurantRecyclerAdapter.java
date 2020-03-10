@@ -1,26 +1,23 @@
 package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.RestaurantListActivity;
 //import com.example.restaurantinsurrey.SingleRestaurant;
 import com.example.restaurantinsurrey.model.DataFileProcessor;
 import com.example.restaurantinsurrey.model.DataManager;
+import com.example.restaurantinsurrey.model.ReportData;
 import com.example.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
@@ -56,16 +53,36 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         String trackingNumber = current_restaurant.getTrackingNumber();
 
         holder.name.setText(current_restaurant.getName());
-        String inspectionDateText = manager.getLastInspection(trackingNumber);
-        holder.date.setText(inspectionDateText);
-        Bitmap bitmap = current_restaurant.getImage();
-        if(bitmap != null) {
-            bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
-            holder.image.setImageBitmap(bitmap);
+        ReportData report = manager.getLastInspection(trackingNumber);
+
+        String inspectionDateText;
+        int hazardResourceId;
+        int hazardBackgroundColorId;
+        int issues;
+        if(report != null){
+            inspectionDateText = DataFileProcessor.getFormattedDate(mContext, report.getInspectionDate());
+            hazardResourceId = DataFileProcessor.getHazardRatingImage(report.getHazardRating());
+            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
+            issues = report.getNumNonCritical() + report.getNumNonCritical();
+        } else {
+            inspectionDateText = mContext.getString(R.string.text_inspection_no_date);
+            hazardResourceId = R.drawable.green_warning_sign;
+            hazardBackgroundColorId = R.color.hazardBackgroundLow;
+            issues = 0;
         }
-        int issues = manager.getRestaurantIssuesLength(trackingNumber);
+        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
+        holder.date.setText(inspectionDateText);
+        holder.hazardImage.setImageResource(hazardResourceId);
         String issuesText = mContext.getString(R.string.text_issue_num, issues);
         holder.issues.setText(issuesText);
+        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
+        Bitmap bitmap = current_restaurant.getImage();
+        if(bitmap != null) {
+            bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
+            holder.restaurantImage.setImageBitmap(bitmap);
+        }
+
+
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +90,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 //launches calculate activity on ListView item click
 
 //                Intent i = SingleRestaurant.makeLaunchIntent(RestaurantListActivity.this, position);
-//                mContext.startActivity(i);
+////                mContext.startActivity(i);
 
             }
         });
@@ -85,26 +102,24 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         return manager.getRestaurantsSize();
 }
 
-
-
-
     public static class ImageViewHolder extends RecyclerView.ViewHolder{
 
 
         TextView name;
         TextView date;
-        ImageView image;
+        ImageView restaurantImage;
+        ImageView hazardImage;
         ConstraintLayout parentLayout;
         TextView issues;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.imageRestaurant);
+            restaurantImage = itemView.findViewById(R.id.imageRestaurant);
+            hazardImage = itemView.findViewById(R.id.restaurant_list_image_hazard);
             name = itemView.findViewById(R.id.txtName);
             date = itemView.findViewById(R.id.txtDate);
             issues = itemView.findViewById(R.id.txtIssueNum);
             parentLayout = itemView.findViewById(R.id.restaurantRecyclerLayout);
-
         }
     }
 
