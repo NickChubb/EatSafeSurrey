@@ -57,25 +57,25 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         String inspectionDateText;
         int hazardResourceId;
-        int hazardBackgroundColorId;
+//        int hazardBackgroundColorId;
         int issues;
         if(report != null){
             inspectionDateText = DataFileProcessor.getFormattedDate(mContext, report.getInspectionDate());
             hazardResourceId = DataFileProcessor.getHazardRatingImage(report.getHazardRating());
-            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
+//            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
             issues = report.getNumNonCritical() + report.getNumNonCritical();
         } else {
             inspectionDateText = mContext.getString(R.string.text_inspection_no_date);
             hazardResourceId = R.drawable.green_warning_sign;
-            hazardBackgroundColorId = R.color.hazardBackgroundLow;
+//            hazardBackgroundColorId = R.color.hazardBackgroundLow;
             issues = 0;
         }
-        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
+//        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
         holder.date.setText(inspectionDateText);
         holder.hazardImage.setImageResource(hazardResourceId);
         String issuesText = mContext.getString(R.string.text_issue_num, issues);
         holder.issues.setText(issuesText);
-        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
+//        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
         Bitmap bitmap = current_restaurant.getImage();
         if(bitmap != null) {
             bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
