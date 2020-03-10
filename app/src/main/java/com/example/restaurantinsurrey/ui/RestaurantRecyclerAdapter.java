@@ -59,8 +59,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         String inspectionDateText = manager.getLastInspection(trackingNumber);
         holder.date.setText(inspectionDateText);
         Bitmap bitmap = current_restaurant.getImage();
-        bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
-        holder.image.setImageBitmap(bitmap);
+        if(bitmap != null) {
+            bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.image.getLayoutParams().width, holder.image.getLayoutParams().height);
+            holder.image.setImageBitmap(bitmap);
+        }
         int issues = manager.getRestaurantIssuesLength(trackingNumber);
         String issuesText = mContext.getString(R.string.text_issue_num, issues);
         holder.issues.setText(issuesText);
