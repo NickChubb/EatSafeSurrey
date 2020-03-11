@@ -65,6 +65,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
         setUpUI();
 
         populateListView();
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
+        mapFragment.getMapAsync(this);
     }
 
     private void setUpVariables() {
@@ -85,8 +88,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
     }
 
     private void setUpUI(){
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
-        mapFragment.getMapAsync(this);
+
 
         TextView restaurantAddressTextView = findViewById(R.id.text_restaurant_detail_address);
         TextView restaurantNameTextView = findViewById(R.id.text_restaurant_detail_name);
