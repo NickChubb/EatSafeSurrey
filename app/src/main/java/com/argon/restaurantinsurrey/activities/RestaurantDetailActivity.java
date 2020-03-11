@@ -43,11 +43,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
     private String restaurantName;
     private final float INITIAL_ZOOM_LEVEL = 16.0f;
 
-    private GoogleMap mapAPI;
-    private SupportMapFragment mapFragment;
-
-    private double LONGITUDE;
-    private double LATITUDE;
+    private double lon;
+    private double lat;
 
     private RestaurantData restaurantData;
     private ArrayList<ReportData> restaurantReports;
@@ -66,7 +63,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
 
         populateListView();
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
         mapFragment.getMapAsync(this);
     }
 
@@ -85,6 +82,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
 
         String trackingNumber = restaurantData.getTrackingNumber();
         restaurantReports = manager.getReports(trackingNumber);
+
+        lat = restaurantData.getLat();
+        lon = restaurantData.getLon();
     }
 
     private void setUpUI(){
@@ -116,31 +116,10 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        getCoordinates();
-        mapAPI = googleMap;
-        LatLng SFUSurrey = new LatLng(LATITUDE, LONGITUDE);
-        mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title(restaurantName));
-        mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
-        mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,INITIAL_ZOOM_LEVEL));
-    }
-
-
-    private void getCoordinates() {
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        address = restaurantData.getAddress();
-
-        try {
-            List addressList = geocoder.getFromLocationName(address,1);
-
-            if(addressList != null && addressList.size() > 0){
-                Address address = (Address) addressList.get(0);
-                LATITUDE = address.getLatitude();
-                LONGITUDE = address.getLongitude();
-            }
-        } catch (IOException e) {
-            Log.d("failed", "ERROR in geolocation\n");
-            e.printStackTrace();
-        }
+        LatLng SFUSurrey = new LatLng(lat, lon);
+        googleMap.addMarker(new MarkerOptions().position(SFUSurrey).title(restaurantName));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,INITIAL_ZOOM_LEVEL));
     }
 
     @Override

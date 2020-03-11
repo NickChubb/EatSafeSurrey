@@ -91,13 +91,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             holder.restaurantImage.setImageBitmap(bitmap);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //launches calculate activity on ListView item click
-                Intent intent = RestaurantDetailActivity.makeLaunchIntent(mContext, position);
-                mContext.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            //launches calculate activity on ListView item click
+            Intent intent = RestaurantDetailActivity.makeLaunchIntent(mContext, position);
+            mContext.startActivity(intent);
         });
     }
 
