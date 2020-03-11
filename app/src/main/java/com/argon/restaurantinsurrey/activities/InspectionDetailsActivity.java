@@ -43,7 +43,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inspection_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpVariables();
 
         setUpUI();
@@ -130,6 +130,12 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         ViolationRecyclerViewAdapter adapter = new ViolationRecyclerViewAdapter(this, violationData);
         violationsRecyclerView.setAdapter(adapter);
         violationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     public static Intent makeLaunchIntent(Context context, String trackingNumber, int reportIndex){

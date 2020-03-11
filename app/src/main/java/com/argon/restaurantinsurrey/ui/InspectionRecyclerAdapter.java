@@ -83,9 +83,8 @@ public class InspectionRecyclerAdapter extends RecyclerView.Adapter<InspectionRe
         int hazardRatingImage = DataFactory.getHazardRatingImage(hazardRating);
         holder.warningSignImageView.setImageResource(hazardRatingImage);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mContext.getString(R.string.basic_date_format), Locale.getDefault());
         Date inspectionDate = currentReport.getInspectionDate();
-        String dateString = dateFormat.format(inspectionDate);
+        String dateString = DataFactory.getFormattedDate(mContext, inspectionDate);
         holder.inspectionDateTextView.setText(dateString);
 
         holder.itemView.setOnClickListener(v -> {
