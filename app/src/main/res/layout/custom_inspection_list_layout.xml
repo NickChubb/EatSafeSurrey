@@ -13,29 +13,27 @@
 
 
     <ImageView
-        android:id="@+id/inspectionHarzardLevelImageView"
+        android:id="@+id/image_inspection_hazard_level"
         android:layout_width="100dp"
         android:layout_height="100dp"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/sym_def_app_icon"
         tools:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/inspectionDetailsDateTV"
+        android:id="@+id/text_inspection_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
         android:text="@string/basic_date_format"
-        app:layout_constraintStart_toEndOf="@id/inspectionHarzardLevelImageView"
+        app:layout_constraintStart_toEndOf="@id/image_inspection_hazard_level"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/numberOfIssuesTV"
+        android:id="@+id/text_inspection_number_of_issues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -46,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/numberOfCriticalIssuesTV"
+        android:id="@+id/text_inspection_number_of_critical_issues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -54,11 +52,11 @@
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
         android:text="@string/text_critical_issues"
-        app:layout_constraintStart_toEndOf="@id/inspectionHarzardLevelImageView"
-        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsDateTV" />
+        app:layout_constraintStart_toEndOf="@id/image_inspection_hazard_level"
+        app:layout_constraintTop_toBottomOf="@id/text_inspection_date" />
 
     <TextView
-        android:id="@+id/numberOfNonCriticalIssuesTV"
+        android:id="@+id/text_inspection_number_of_non_critical_issues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -66,30 +64,30 @@
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
         android:text="@string/text_non_critical_issues"
-        app:layout_constraintStart_toEndOf="@id/inspectionHarzardLevelImageView"
-        app:layout_constraintTop_toBottomOf="@id/numberOfCriticalIssuesTV" />
+        app:layout_constraintStart_toEndOf="@id/image_inspection_hazard_level"
+        app:layout_constraintTop_toBottomOf="@id/text_inspection_number_of_critical_issues" />
 
     <TextView
-        android:id="@+id/hazardLevelsTV"
+        android:id="@+id/text_inspection_hazard_levels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/title_hazard_level"
         android:textColor="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="@id/inspectionHarzardLevelImageView"
-        app:layout_constraintStart_toEndOf="@id/inspectionHarzardLevelImageView"
-        app:layout_constraintTop_toBottomOf="@id/numberOfNonCriticalIssuesTV" />
+        app:layout_constraintBottom_toBottomOf="@id/image_inspection_hazard_level"
+        app:layout_constraintStart_toEndOf="@id/image_inspection_hazard_level"
+        app:layout_constraintTop_toBottomOf="@id/text_inspection_number_of_non_critical_issues" />
 
     <TextView
-        android:id="@+id/levelsTV"
+        android:id="@+id/text_inspection_levels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:textColor="@color/colorGreen"
         android:textStyle="bold"
         android:text="@string/text_low_hazard"
-        app:layout_constraintStart_toEndOf="@id/hazardLevelsTV"
-        app:layout_constraintTop_toTopOf="@id/hazardLevelsTV"
-        app:layout_constraintBottom_toBottomOf="@id/hazardLevelsTV"/>
+        app:layout_constraintStart_toEndOf="@id/text_inspection_hazard_levels"
+        app:layout_constraintTop_toTopOf="@id/text_inspection_hazard_levels"
+        app:layout_constraintBottom_toBottomOf="@id/text_inspection_hazard_levels"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

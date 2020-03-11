@@ -2,24 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:id="@+id/violationParentLayout">
 
     <TextView
-        android:id="@+id/violationTV"
+        android:id="@+id/text_violation_cell_violation"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textColor="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="@+id/natureOfViolationImageView"
-        app:layout_constraintStart_toEndOf="@+id/natureOfViolationImageView"
-        app:layout_constraintTop_toTopOf="@+id/natureOfViolationImageView" />
+        app:layout_constraintBottom_toBottomOf="@id/image_violation_cell_nature"
+        app:layout_constraintStart_toEndOf="@id/image_violation_cell_nature"
+        app:layout_constraintTop_toTopOf="@id/image_violation_cell_nature" />
 
     <ImageView
-        android:id="@+id/natureOfViolationImageView"
+        android:id="@+id/image_violation_cell_nature"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_marginStart="8dp"

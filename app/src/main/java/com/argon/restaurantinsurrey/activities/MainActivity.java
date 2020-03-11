@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey;
+package com.argon.restaurantinsurrey.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 
@@ -22,8 +23,7 @@ import com.argon.restaurantinsurrey.model.DataManager;
  *   Data are initialized in this activity
  */
 public class MainActivity extends AppCompatActivity {
-    Runnable runnable;
-    private Handler handler;
+    private Runnable runnable;
     final public static String TAG = "MainActivity";
 
     @Override
@@ -40,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
         setWelcomeAnim();
 
         //Auto jump to the restaurant activity
-        handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-            }
+        Handler handler = new Handler();
+        runnable = () -> {
+            DataFactory.getDataFromInternet = true;
+            DataManager.createInstance(this);
+            Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
         };
         handler.postDelayed(runnable,3000);
     }
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWelcomeAnim() {
-        TextView Welcome = (TextView) findViewById(R.id.txt_welcome);
+        TextView Welcome = findViewById(R.id.text_welcome_title);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.fadein);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setIconAnim() {
-        ImageView icon = findViewById(R.id.Icon_Fork);
+        ImageView icon = findViewById(R.id.icon_welcome_fork);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.zoomin);
         icon.startAnimation(animation);
     }

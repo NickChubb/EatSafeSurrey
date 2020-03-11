@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/restaurantRecyclerLayout"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
 
     <ImageView
         android:layout_marginEnd="16dp"
-        android:id="@+id/restaurant_list_image_hazard"
+        android:id="@+id/image_restaurant_list_hazard"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="fitCenter"
@@ -21,30 +20,30 @@
         />
 
     <TextView
-        android:id="@+id/txtName"
+        android:id="@+id/text_restaurant_list_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-
         android:text="@string/text_restaurant_name"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
+        app:layout_constraintStart_toEndOf="@+id/image_restaurant_list_restaurant"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtIssueNum"
+        android:id="@+id/text_restaurant_list_issue_num"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
-        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+        android:text="@string/text_issues"
+        app:layout_constraintStart_toEndOf="@+id/image_restaurant_list_restaurant"
+        app:layout_constraintTop_toBottomOf="@+id/text_restaurant_list_name" />
 
 
     <ImageView
         android:layout_marginStart="16dp"
-        android:id="@+id/imageRestaurant"
+        android:id="@+id/image_restaurant_list_restaurant"
         android:layout_width="101dp"
         android:layout_height="76dp"
         android:scaleType="fitCenter"
@@ -55,22 +54,23 @@
         app:srcCompat="@drawable/mcdonalds" />
 
     <TextView
-        android:id="@+id/txtLast"
+        android:id="@+id/text_restaurant_list_last_inspection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/text_last_inspection"
-        app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
-        app:layout_constraintTop_toBottomOf="@+id/txtIssueNum" />
+        app:layout_constraintStart_toEndOf="@+id/image_restaurant_list_restaurant"
+        app:layout_constraintTop_toBottomOf="@+id/text_restaurant_list_issue_num" />
 
     <TextView
-        android:id="@+id/txtDate"
+        android:id="@+id/text_restaurant_list_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/text_inspection_by_date"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtLast"
-        app:layout_constraintStart_toEndOf="@+id/txtLast"
-        app:layout_constraintTop_toTopOf="@+id/txtLast" />
+        app:layout_constraintBottom_toBottomOf="@+id/text_restaurant_list_last_inspection"
+        app:layout_constraintStart_toEndOf="@+id/text_restaurant_list_last_inspection"
+        app:layout_constraintTop_toTopOf="@+id/text_restaurant_list_last_inspection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

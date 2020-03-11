@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
 
 public class ReportData {
 
-    public enum InspType{FOLLOW_UP, ROUTINE, OTHER};
-    public enum HazardRating{HIGH, MODERATE, LOW, OTHER};
+    public enum InspType{FOLLOW_UP, ROUTINE, OTHER}
+    public enum HazardRating{HIGH, MODERATE, LOW, OTHER}
 
     final public static String TAG = "ReportData";
 

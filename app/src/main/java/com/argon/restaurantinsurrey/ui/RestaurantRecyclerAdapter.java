@@ -16,8 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.RestaurantActivity;
-//import com.argon.restaurantinsurrey.SingleRestaurant;
+import com.argon.restaurantinsurrey.activities.RestaurantDetailActivity;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
@@ -96,7 +95,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             @Override
             public void onClick(View v) {
                 //launches calculate activity on ListView item click
-                Intent intent = RestaurantActivity.makeLaunchIntent(mContext, position);
+                Intent intent = RestaurantDetailActivity.makeLaunchIntent(mContext, position);
                 mContext.startActivity(intent);
             }
         });
@@ -143,8 +142,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     };
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder{
-
-
         TextView name;
         TextView date;
         ImageView restaurantImage;
@@ -154,11 +151,11 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            restaurantImage = itemView.findViewById(R.id.imageRestaurant);
-            hazardImage = itemView.findViewById(R.id.restaurant_list_image_hazard);
-            name = itemView.findViewById(R.id.txtName);
-            date = itemView.findViewById(R.id.txtDate);
-            issues = itemView.findViewById(R.id.txtIssueNum);
+            restaurantImage = itemView.findViewById(R.id.image_restaurant_list_restaurant);
+            hazardImage = itemView.findViewById(R.id.image_restaurant_list_hazard);
+            name = itemView.findViewById(R.id.text_restaurant_list_name);
+            date = itemView.findViewById(R.id.text_restaurant_list_date);
+            issues = itemView.findViewById(R.id.text_restaurant_list_issue_num);
             parentLayout = itemView.findViewById(R.id.restaurantRecyclerLayout);
         }
     }

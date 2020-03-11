@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey;
+package com.argon.restaurantinsurrey.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
@@ -34,16 +35,16 @@ import java.util.Locale;
  *
  */
 
-public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class RestaurantDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String INDEX_VALUE = "index_value";
 
     private String address;
     private String restaurantName;
-    private float zoomLevel = 16.0f;
+    private final float INITIAL_ZOOM_LEVEL = 16.0f;
 
-    GoogleMap mapAPI;
-    SupportMapFragment mapFragment;
+    private GoogleMap mapAPI;
+    private SupportMapFragment mapFragment;
 
     private double LONGITUDE;
     private double LATITUDE;
@@ -54,7 +55,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant);
+        setContentView(R.layout.activity_restaurant_detail);
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
@@ -83,26 +84,25 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void setUpUI(){
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
         mapFragment.getMapAsync(this);
 
-        TextView restaurantAddressTextView = findViewById(R.id.singleRestaurantAddressTV);
-        TextView restaurantNameTextView = findViewById(R.id.singleRestaurantNameTV);
+        TextView restaurantAddressTextView = findViewById(R.id.text_restaurant_detail_address);
+        TextView restaurantNameTextView = findViewById(R.id.text_restaurant_detail_name);
 
         restaurantAddressTextView.setText(address);
         restaurantNameTextView.setText(restaurantName);
 
         if(restaurantReports.isEmpty()){
-            TextView inspectionTextView = findViewById(R.id.restaurantInspectionsTV);
+            TextView inspectionTextView = findViewById(R.id.text_restaurant_detail_inspections);
             inspectionTextView.setText(getString(R.string.title_no_inspections));
         }
     }
 
     private void populateListView() {
         String restaurantTrackingNumber = restaurantData.getTrackingNumber();
-        RecyclerView list = findViewById(R.id.restaurantInspectionListView);
+        RecyclerView list = findViewById(R.id.list_restaurant_detail_inspection);
 
-//        list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         list.setLayoutManager(new LinearLayoutManager(this));
 
@@ -118,7 +118,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         LatLng SFUSurrey = new LatLng(LATITUDE, LONGITUDE);
         mapAPI.addMarker(new MarkerOptions().position(SFUSurrey).title(restaurantName));
         mapAPI.moveCamera(CameraUpdateFactory.newLatLng(SFUSurrey));
-        mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,zoomLevel));
+        mapAPI.moveCamera(CameraUpdateFactory.newLatLngZoom(SFUSurrey,INITIAL_ZOOM_LEVEL));
     }
 
 
@@ -142,7 +142,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
 
     public static Intent makeLaunchIntent(Context context, int index){
-        Intent intent = new Intent(context, RestaurantActivity.class);
+        Intent intent = new Intent(context, RestaurantDetailActivity.class);
         intent.putExtra(INDEX_VALUE, index);
         return intent;
     }

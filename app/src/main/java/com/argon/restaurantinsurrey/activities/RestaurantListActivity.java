@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey;
+package com.argon.restaurantinsurrey.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
@@ -22,7 +23,6 @@ import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
 public class RestaurantListActivity extends AppCompatActivity {
 
     final public static String TAG = "RestaurantListActivity";
-    private RecyclerView.LayoutManager layoutManager;
     private RestaurantRecyclerAdapter adapter;
 
 
@@ -38,26 +38,21 @@ public class RestaurantListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
-        DataFactory.getDataFromInternet = true;
-        DataManager.createInstance(this);
         populateListView();
-
-
     }
 
     private void populateListView() {
-
-        RecyclerView list = findViewById(R.id.recRestaurants);
+        RecyclerView list = findViewById(R.id.list_restaurant_list);
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
 
         adapter = new RestaurantRecyclerAdapter(this);
         list.setAdapter(adapter);
 
-        SearchView searchView = findViewById(R.id.searchView);
+        SearchView searchView = findViewById(R.id.search_restaurant_list);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String query) {

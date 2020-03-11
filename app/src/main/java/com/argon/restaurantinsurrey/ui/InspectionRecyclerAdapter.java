@@ -2,7 +2,6 @@ package com.argon.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.argon.restaurantinsurrey.InspectionDetailsActivity;
+import com.argon.restaurantinsurrey.activities.InspectionDetailsActivity;
 import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.RestaurantActivity;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+/*
+ *   This is the adapter for showing each Inspection in the RecyclerView of RestaurantDetailActivity.
+ *
+ */
 
 public class InspectionRecyclerAdapter extends RecyclerView.Adapter<InspectionRecyclerAdapter.InspectionViewHolder>{
     final public String TAG = "InspectionRecyclerAdapter";
@@ -86,13 +88,10 @@ public class InspectionRecyclerAdapter extends RecyclerView.Adapter<InspectionRe
         String dateString = dateFormat.format(inspectionDate);
         holder.inspectionDateTextView.setText(dateString);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                Intent intent = InspectionDetailsActivity.makeLaunchIntent(mContext, restaurantTrackingNumber, position);
-                mContext.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            int position1 = holder.getAdapterPosition();
+            Intent intent = InspectionDetailsActivity.makeLaunchIntent(mContext, restaurantTrackingNumber, position1);
+            mContext.startActivity(intent);
         });
     }
 
@@ -112,12 +111,12 @@ public class InspectionRecyclerAdapter extends RecyclerView.Adapter<InspectionRe
 
         public InspectionViewHolder(@NonNull View itemView) {
             super(itemView);
-            warningSignImageView = itemView.findViewById(R.id.inspectionHarzardLevelImageView);
-            criticalIssuesTextView = itemView.findViewById(R.id.numberOfCriticalIssuesTV);
-            nonCriticalIssuesTextView = itemView.findViewById(R.id.numberOfNonCriticalIssuesTV);
-            totalIssuesTextView = itemView.findViewById(R.id.numberOfIssuesTV);
-            hazardLevelTextView = itemView.findViewById(R.id.levelsTV);
-            inspectionDateTextView = itemView.findViewById(R.id.inspectionDetailsDateTV);
+            warningSignImageView = itemView.findViewById(R.id.image_inspection_hazard_level);
+            criticalIssuesTextView = itemView.findViewById(R.id.text_inspection_number_of_critical_issues);
+            nonCriticalIssuesTextView = itemView.findViewById(R.id.text_inspection_number_of_non_critical_issues);
+            totalIssuesTextView = itemView.findViewById(R.id.text_inspection_number_of_issues);
+            hazardLevelTextView = itemView.findViewById(R.id.text_inspection_levels);
+            inspectionDateTextView = itemView.findViewById(R.id.text_inspection_date);
         }
     }
 }

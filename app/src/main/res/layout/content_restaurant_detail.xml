@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".RestaurantActivity"
-    tools:showIn="@layout/activity_restaurant">
+    tools:context=".activities.RestaurantDetailActivity"
+    tools:showIn="@layout/activity_restaurant_detail">
 
     <fragment
-        android:id="@+id/mapAPI"
+        android:id="@+id/map_restaurant_detail"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -20,48 +20,48 @@
 
 
     <TextView
-        android:id="@+id/singleRestaurantNameTV"
+        android:id="@+id/text_restaurant_detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/text_restaurant_name"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+        app:layout_constraintTop_toBottomOf="@id/map_restaurant_detail" />
 
     <TextView
-        android:id="@+id/singleRestaurantAddressTV"
+        android:id="@+id/text_restaurant_detail_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:text="@string/text_restaurant_address"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singleRestaurantNameTV" />
+        app:layout_constraintTop_toBottomOf="@id/text_restaurant_detail_name" />
 
     <TextView
-        android:id="@+id/restaurantInspectionsTV"
+        android:id="@+id/text_restaurant_detail_inspections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/title_restaurant_inspection"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singleRestaurantAddressTV" />
+        app:layout_constraintTop_toBottomOf="@id/text_restaurant_detail_address" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/restaurantInspectionListView"
+        android:id="@+id/list_restaurant_detail_inspection"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantInspectionsTV" />
+        app:layout_constraintTop_toBottomOf="@id/text_restaurant_detail_inspections"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

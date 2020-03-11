@@ -38,35 +38,25 @@ public class DataManager {
     final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
     final private static String ALL_REPORTS_FILE = "AllViolations.txt";
 
-    private Context context;
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
     private ArrayList<ViolationData> validViolations;
 
     private DataManager(Context context) {
-        this.context = context;
 
         ArrayList<String> restaurantStrings = DataFactory.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
 
-        this.restaurantData.sort(new Comparator<RestaurantData>() {
-            @Override
-            public int compare(RestaurantData o1, RestaurantData o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        this.restaurantData.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
         ArrayList<String> reportStrings = DataFactory.readLines(context, INSPECTIONS_REPORTS_FILE);
         ArrayList<String> validReportsStrings = DataFactory.readLines(context, ALL_REPORTS_FILE);
         validViolations = ViolationData.getAllViolations(validReportsStrings);
 
         this.reportData = ReportData.getAllReports(reportStrings, validViolations);
-        this.reportData.sort(new Comparator<ReportData>() {
-            @Override
-            public int compare(ReportData o1, ReportData o2) {
-                int ret = o1.getInspectionDate().after(o2.getInspectionDate())? -1: 1;
-                return ret;
-            }
+        this.reportData.sort((o1, o2) -> {
+            int ret = o1.getInspectionDate().after(o2.getInspectionDate())? -1: 1;
+            return ret;
         });
     }
 
@@ -86,10 +76,10 @@ public class DataManager {
         return restaurantData.get(index);
     }
 
-    public ArrayList<RestaurantData> getAllRestaurants(){ return new ArrayList<RestaurantData>(restaurantData); }
+    public ArrayList<RestaurantData> getAllRestaurants(){ return new ArrayList<>(restaurantData); }
 
     public ArrayList<ReportData> getAllReports(){
-        return new ArrayList<ReportData>(reportData);
+        return new ArrayList<>(reportData);
     }
 
     public ArrayList<ReportData> getReports(String trackingNumber){

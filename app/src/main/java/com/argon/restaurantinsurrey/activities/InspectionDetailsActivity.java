@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey;
+package com.argon.restaurantinsurrey.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
@@ -62,16 +63,14 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         violationData = report.getViolations();
     }
 
-
-
     private void setUpUI() {
-        TextView dateTextView = findViewById(R.id.inspectionDetailsDateTV);
-        TextView inspectionTypeTextView = findViewById(R.id.inspectionDetailsTypeTV);
-        TextView criticalIssuesTextView = findViewById(R.id.inspectionDetailsCriticalIssuesTV);
-        TextView nonCriticalIssuesTextView = findViewById(R.id.inspectionDetailsNonCriticalIssuesTV);
+        TextView dateTextView = findViewById(R.id.text_inspection_date);
+        TextView inspectionTypeTextView = findViewById(R.id.text_inspection_details_type);
+        TextView criticalIssuesTextView = findViewById(R.id.text_inspection_details_critical_issues);
+        TextView nonCriticalIssuesTextView = findViewById(R.id.text_inspection_details_non_critical_issues);
         TextView hazardLevelTextView = findViewById(R.id.text_inspection_details_hazard_level);
 
-        ImageView warningImageView = findViewById(R.id.inspectionDetailsHazardSignLeftImageView);
+        ImageView warningImageView = findViewById(R.id.image_inspection_details_hazard_sign);
 
         Date inspectionDate = report.getInspectionDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.basic_date_format), Locale.getDefault());
@@ -79,7 +78,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         dateTextView.setText(getString(R.string.text_inspection_date, dateString));
 
         ReportData.InspType inspectionType = report.getInspType();
-        String inspectionTypeString = "";
+        String inspectionTypeString;
         switch (inspectionType){
             case ROUTINE:
                 inspectionTypeString = getString(R.string.text_routine_inspection);
@@ -114,15 +113,17 @@ public class InspectionDetailsActivity extends AppCompatActivity {
                 hazardLevelString = getString(R.string.text_other);
         }
         hazardLevelTextView.setText(hazardLevelString);
+        int hazardTextColor = DataFactory.getHazardTextColor(hazardRating);
+        hazardLevelTextView.setTextColor(getColor(hazardTextColor));
 
         int hazardRatingImage = DataFactory.getHazardRatingImage(hazardRating);
         warningImageView.setImageResource(hazardRatingImage);
     }
 
     private void setUpRecyclerView() {
-        RecyclerView violationsRecyclerView = findViewById(R.id.violationsRecyclerView);
+        RecyclerView violationsRecyclerView = findViewById(R.id.list_inspection_details_violations);
         if(violationData.isEmpty()){
-            TextView violationsTV = findViewById(R.id.inspectionDetailsViolationTV);
+            TextView violationsTV = findViewById(R.id.text_inspection_details_violation);
             violationsTV.setText(getString(R.string.title_no_violations));
         }
 
