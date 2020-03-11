@@ -93,6 +93,9 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
         if(violationNumber > 400 && violationNumber < 500){
             holder.natureOfViolationImage.setImageResource(UNSANITARY_ICON);
         }
+        if(violationNumber > 500){
+            holder.natureOfViolationImage.setImageResource(DOCUMENTATION_ICON);
+        }
 
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
