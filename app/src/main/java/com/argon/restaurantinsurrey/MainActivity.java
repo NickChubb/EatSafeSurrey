@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,36 +7,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.restaurantinsurrey.model.DataFileProcessor;
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.ReportData;
-import com.example.restaurantinsurrey.model.RestaurantData;
-import com.example.restaurantinsurrey.model.ViolationData;
+import com.argon.restaurantinsurrey.model.DataFactory;
+import com.argon.restaurantinsurrey.model.DataManager;
 
-import java.util.ArrayList;
-
+/*
+ *   This is the activity for showing welcome screen and animation.
+ *   This is the entrance of application
+ *   Data are initialized in this activity
+ */
 public class MainActivity extends AppCompatActivity {
     Runnable runnable;
     private Handler handler;
-    DataManager manager;
     final public static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         setContentView(R.layout.activity_main);
 
@@ -49,20 +44,13 @@ public class MainActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-//                Intent i = InspectionDetailsActivity.makeLaunchIntent(MainActivity.this);
+                DataFactory.getDataFromInternet = true;
+                DataManager.createInstance(MainActivity.this);
                 Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }
         };
         handler.postDelayed(runnable,3000);
-
-        DataManager.createInstance(this);
-        manager = DataManager.getInstance();
-//        for(int i = 0; i < manager.getReportsSize(); i++){
-//            Log.i(TAG, manager.getReport(i).toString());
-//        }
-//        Log.i(TAG,  manager.getReportsIndexes("SWOD-AHZUMF").toString());
-
     }
 
     @Override
@@ -95,23 +83,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setIconAnim() {
-        ImageView icon = (ImageView)findViewById(R.id.Icon_Fork);
+        ImageView icon = findViewById(R.id.Icon_Fork);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.zoomin);
         icon.startAnimation(animation);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

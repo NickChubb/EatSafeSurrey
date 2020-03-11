@@ -1,8 +1,13 @@
-package com.example.restaurantinsurrey.model;
+package com.argon.restaurantinsurrey.model;
 
 import android.util.Log;
 
 import java.util.ArrayList;
+
+/*
+ *   Basic class for each violation
+ *
+ */
 
 public class ViolationData {
 

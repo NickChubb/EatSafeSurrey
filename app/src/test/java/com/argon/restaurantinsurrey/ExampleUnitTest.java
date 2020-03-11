@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import org.junit.Test;
 

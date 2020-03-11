@@ -1,9 +1,14 @@
-package com.example.restaurantinsurrey.model;
+package com.argon.restaurantinsurrey.model;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+/*
+ *   Basic class for each restaurant
+ *
+ */
 
 public class RestaurantData {
 
@@ -95,7 +100,7 @@ public class RestaurantData {
 
     public static RestaurantData getRestaurant(String line){
         String[] splitString = line.split(",");
-        String[] noQuotesSplitString = DataFileProcessor.removeQuotesMark(splitString);
+        String[] noQuotesSplitString = DataFactory.removeQuotesMark(splitString);
 
         if(noQuotesSplitString.length != 7){
             Log.i(TAG, "getRestaurant: UnavaliableData");
@@ -113,7 +118,7 @@ public class RestaurantData {
             String type = noQuotesSplitString[4];
             double lat = Double.valueOf(noQuotesSplitString[5]);
             double lon = Double.valueOf(noQuotesSplitString[6]);
-            Bitmap image = DataFileProcessor.getImage(trackingNumber);
+            Bitmap image = DataFactory.getImage(trackingNumber);
             RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
             return restaurant;
         } catch (Exception e){

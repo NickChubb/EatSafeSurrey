@@ -1,9 +1,8 @@
-package com.example.restaurantinsurrey.ui;
+package com.argon.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,20 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.RestaurantActivity;
-import com.example.restaurantinsurrey.RestaurantListActivity;
-//import com.example.restaurantinsurrey.SingleRestaurant;
-import com.example.restaurantinsurrey.model.DataFileProcessor;
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.ReportData;
-import com.example.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.RestaurantActivity;
+//import com.argon.restaurantinsurrey.SingleRestaurant;
+import com.argon.restaurantinsurrey.model.DataFactory;
+import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
-import java.util.List;
+
+/*
+ *   This is the adapter for showing each restaurant in the RecyclerView of RestaurantListActivity.
+ *
+ */
 
 public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRecyclerAdapter.ImageViewHolder> implements Filterable {
 
@@ -43,21 +45,15 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         this.manager = DataManager.getInstance();
         this.mContext = mContext;
 
-
         restaurants = manager.getAllRestaurants();
-        restaurantsListFull = new ArrayList<RestaurantData>(restaurants);
-
+        restaurantsListFull = manager.getAllRestaurants();
     }
 
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_list_view_layout, parent, false);
-
-        ImageViewHolder imageViewHolder = new ImageViewHolder(view);
-
-        return imageViewHolder;
+        return new ImageViewHolder(view);
     }
 
     @Override
@@ -74,10 +70,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 //        int hazardBackgroundColorId;
         int issues;
         if(report != null){
-            inspectionDateText = DataFileProcessor.getFormattedDate(mContext, report.getInspectionDate());
-            hazardResourceId = DataFileProcessor.getHazardRatingImage(report.getHazardRating());
+            inspectionDateText = DataFactory.getFormattedDate(mContext, report.getInspectionDate());
+            hazardResourceId = DataFactory.getHazardRatingImage(report.getHazardRating());
 //            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
-            issues = report.getNumNonCritical() + report.getNumNonCritical();
+            issues = report.getNumNonCritical() + report.getNumCritical();
         } else {
             inspectionDateText = mContext.getString(R.string.text_inspection_no_date);
             hazardResourceId = R.drawable.green_warning_sign;
@@ -92,11 +88,9 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 //        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
         Bitmap bitmap = current_restaurant.getImage();
         if(bitmap != null) {
-            bitmap = DataFileProcessor.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
+            bitmap = DataFactory.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
             holder.restaurantImage.setImageBitmap(bitmap);
         }
-
-
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,12 +100,11 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 mContext.startActivity(intent);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return manager.getRestaurantsSize();
+        return restaurants.size();
 }
 
     @Override
@@ -134,12 +127,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                             filteredRestaurantList.add(restaurant);
                         }
                 }
-
             }
 
             FilterResults results = new FilterResults();
             results.values = filteredRestaurantList;
-
             return results;
         }
 

@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -6,20 +6,17 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.ReportData;
-import com.example.restaurantinsurrey.model.RestaurantData;
-import com.example.restaurantinsurrey.ui.InspectionListAdapter;
+import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.ui.InspectionListAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -69,7 +66,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
         manager = DataManager.getInstance();
-        allReports = manager.getAllResports();
+        allReports = manager.getAllReports();
 
 
         restaurantData = getSingleRestaurant();

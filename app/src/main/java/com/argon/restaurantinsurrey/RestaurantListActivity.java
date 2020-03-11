@@ -1,13 +1,8 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,19 +11,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.RestaurantData;
-import com.example.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
+import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
 
-import java.util.ArrayList;
-
+/*
+ *   This is the activity for showing all restaurants
+ *
+ */
 public class RestaurantListActivity extends AppCompatActivity {
 
     final public static String TAG = "RestaurantListActivity";
-
-    private DataManager manager;
-    private ArrayList<RestaurantData> restaurants;
-
     private RecyclerView.LayoutManager layoutManager;
     private RestaurantRecyclerAdapter adapter;
 
@@ -44,34 +35,20 @@ public class RestaurantListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant_list);
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
-
-        DataManager.createInstance(this);
-        manager = DataManager.getInstance();
-
-
-
-        // Search bar
-
         populateListView();
-
     }
 
     private void populateListView() {
-
-        restaurants = manager.getAllRestaurants();
 
         RecyclerView list = findViewById(R.id.recRestaurants);
         list.setHasFixedSize(true);
         list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         layoutManager = new LinearLayoutManager(this);
-
         list.setLayoutManager(layoutManager);
 
         adapter = new RestaurantRecyclerAdapter(this);
-
         list.setAdapter(adapter);
-
 
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
@@ -86,8 +63,5 @@ public class RestaurantListActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
-
 }

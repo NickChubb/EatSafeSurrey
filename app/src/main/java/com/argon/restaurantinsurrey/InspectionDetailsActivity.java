@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.ReportData;
-import com.example.restaurantinsurrey.model.RestaurantData;
-import com.example.restaurantinsurrey.model.ViolationData;
-import com.example.restaurantinsurrey.ui.ViolationRecyclerViewAdapter;
+import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.ViolationData;
+import com.argon.restaurantinsurrey.ui.ViolationRecyclerViewAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -63,7 +62,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         manager = DataManager.getInstance();
-        allReports = manager.getAllResports();
+        allReports = manager.getAllReports();
         restaurantReports = getReports(allReports);
         violationData = getViolations(restaurantReports);
 

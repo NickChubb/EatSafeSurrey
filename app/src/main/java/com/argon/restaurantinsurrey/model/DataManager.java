@@ -1,13 +1,15 @@
-package com.example.restaurantinsurrey.model;
+package com.argon.restaurantinsurrey.model;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.restaurantinsurrey.R;
-
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
+
+/*
+ *   This is a singleton manager class to manage all restaurant/violation data.
+ *
+ */
 
 public class DataManager {
 
@@ -30,7 +32,7 @@ public class DataManager {
     private DataManager(Context context) {
         this.context = context;
 
-        ArrayList<String> restaurantStrings = DataFileProcessor.readLines(context, RESTAURANTS_FILE);
+        ArrayList<String> restaurantStrings = DataFactory.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
 
         this.restaurantData.sort(new Comparator<RestaurantData>() {
@@ -40,8 +42,8 @@ public class DataManager {
             }
         });
 
-        ArrayList<String> reportStrings = DataFileProcessor.readLines(context, INSPECTIONS_REPORTS_FILE);
-        ArrayList<String> validReportsStrings = DataFileProcessor.readLines(context, ALL_REPORTS_FILE);
+        ArrayList<String> reportStrings = DataFactory.readLines(context, INSPECTIONS_REPORTS_FILE);
+        ArrayList<String> validReportsStrings = DataFactory.readLines(context, ALL_REPORTS_FILE);
         ArrayList<ViolationData> validReports = ViolationData.getAllViolations(validReportsStrings);
 
         this.reportData = ReportData.getAllReports(reportStrings, validReports);
@@ -80,10 +82,10 @@ public class DataManager {
         return restaurantData.get(index);
     }
 
-    public ArrayList<RestaurantData> getAllRestaurants(){ return restaurantData; }
+    public ArrayList<RestaurantData> getAllRestaurants(){ return new ArrayList<RestaurantData>(restaurantData); }
 
-    public ArrayList<ReportData> getAllResports(){
-        return reportData;
+    public ArrayList<ReportData> getAllReports(){
+        return new ArrayList<ReportData>(reportData);
     }
 
     public ArrayList<Integer> getReportsIndexes(String trackingNumber){

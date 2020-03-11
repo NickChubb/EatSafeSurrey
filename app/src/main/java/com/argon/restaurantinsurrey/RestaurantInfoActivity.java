@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import androidx.appcompat.app.AppCompatActivity;
 

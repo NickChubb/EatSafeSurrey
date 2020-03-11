@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey.model;
+package com.argon.restaurantinsurrey.model;
 
 import android.util.Log;
 
@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+/*
+ *   Basic class for each inspection report
+ *
+ */
 
 public class ReportData {
 
@@ -91,7 +97,7 @@ public class ReportData {
 
     static public ReportData getReport(String line, ArrayList<ViolationData> validViolations){
         String[] splitString = line.split(",");
-        String[] noQuotesSplitString = DataFileProcessor.removeQuotesMark(splitString);
+        String[] noQuotesSplitString = DataFactory.removeQuotesMark(splitString);
 
         if(noQuotesSplitString.length < 6){
             Log.i(TAG, "getReport: UnavaliableData");
@@ -105,7 +111,7 @@ public class ReportData {
             }
 
             String dateAsString = noQuotesSplitString[1];
-            Date date = DataFileProcessor.getDate(dateAsString);
+            Date date = DataFactory.getDate(dateAsString);
             String inspTypeAsString = noQuotesSplitString[2];
 
             InspType inspType;

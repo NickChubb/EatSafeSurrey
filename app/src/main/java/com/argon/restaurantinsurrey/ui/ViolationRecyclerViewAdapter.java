@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey.ui;
+package com.argon.restaurantinsurrey.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,11 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.model.ViolationData;
+import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.ViolationData;
 
 import java.util.ArrayList;
 
+/*
+ *   This is the adapter for showing each violation in the RecyclerView of InspectionDetailsActivity
+ *
+ */
+
+//TODO: Totally Refactor
 public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<ViolationRecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "ViolationRecyclerViewAd";
@@ -45,7 +51,6 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
         View view = LayoutInflater.from(parent.getContext()).
                     inflate(R.layout.custom_violation_list,parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
         return new ViewHolder(view);
     }
 
@@ -56,7 +61,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
         ViolationData violation = violationData.get(position);
         String violationDetails = violation.getDetail();
 
-        if(violation.isCritical() == true){
+        if(violation.isCritical()){
             holder.itemView.setBackgroundColor(mContext.getColor(R.color.colorLightRed));
         }
         else {
@@ -68,7 +73,6 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
         int violationIndex = 0;
         int violationNumber = violation.getViolationNumber();
 
-
         int[] violationCodesArray = r.getIntArray(R.array.violation_codes);
         String[] violationDescriptionArray = r.getStringArray(R.array.violation_short_descriptions);
         for(int i = 0; i < violationCodesArray.length; i++){
@@ -77,7 +81,6 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
                 break;
             }
         }
-
 
         holder.violationDescription.setText(violationDescriptionArray[violationIndex]);
 
@@ -97,14 +100,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
             holder.natureOfViolationImage.setImageResource(DOCUMENTATION_ICON);
         }
 
-
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, violationDetails, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        holder.parentLayout.setOnClickListener(v -> Toast.makeText(mContext, violationDetails, Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -114,7 +110,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView violationImage;
+//        ImageView violationImage;
         ImageView natureOfViolationImage;
         TextView violationDescription;
         ConstraintLayout parentLayout;

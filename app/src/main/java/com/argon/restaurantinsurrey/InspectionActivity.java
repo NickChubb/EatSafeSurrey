@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey;
+package com.argon.restaurantinsurrey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.example.restaurantinsurrey.model.DataManager;
-import com.example.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 
 public class InspectionActivity extends AppCompatActivity {
 

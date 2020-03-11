@@ -1,4 +1,4 @@
-package com.example.restaurantinsurrey.model;
+package com.argon.restaurantinsurrey.model;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 
-import com.example.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +23,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class DataFileProcessor {
+/*
+ *   This is a factory class to process all data from text/internet to an usable format
+ *
+ */
+public class DataFactory {
 
     final public static String TAG = "DataFileProcessor";
 
@@ -65,6 +69,8 @@ public class DataFileProcessor {
         return date;
     }
 
+    public static boolean getDataFromInternet = false;
+
     private static Bitmap getImageFromInternet(String urlString){
         HttpURLConnection connection = null;
         try {
@@ -78,6 +84,7 @@ public class DataFileProcessor {
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
         } catch (Exception e){
+            getDataFromInternet = false;
             e.printStackTrace();
         } finally {
             connection.disconnect();
@@ -88,8 +95,12 @@ public class DataFileProcessor {
     private static final String IMAGE_URL = "http://www.magicspica.com/files/images/";
 
     public static Bitmap getImage(String trackingNumber){
-        String urlString = IMAGE_URL + trackingNumber + ".jpg";
-        return getImageFromInternet(urlString);
+        if(getDataFromInternet) {
+            String urlString = IMAGE_URL + trackingNumber + ".jpg";
+            return getImageFromInternet(urlString);
+        } else {
+            return null;
+        }
     }
 
 

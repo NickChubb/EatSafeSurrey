@@ -4,8 +4,8 @@
     <string name="restaurant_in_surrey">Restaurant in Surrey</string>
     <string name="welcome">Welcome!</string>
     <string name="by_argon">By: Argon</string>
-    <string name="title_activity_restaurant_list">restaurant_list</string>
-    <string name="title_activity_single_restaurant">SingleRestaurant</string>
+    <string name="title_activity_restaurant_list">Restaurant in Surrey</string>
+    <string name="title_activity_single_restaurant">Restaurant Detail</string>
     <string name="single_restaurant_name">Restaurant Name</string>
     <string name="single_restaurant_address">Restaurant Address</string>
     <string name="single_restaurant_inspection_tv">Inspections:</string>
@@ -14,7 +14,7 @@
     <string name="number_of_issues">0 issues</string>
     <string name="number_of_critical_issues">0 critical issues</string>
     <string name="number_of_non_critical_issues">0 non-critical issues</string>
-    <string name="title_activity_inspection_details">InspectionDetailsActivity</string>
+    <string name="title_activity_inspection_details">Inspection Details</string>
     <string name="inspection_details_date">Inspection date: </string>
     <string name="inspection_details_type">Inspection type: </string>
     <string name="inspection_details_critical_issues">0 critical issues</string>
@@ -25,7 +25,7 @@
     <string name="text_inspection_by_date_less_one_year">%s %d</string>
     <string name="text_inspection_by_date">%s %d</string>
     <string name="text_inspection_no_date">None</string>
-    <string name="text_issue_num">%d issues</string>
+    <string name="text_issue_num">Issues: %d</string>
     <string name="sample_violation">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</string>
     <string name="hazard_level">Hazard Level: </string>
     <string name="hazard_level_low">LOW</string>
@@ -42,6 +42,7 @@
     <string name="follow_Up">Follow-Up</string>
     <string name="routine">Routine</string>
     <string name="no_violations_available">No violations available</string>
+    <string name="basic_date_format">MM/dd/yyyy</string>
 
 
 </resources>
