@@ -21,17 +21,6 @@ import java.util.Date;
 public class InspectionListAdapter extends ArrayAdapter<ReportData> {
 
     private static final String TAG = "InspectionListAdapter";
-    private static final String CRITICAL_ISSUES = "critical issues";
-    private static final String NON_CRITICAL_ISSUES = "non critical issues";
-    private static final String CRITICAL_ISSUE = "critical issue";
-    private static final String NON_CRITICAL_ISSUE = "non critical issue";
-    private static final String ISSUES = "issues";
-    private static final String ISSUE = "issue";
-    private static final String HIGH = "HIGH";
-    private static final String MODERATE = "MODERATE";
-    private static final String LOW = "LOW";
-    private static final String OTHER = "OTHER";
-
 
     private Context mContext;
     int mResource;
@@ -41,6 +30,20 @@ public class InspectionListAdapter extends ArrayAdapter<ReportData> {
         mContext = context;
         mResource = resource;
     }
+
+    private final String CRITICAL_ISSUES =getContext().getString(R.string.critical_issues);
+    private final String NON_CRITICAL_ISSUES = getContext().getString(R.string.non_critical_issues);
+    private final String CRITICAL_ISSUE = getContext().getString(R.string.critical_issue);
+    private final String NON_CRITICAL_ISSUE = getContext().getString(R.string.non_critical_issue);
+    private final String ISSUES = getContext().getString(R.string.issues);
+    private final String ISSUE = getContext().getString(R.string.issue);
+    private final String HIGH = getContext().getString(R.string.high);
+    private final String MODERATE = getContext().getString(R.string.moderate);
+    private final String LOW = getContext().getString(R.string.low);
+    private final String OTHER = getContext().getString(R.string.other);
+
+
+
 
 
     @NonNull

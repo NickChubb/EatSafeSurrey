@@ -29,6 +29,19 @@
     <string name="sample_violation">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</string>
     <string name="hazard_level">Hazard Level: </string>
     <string name="hazard_level_low">LOW</string>
+    <string name="critical_issues">critical issues</string>
+    <string name="non_critical_issues">non critical issues</string>
+    <string name="critical_issue">critical issue</string>
+    <string name="non_critical_issue">non critical issue</string>
+    <string name="issues">issues</string>
+    <string name="issue">issue</string>
+    <string name="high">HIGH</string>
+    <string name="moderate">MODERATE</string>
+    <string name="low">LOW</string>
+    <string name="other">OTHER</string>
+    <string name="follow_Up">Follow-Up</string>
+    <string name="routine">Routine</string>
+    <string name="no_violations_available">No violations available</string>
 
 
 </resources>

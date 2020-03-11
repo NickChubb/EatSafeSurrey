@@ -46,6 +46,8 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     private static final String ROUTINE = "Routine";
     private static final String OTHER = "Other";
     public static final String NO_VIOLATIONS_AVAILABLE = "No violations available";
+
+
     private DataManager manager;
     private ArrayList<ReportData> allReports;
     private ArrayList<ReportData> restaurantReports;
@@ -120,22 +122,22 @@ public class InspectionDetailsActivity extends AppCompatActivity {
 
         ReportData.HazardRating hazardRating = report.getHazardRating();
         if(hazardRating == ReportData.HazardRating.HIGH){
-            hazardLevelTV.setText(HAZARD_LEVEL + HIGH);
+            hazardLevelTV.setText(""+HAZARD_LEVEL + HIGH);
             leftWarningSign.setImageResource(R.drawable.red_warning_sign);
             rightWarningSign.setImageResource(R.drawable.red_warning_sign);
         }
         if(hazardRating == ReportData.HazardRating.MODERATE){
-            hazardLevelTV.setText(HAZARD_LEVEL + MODERATE);
+            hazardLevelTV.setText(""+HAZARD_LEVEL + MODERATE);
             leftWarningSign.setImageResource(R.drawable.yellow_warning_sign);
             rightWarningSign.setImageResource(R.drawable.yellow_warning_sign);
         }
         if(hazardRating == ReportData.HazardRating.LOW){
-            hazardLevelTV.setText(HAZARD_LEVEL + LOW);
+            hazardLevelTV.setText(""+HAZARD_LEVEL + LOW);
             leftWarningSign.setImageResource(R.drawable.green_warning_sign);
             rightWarningSign.setImageResource(R.drawable.green_warning_sign);
         }
         if(hazardRating == ReportData.HazardRating.OTHER){
-            hazardLevelTV.setText(HAZARD_LEVEL + OTHER);
+            hazardLevelTV.setText(""+HAZARD_LEVEL + OTHER);
             leftWarningSign.setImageResource(R.drawable.grey_warning_sign);
             rightWarningSign.setImageResource(R.drawable.grey_warning_sign);
         }
@@ -174,7 +176,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         RecyclerView violationsRecyclerView = findViewById(R.id.violationsRecyclerView);
         if(violations.isEmpty()){
             TextView violationsTV = (TextView) findViewById(R.id.inspectionDetailsViolationTV);
-            violationsTV.setText(NO_VIOLATIONS_AVAILABLE);
+            violationsTV.setText(""+NO_VIOLATIONS_AVAILABLE);
         }
 
         ViolationRecyclerViewAdapter adapter = new ViolationRecyclerViewAdapter(this, violations);
