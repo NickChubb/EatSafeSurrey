@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.argon.restaurantinsurrey.model.DataFactory;
+import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
 
 /*
@@ -35,7 +37,12 @@ public class RestaurantListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant_list);
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
+
+        DataFactory.getDataFromInternet = true;
+        DataManager.createInstance(this);
         populateListView();
+
+
     }
 
     private void populateListView() {

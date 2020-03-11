@@ -83,7 +83,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 //        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
         holder.date.setText(inspectionDateText);
         holder.hazardImage.setImageResource(hazardResourceId);
-        String issuesText = mContext.getString(R.string.text_issue_num, issues);
+        String issuesText = mContext.getString(R.string.text_issues, issues);
         holder.issues.setText(issuesText);
 //        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
         Bitmap bitmap = current_restaurant.getImage();
@@ -92,7 +92,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             holder.restaurantImage.setImageBitmap(bitmap);
         }
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //launches calculate activity on ListView item click

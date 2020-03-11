@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                DataFactory.getDataFromInternet = true;
-                DataManager.createInstance(MainActivity.this);
+
                 Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }

@@ -18,7 +18,9 @@ public class DataManager {
     //Making it a singleton.
     static private DataManager instance = null;
     static public void createInstance(Context context){
-        instance = new DataManager(context);
+        if(instance == null) {
+            instance = new DataManager(context);
+        }
     }
 
     static public DataManager getInstance(){
@@ -28,6 +30,18 @@ public class DataManager {
         }
         return instance;
     }
+
+
+    //----------------------------
+
+    final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
+    final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String ALL_REPORTS_FILE = "AllViolations.txt";
+
+    private Context context;
+    private ArrayList<ReportData> reportData;
+    private ArrayList<RestaurantData> restaurantData;
+    private ArrayList<ViolationData> validViolations;
 
     private DataManager(Context context) {
         this.context = context;
@@ -44,9 +58,9 @@ public class DataManager {
 
         ArrayList<String> reportStrings = DataFactory.readLines(context, INSPECTIONS_REPORTS_FILE);
         ArrayList<String> validReportsStrings = DataFactory.readLines(context, ALL_REPORTS_FILE);
-        ArrayList<ViolationData> validReports = ViolationData.getAllViolations(validReportsStrings);
+        validViolations = ViolationData.getAllViolations(validReportsStrings);
 
-        this.reportData = ReportData.getAllReports(reportStrings, validReports);
+        this.reportData = ReportData.getAllReports(reportStrings, validViolations);
         this.reportData.sort(new Comparator<ReportData>() {
             @Override
             public int compare(ReportData o1, ReportData o2) {
@@ -55,16 +69,6 @@ public class DataManager {
             }
         });
     }
-    //----------------------------
-
-    final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
-    final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
-    final private static String ALL_REPORTS_FILE = "AllViolations.txt";
-
-    private Context context;
-    private ArrayList<ReportData> reportData;
-    private ArrayList<RestaurantData> restaurantData;
-
 
     public int getRestaurantsSize(){
         return restaurantData.size();
@@ -88,34 +92,43 @@ public class DataManager {
         return new ArrayList<ReportData>(reportData);
     }
 
-    public ArrayList<Integer> getReportsIndexes(String trackingNumber){
-        ArrayList<Integer> ret = new ArrayList<>();
+    public ArrayList<ReportData> getReports(String trackingNumber){
+        ArrayList<ReportData> ret = new ArrayList<>();
         for(int i = 0; i < getReportsSize(); i++){
             ReportData report = getReport(i);
             if(report.getTrackingNumber().equals(trackingNumber)){
-                ret.add(i);
+                ret.add(report);
             }
         }
         return ret;
     }
 
-    public int getRestaurantIndex(String trackingNumber){
+    public RestaurantData getRestaurant(String trackingNumber){
         for(int i = 0; i < getRestaurantsSize(); i++){
             RestaurantData restaurant = getRestaurant(i);
             if(restaurant.getTrackingNumber().equals(trackingNumber)){
-                return i;
+                return restaurant;
             }
         }
-        return -1;
+        return null;
     }
 
     public ReportData getLastInspection(String trackingNumber){
         ReportData ret = null;
-        ArrayList<Integer> reportsIndexes = getReportsIndexes(trackingNumber);
-        if (reportsIndexes.size() > 0){
-            ret = getReport(reportsIndexes.get(0));
+        ArrayList<ReportData> reports = getReports(trackingNumber);
+        if (reports.size() > 0){
+            ret = reports.get(0);
         }
         return ret;
+    }
+
+    public ViolationData getViolation(int violationNumber){
+        for(ViolationData violationData: validViolations){
+            if(violationNumber == violationData.getViolationNumber()){
+                return violationData;
+            }
+        }
+        return null;
     }
 
     @Override

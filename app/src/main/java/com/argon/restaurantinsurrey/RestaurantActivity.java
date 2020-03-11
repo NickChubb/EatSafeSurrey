@@ -5,18 +5,18 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.ui.InspectionListAdapter;
+import com.argon.restaurantinsurrey.ui.InspectionRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,10 +29,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/*
+ *   This is the activity for showing the details of each restaurant
+ *
+ */
+
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String INDEX_VALUE = "index_value";
-    public static final String NO_INSPECTION_REPORTS_AVAILABLE = "No inspection reports available";
+
     private String address;
     private String restaurantName;
     private float zoomLevel = 16.0f;
@@ -40,19 +45,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
 
-    private ListView inspectionListView;
-    private int GREEN_WARNING_SIGN = R.drawable.green_warning_sign;
-    private int YELLOW_WARNING_SIGN = R.drawable.yellow_warning_sign;
-    private int RED_WARNING_SIGN = R.drawable.red_warning_sign;
-
-    private int NUMBER_OF_INSPECTIONS = 3;
     private double LONGITUDE;
     private double LATITUDE;
 
-    private DataManager manager;
-    private ArrayList<RestaurantData> restaurants;
     private RestaurantData restaurantData;
-    private ArrayList<ReportData> allReports;
     private ArrayList<ReportData> restaurantReports;
 
     @Override
@@ -62,76 +58,56 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
-        mapFragment.getMapAsync(this);
+        setUpVariables();
 
-        manager = DataManager.getInstance();
-        allReports = manager.getAllReports();
+        setUpUI();
 
-
-        restaurantData = getSingleRestaurant();
-        setUpRestaurantInfo(restaurantData);
-        restaurantReports = getReports(allReports, restaurantData);
-
-        setUpInspectionListView(restaurantReports, restaurantData);
+        populateListView();
     }
 
-    private RestaurantData getSingleRestaurant() {
-        manager = DataManager.getInstance();
-        restaurants = manager.getAllRestaurants();
+    private void setUpVariables() {
+        DataManager manager = DataManager.getInstance();
+
+        ArrayList<ReportData> allReports = manager.getAllReports();
+        ArrayList<RestaurantData> restaurants = manager.getAllRestaurants();
+
         Intent intent = getIntent();
         int restaurantIndex = intent.getIntExtra(INDEX_VALUE, 0);
         restaurantData = restaurants.get(restaurantIndex);
-        return restaurantData;
+
+        address = restaurantData.getAddress();
+        restaurantName = restaurantData.getName();
+
+        String trackingNumber = restaurantData.getTrackingNumber();
+        restaurantReports = manager.getReports(trackingNumber);
     }
 
-    private void setUpRestaurantInfo(RestaurantData restaurant){
-        TextView restaurantAddressTV = findViewById(R.id.singleRestaurantAddressTV);
-        TextView restaurantNameTV = findViewById(R.id.singleRestaurantNameTV);
+    private void setUpUI(){
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
+        mapFragment.getMapAsync(this);
 
-        address = restaurant.getAddress();
-        restaurantName = restaurant.getName();
+        TextView restaurantAddressTextView = findViewById(R.id.singleRestaurantAddressTV);
+        TextView restaurantNameTextView = findViewById(R.id.singleRestaurantNameTV);
 
-        restaurantAddressTV.setText(address);
-        restaurantNameTV.setText(restaurantName);
-    }
+        restaurantAddressTextView.setText(address);
+        restaurantNameTextView.setText(restaurantName);
 
-    private void setUpInspectionListView(ArrayList<ReportData> reports, RestaurantData restaurant) {
-        String restaurantTrackingNumber = restaurant.getTrackingNumber();
-        inspectionListView = (ListView) findViewById(R.id.restaurantInspectionListView);
-
-        if(reports.isEmpty()){
-            TextView inspectionTV = (TextView) findViewById(R.id.restaurantInspectionsTV);
-            inspectionTV.setText(NO_INSPECTION_REPORTS_AVAILABLE);
+        if(restaurantReports.isEmpty()){
+            TextView inspectionTextView = findViewById(R.id.restaurantInspectionsTV);
+            inspectionTextView.setText(getString(R.string.title_no_inspections));
         }
-
-        InspectionListAdapter adapter = new InspectionListAdapter(this, R.layout.custom_inspection_list_layout, reports);
-        inspectionListView.setAdapter(adapter);
-
-        inspectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = InspectionDetailsActivity.makeLaunchIntent(RestaurantActivity.this, restaurantTrackingNumber, position);
-                startActivity(intent);
-            }
-        });
-
     }
 
-    private ArrayList<ReportData> getReports(ArrayList<ReportData> allReports, RestaurantData restaurant){
+    private void populateListView() {
+        String restaurantTrackingNumber = restaurantData.getTrackingNumber();
+        RecyclerView list = findViewById(R.id.restaurantInspectionListView);
 
-        String restaurantTrackingNumber = restaurant.getTrackingNumber();
-        System.out.println(restaurantTrackingNumber);
-        List<ReportData> reportsOfRestaurant = new ArrayList<>();
+//        list.setHasFixedSize(true);
+        list.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        list.setLayoutManager(new LinearLayoutManager(this));
 
-        for(ReportData report : allReports){
-            if(report.getTrackingNumber().equals(restaurantTrackingNumber)){
-                reportsOfRestaurant.add(report);
-            }
-
-        }
-
-        return (ArrayList<ReportData>) reportsOfRestaurant;
+        InspectionRecyclerAdapter adapter = new InspectionRecyclerAdapter(this, restaurantTrackingNumber);
+        list.setAdapter(adapter);
     }
 
 
@@ -148,7 +124,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     private void getCoordinates() {
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        restaurantData = getSingleRestaurant();
         address = restaurantData.getAddress();
 
         try {

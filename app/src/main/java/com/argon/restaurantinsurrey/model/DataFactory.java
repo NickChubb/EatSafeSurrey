@@ -165,4 +165,17 @@ public class DataFactory {
                 return R.color.hazardBackgroundLow;
         }
     }
+
+    public static int getHazardTextColor(ReportData.HazardRating hazardRating){
+        switch (hazardRating){
+            case LOW:
+                return R.color.colorGreen;
+            case MODERATE:
+                return R.color.colorYellow;
+            case HIGH:
+                return R.color.colorRed;
+            default:
+                return R.color.colorGrey;
+        }
+    }
 }

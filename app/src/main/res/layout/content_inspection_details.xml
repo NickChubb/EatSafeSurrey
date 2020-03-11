@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/inspection_details_date"
+        android:text="@string/text_inspection_date"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/inspection_details_type"
+        android:text="@string/text_inspection_type"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsDateTV" />
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsDateTV" />
 
     <TextView
         android:id="@+id/inspectionDetailsCriticalIssuesTV"
@@ -38,11 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/inspection_details_critical_issues"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
+        android:text="@string/text_critical_issues"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsTypeTV" />
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsTypeTV" />
 
     <TextView
         android:id="@+id/inspectionDetailsNonCriticalIssuesTV"
@@ -50,43 +50,45 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/inspection_details_non_critical_issues"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
+        android:text="@string/text_non_critical_issues"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsCriticalIssuesTV" />
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsCriticalIssuesTV" />
 
     <ImageView
-        android:id="@+id/inspectionDetialsHazardSignLeftImageView"
+        android:id="@+id/inspectionDetailsHazardSignLeftImageView"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/green_warning_sign"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsNonCriticalIssuesTV" />
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsNonCriticalIssuesTV"
+        />
 
     <TextView
-        android:id="@+id/inspectionDetailsHazardLevelTV"
+        android:id="@+id/text_inspection_details_hazard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/inspection_details_hazard_level"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/inspectionDetialsHazardSignLeftImageView"
-        app:layout_constraintEnd_toStartOf="@+id/inspectionDetialsHazardSignRightImageView"
-        app:layout_constraintStart_toEndOf="@+id/inspectionDetialsHazardSignLeftImageView"
-        app:layout_constraintTop_toTopOf="@+id/inspectionDetialsHazardSignLeftImageView" />
+        android:text="@string/title_hazard_level"
+        app:layout_constraintBottom_toBottomOf="@id/inspectionDetailsHazardSignLeftImageView"
+        app:layout_constraintStart_toEndOf="@id/inspectionDetailsHazardSignLeftImageView"
+        app:layout_constraintTop_toTopOf="@id/inspectionDetailsHazardSignLeftImageView" />
 
-    <ImageView
-        android:id="@+id/inspectionDetialsHazardSignRightImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/green_warning_sign"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsNonCriticalIssuesTV" />
+    <TextView
+        android:id="@+id/text_inspection_details_hazard_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:text="@string/text_low_hazard"
+        app:layout_constraintBottom_toBottomOf="@id/inspectionDetailsHazardSignLeftImageView"
+        app:layout_constraintStart_toEndOf="@id/text_inspection_details_hazard_title"
+        app:layout_constraintTop_toTopOf="@id/inspectionDetailsHazardSignLeftImageView" />
 
     <TextView
         android:id="@+id/inspectionDetailsViolationTV"
@@ -94,17 +96,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/inspection_details_violations"
+        android:text="@string/title_violations"
         android:textColor="@color/colorBlack"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetialsHazardSignLeftImageView" />
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsHazardSignLeftImageView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/violationsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="401dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/inspectionDetailsViolationTV"
+        app:layout_constraintTop_toBottomOf="@id/inspectionDetailsViolationTV"
         tools:layout_editor_absoluteX="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

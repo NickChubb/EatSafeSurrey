@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.ViolationData;
@@ -19,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
 /*
  *   Displays all information about a single inspection
@@ -27,32 +28,13 @@ import java.util.List;
  */
 public class InspectionDetailsActivity extends AppCompatActivity {
 
-    private static final String INSPECTION_DATE = "Inspection date: ";
-    private static final String INSPECTION_TYPE = "Inspection type: ";
-    private static final String CRITICAL_ISSUES = "critical issues";
-    private static final String NON_CRITICAL_ISSUES = "non critical issues";
-    private static final String CRITICAL_ISSUE = "critical issue";
-    private static final String NON_CRITICAL_ISSUE = "non critical issue";
-    private static final String HAZARD_LEVEL = "Hazard Level: ";
-
-    private static final String HIGH = "HIGH";
-    private static final String MODERATE = "MODERATE";
-    private static final String LOW = "LOW";
+    final public static String TAG = "InspectionDetailsActivity";
 
     private static final String TRACKING_NUMBER = "tracking_number";
     private static final String SELECTED_REPORT = "selected_report";
-    private static final String FOLLOW_UP = "Follow-Up";
-    private static final String ROUTINE = "Routine";
-    private static final String OTHER = "Other";
-    public static final String NO_VIOLATIONS_AVAILABLE = "No violations available";
 
-
-    private DataManager manager;
-    private ArrayList<ReportData> allReports;
-    private ArrayList<ReportData> restaurantReports;
     private ArrayList<ViolationData> violationData;
-
-
+    private ReportData report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,127 +43,92 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        manager = DataManager.getInstance();
-        allReports = manager.getAllReports();
-        restaurantReports = getReports(allReports);
-        violationData = getViolations(restaurantReports);
+        setUpVariables();
 
-        setUpReportDetails(restaurantReports);
+        setUpUI();
 
-        setUpRecyclerView(violationData);
+        setUpRecyclerView();
     }
 
-    private void setUpReportDetails(ArrayList<ReportData> restaurantReports) {
+    private void setUpVariables() {
+        DataManager manager = DataManager.getInstance();
+
         Intent intent = getIntent();
-        int index = intent.getIntExtra(SELECTED_REPORT, 0);
-        ReportData report = restaurantReports.get(index);
+        String trackingNumber = intent.getStringExtra(TRACKING_NUMBER);
+        int reportIndex = intent.getIntExtra(SELECTED_REPORT, 0);
 
-        TextView dateTV = (TextView) findViewById(R.id.inspectionDetailsDateTV);
-        TextView inspectionTypeTV = (TextView) findViewById(R.id.inspectionDetailsTypeTV);
-        TextView criticalIssuesTV = (TextView) findViewById(R.id.inspectionDetailsCriticalIssuesTV);
-        TextView nonCriticalIssuesTV = (TextView) findViewById(R.id.inspectionDetailsNonCriticalIssuesTV);
-        TextView hazardLevelTV = (TextView) findViewById(R.id.inspectionDetailsHazardLevelTV);
+        ArrayList<ReportData> restaurantReports = manager.getReports(trackingNumber);
+        report = restaurantReports.get(reportIndex);
+        violationData = report.getViolations();
+    }
 
-        ImageView leftWarningSign = (ImageView) findViewById(R.id.inspectionDetialsHazardSignLeftImageView);
-        ImageView rightWarningSign = (ImageView) findViewById(R.id.inspectionDetialsHazardSignRightImageView);
+
+
+    private void setUpUI() {
+        TextView dateTextView = findViewById(R.id.inspectionDetailsDateTV);
+        TextView inspectionTypeTextView = findViewById(R.id.inspectionDetailsTypeTV);
+        TextView criticalIssuesTextView = findViewById(R.id.inspectionDetailsCriticalIssuesTV);
+        TextView nonCriticalIssuesTextView = findViewById(R.id.inspectionDetailsNonCriticalIssuesTV);
+        TextView hazardLevelTextView = findViewById(R.id.text_inspection_details_hazard_level);
+
+        ImageView warningImageView = findViewById(R.id.inspectionDetailsHazardSignLeftImageView);
 
         Date inspectionDate = report.getInspectionDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String date = (String)dateFormat.format(inspectionDate);
-        dateTV.setText(INSPECTION_DATE + " " + date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(getString(R.string.basic_date_format), Locale.getDefault());
+        String dateString = dateFormat.format(inspectionDate);
+        dateTextView.setText(getString(R.string.text_inspection_date, dateString));
 
         ReportData.InspType inspectionType = report.getInspType();
-        if(inspectionType == ReportData.InspType.FOLLOW_UP){
-            inspectionTypeTV.setText(INSPECTION_TYPE + " " + FOLLOW_UP);
+        String inspectionTypeString = "";
+        switch (inspectionType){
+            case ROUTINE:
+                inspectionTypeString = getString(R.string.text_routine_inspection);
+                break;
+            case FOLLOW_UP:
+                inspectionTypeString = getString(R.string.text_follow_up_inspection);
+                break;
+            default:
+                inspectionTypeString = getString(R.string.text_other);
         }
-        if(inspectionType == ReportData.InspType.ROUTINE){
-            inspectionTypeTV.setText(INSPECTION_TYPE + " " + ROUTINE);
-        }
-        if(inspectionType == ReportData.InspType.OTHER){
-            inspectionTypeTV.setText(INSPECTION_TYPE + " " + OTHER);
-        }
+        inspectionTypeTextView.setText(getString(R.string.text_inspection_type, inspectionTypeString));
 
         int numCritical = report.getNumCritical();
         int numNonCritical = report.getNumNonCritical();
 
-        if(numCritical == 1){
-            criticalIssuesTV.setText("" + numCritical + " " + CRITICAL_ISSUE);
-        }
-        else {
-            criticalIssuesTV.setText("" + numCritical + " " + CRITICAL_ISSUES);
-        }
-
-        if(numNonCritical == 1){
-            nonCriticalIssuesTV.setText("" + numNonCritical + " " + NON_CRITICAL_ISSUE);
-        }
-        else {
-            nonCriticalIssuesTV.setText("" + numNonCritical + " " + NON_CRITICAL_ISSUES);
-        }
-
+        criticalIssuesTextView.setText(getString(R.string.text_critical_issues, numCritical));
+        nonCriticalIssuesTextView.setText(getString(R.string.text_non_critical_issues, numNonCritical));
 
         ReportData.HazardRating hazardRating = report.getHazardRating();
-        if(hazardRating == ReportData.HazardRating.HIGH){
-            hazardLevelTV.setText(""+HAZARD_LEVEL + HIGH);
-            leftWarningSign.setImageResource(R.drawable.red_warning_sign);
-            rightWarningSign.setImageResource(R.drawable.red_warning_sign);
+        String hazardLevelString;
+        switch (hazardRating){
+            case HIGH:
+                hazardLevelString = getString(R.string.text_high_hazard);
+                break;
+            case MODERATE:
+                hazardLevelString = getString(R.string.text_moderate_hazard);
+                break;
+            case LOW:
+                hazardLevelString = getString(R.string.text_low_hazard);
+                break;
+            default:
+                hazardLevelString = getString(R.string.text_other);
         }
-        if(hazardRating == ReportData.HazardRating.MODERATE){
-            hazardLevelTV.setText(""+HAZARD_LEVEL + MODERATE);
-            leftWarningSign.setImageResource(R.drawable.yellow_warning_sign);
-            rightWarningSign.setImageResource(R.drawable.yellow_warning_sign);
-        }
-        if(hazardRating == ReportData.HazardRating.LOW){
-            hazardLevelTV.setText(""+HAZARD_LEVEL + LOW);
-            leftWarningSign.setImageResource(R.drawable.green_warning_sign);
-            rightWarningSign.setImageResource(R.drawable.green_warning_sign);
-        }
-        if(hazardRating == ReportData.HazardRating.OTHER){
-            hazardLevelTV.setText(""+HAZARD_LEVEL + OTHER);
-            leftWarningSign.setImageResource(R.drawable.grey_warning_sign);
-            rightWarningSign.setImageResource(R.drawable.grey_warning_sign);
-        }
+        hazardLevelTextView.setText(hazardLevelString);
 
-
-
+        int hazardRatingImage = DataFactory.getHazardRatingImage(hazardRating);
+        warningImageView.setImageResource(hazardRatingImage);
     }
 
-    private ArrayList<ViolationData> getViolations(ArrayList<ReportData> restaurantReports) {
-        Intent intent = getIntent();
-        int index = intent.getIntExtra(SELECTED_REPORT, 0);
-        ReportData report = restaurantReports.get(index);
-
-        return report.getViolations();
-    }
-
-    private ArrayList<ReportData> getReports(ArrayList<ReportData> allReports){
-        Intent intent = getIntent();
-        String trackingNumber = intent.getStringExtra(TRACKING_NUMBER);
-
-        List<ReportData> reportsOfRestaurant = new ArrayList<>();
-
-        for(ReportData report : allReports){
-            if(report.getTrackingNumber().equals(trackingNumber)){
-                reportsOfRestaurant.add(report);
-            }
-
-        }
-
-        return (ArrayList<ReportData>) reportsOfRestaurant;
-    }
-
-
-
-    private void setUpRecyclerView(ArrayList<ViolationData> violations) {
+    private void setUpRecyclerView() {
         RecyclerView violationsRecyclerView = findViewById(R.id.violationsRecyclerView);
-        if(violations.isEmpty()){
-            TextView violationsTV = (TextView) findViewById(R.id.inspectionDetailsViolationTV);
-            violationsTV.setText(""+NO_VIOLATIONS_AVAILABLE);
+        if(violationData.isEmpty()){
+            TextView violationsTV = findViewById(R.id.inspectionDetailsViolationTV);
+            violationsTV.setText(getString(R.string.title_no_violations));
         }
 
-        ViolationRecyclerViewAdapter adapter = new ViolationRecyclerViewAdapter(this, violations);
+        ViolationRecyclerViewAdapter adapter = new ViolationRecyclerViewAdapter(this, violationData);
         violationsRecyclerView.setAdapter(adapter);
         violationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     public static Intent makeLaunchIntent(Context context, String trackingNumber, int reportIndex){
@@ -190,5 +137,4 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         intent.putExtra(SELECTED_REPORT, reportIndex);
         return intent;
     }
-
 }

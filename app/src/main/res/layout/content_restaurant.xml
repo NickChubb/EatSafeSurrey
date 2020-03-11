@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/single_restaurant_name"
+        android:text="@string/text_restaurant_name"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/single_restaurant_address"
+        android:text="@string/text_restaurant_address"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,13 +49,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/single_restaurant_inspection_tv"
+        android:text="@string/title_restaurant_inspection"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/singleRestaurantAddressTV" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurantInspectionListView"
         android:layout_width="match_parent"
         android:layout_height="300dp"

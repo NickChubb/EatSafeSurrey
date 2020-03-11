@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/restaurantRecyclerLayout"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
 
-        android:text="@string/single_restaurant_name"
+        android:text="@string/text_restaurant_name"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
@@ -37,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="3 issues"
         app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
         app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Last Inspection:"
+        android:text="@string/text_last_inspection"
         app:layout_constraintStart_toEndOf="@+id/imageRestaurant"
         app:layout_constraintTop_toBottomOf="@+id/txtIssueNum" />
 
@@ -69,7 +69,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="24 days ago"
         app:layout_constraintBottom_toBottomOf="@+id/txtLast"
         app:layout_constraintStart_toEndOf="@+id/txtLast"
         app:layout_constraintTop_toTopOf="@+id/txtLast" />
