@@ -1,9 +1,7 @@
 package com.example.restaurantinsurrey.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantinsurrey.R;
-import com.example.restaurantinsurrey.model.ReportData;
 import com.example.restaurantinsurrey.model.ViolationData;
 
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
 
     private int FOOD_ICON = R.drawable.food_icon;
     private int DOCUMENTATION_ICON = R.drawable.documentation_icon;
-    private int UTENSILES_ICON = R.drawable.utensiles_icon;
+    private int UTENSILS_ICON = R.drawable.utensiles_icon;
     private int UNSANITARY_ICON = R.drawable.unsanitary_icon;
     private int CRITICAL_ICON = R.drawable.critical;
     private int NON_CRITICAL_ICON = R.drawable.non_critical;
@@ -91,7 +88,7 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
             holder.natureOfViolationImage.setImageResource(FOOD_ICON);
         }
         if(violationNumber > 300 && violationNumber < 400){
-            holder.natureOfViolationImage.setImageResource(UTENSILES_ICON);
+            holder.natureOfViolationImage.setImageResource(UTENSILS_ICON);
         }
         if(violationNumber > 400 && violationNumber < 500){
             holder.natureOfViolationImage.setImageResource(UNSANITARY_ICON);

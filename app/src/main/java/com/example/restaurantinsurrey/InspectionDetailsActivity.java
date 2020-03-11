@@ -32,6 +32,8 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     private static final String INSPECTION_TYPE = "Inspection type: ";
     private static final String CRITICAL_ISSUES = "critical issues";
     private static final String NON_CRITICAL_ISSUES = "non critical issues";
+    private static final String CRITICAL_ISSUE = "critical issue";
+    private static final String NON_CRITICAL_ISSUE = "non critical issue";
     private static final String HAZARD_LEVEL = "Hazard Level: ";
 
     private static final String HIGH = "HIGH";
@@ -43,6 +45,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     private static final String FOLLOW_UP = "Follow-Up";
     private static final String ROUTINE = "Routine";
     private static final String OTHER = "Other";
+    public static final String NO_VIOLATIONS_AVAILABLE = "No violations available";
     private DataManager manager;
     private ArrayList<ReportData> allReports;
     private ArrayList<ReportData> restaurantReports;
@@ -99,8 +102,20 @@ public class InspectionDetailsActivity extends AppCompatActivity {
 
         int numCritical = report.getNumCritical();
         int numNonCritical = report.getNumNonCritical();
-        criticalIssuesTV.setText("" + numCritical + " " + CRITICAL_ISSUES);
-        nonCriticalIssuesTV.setText("" + numNonCritical + " " + NON_CRITICAL_ISSUES);
+
+        if(numCritical == 1){
+            criticalIssuesTV.setText("" + numCritical + " " + CRITICAL_ISSUE);
+        }
+        else {
+            criticalIssuesTV.setText("" + numCritical + " " + CRITICAL_ISSUES);
+        }
+
+        if(numNonCritical == 1){
+            nonCriticalIssuesTV.setText("" + numNonCritical + " " + NON_CRITICAL_ISSUE);
+        }
+        else {
+            nonCriticalIssuesTV.setText("" + numNonCritical + " " + NON_CRITICAL_ISSUES);
+        }
 
 
         ReportData.HazardRating hazardRating = report.getHazardRating();
@@ -157,6 +172,11 @@ public class InspectionDetailsActivity extends AppCompatActivity {
 
     private void setUpRecyclerView(ArrayList<ViolationData> violations) {
         RecyclerView violationsRecyclerView = findViewById(R.id.violationsRecyclerView);
+        if(violations.isEmpty()){
+            TextView violationsTV = (TextView) findViewById(R.id.inspectionDetailsViolationTV);
+            violationsTV.setText(NO_VIOLATIONS_AVAILABLE);
+        }
+
         ViolationRecyclerViewAdapter adapter = new ViolationRecyclerViewAdapter(this, violations);
         violationsRecyclerView.setAdapter(adapter);
         violationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
