@@ -58,6 +58,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
         setContentView(R.layout.activity_restaurant_detail);
         Toolbar toolbar = findViewById(R.id.singleRestaurantToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setUpVariables();
 
@@ -140,6 +141,11 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
 
     public static Intent makeLaunchIntent(Context context, int index){
         Intent intent = new Intent(context, RestaurantDetailActivity.class);
