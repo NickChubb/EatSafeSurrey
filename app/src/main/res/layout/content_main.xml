@@ -17,7 +17,6 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/icon_welcome_fork"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="@id/icon_welcome_fork"
@@ -25,15 +24,15 @@
 
     <ImageView
         android:id="@+id/icon_welcome_fork"
-        android:layout_width="162dp"
-        android:layout_height="159dp"
+        android:layout_width="212dp"
+        android:layout_height="193dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
-        app:srcCompat="@drawable/fork_icon" />
+        app:srcCompat="@drawable/ic_mainicon" />
 
     <TextView
         android:id="@+id/text_welcome_author"
