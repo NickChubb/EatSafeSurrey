@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         runnable = () -> {
             DataFactory.getDataFromInternet = true;
             DataManager.createInstance(this);
-            Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
+            Intent i = MapActivity.makeLaunchIntent(MainActivity.this);
             startActivity(i);
         };
         handler.postDelayed(runnable,3000);
