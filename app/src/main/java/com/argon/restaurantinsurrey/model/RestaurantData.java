@@ -99,7 +99,7 @@ public class RestaurantData {
     }
 
     public static RestaurantData getRestaurant(String line){
-        String[] splitString = line.split(",");
+        String[] splitString = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         String[] noQuotesSplitString = DataFactory.removeQuotesMark(splitString);
 
         if(noQuotesSplitString.length != 7){
@@ -122,7 +122,7 @@ public class RestaurantData {
             RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
             return restaurant;
         } catch (Exception e){
-            Log.e(TAG, "getRestaurant: Cannot convert to restaurant data.");
+            Log.e(TAG, "getRestaurant: " + line + " Cannot convert to restaurant data.");
             return null;
         }
     }

@@ -10,6 +10,7 @@ All violations from Surrey's data set:
 204,Critical,Food not cooked or reheated in a manner that makes it safe to eat [s. 14(1)],Not Repeat
 205,Critical,Cold potentially hazardous food stored/displayed above 4 °C. [s. 14(2)],Not Repeat
 206,Critical,Hot potentially hazardous food stored/displayed below 60 °C. [s. 14(2)],Not Repeat
+207,Critical,Previously served food not discarded [s. 15],Not Repeat
 208,Not Critical,Foods obtained from unapproved sources [s. 11],Not Repeat
 209,Not Critical,Food not protected from contamination [s. 12(a)],Not Repeat
 210,Not Critical,Food not thawed in an acceptable manner [s. 14(2)],Not Repeat
