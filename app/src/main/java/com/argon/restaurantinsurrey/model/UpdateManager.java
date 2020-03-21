@@ -2,6 +2,9 @@ package com.argon.restaurantinsurrey.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -48,10 +51,17 @@ public class UpdateManager {
     private JSONObject reportsData;
     private File restaurantsFile;
     private File reportsFile;
+    private ConnectivityManager connectivityManager;
 
     private UpdateManager(Context context){
         preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         presentDate = new Date();
+
+        connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(!hasNetwork()){
+            return;
+        }
 
         String restaurantDataStr = DataFactory.getStringFromInternet(RESTAURANTS_URL);
         String reportsDataStr = DataFactory.getStringFromInternet(REPORTS_URL);
@@ -78,6 +88,10 @@ public class UpdateManager {
     }
 
     public short getAvailableUpdates(){
+        if(!hasNetwork()){
+            return AvailableUpdates.NO_UPDATE;
+        }
+
         String lastUpdateStr = preferences.getString(LAST_UPDATE_DATA_PREFERENCE, "2015-08-14T10:50:38.365988");
         Date lastUpdateDate = DataFactory.getDate(lastUpdateStr, DATE_FORMAT);
         Calendar calendar = new GregorianCalendar();
@@ -100,6 +114,9 @@ public class UpdateManager {
     }
 
     public void updateData(short updates){
+        if (!hasNetwork()){
+            return;
+        }
         if (updates == AvailableUpdates.NO_UPDATE){
             return;
         }
@@ -118,8 +135,15 @@ public class UpdateManager {
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
         String presentDateStr = format.format(presentDate);
         editor.putString(LAST_UPDATE_DATA_PREFERENCE, presentDateStr);
+    }
 
-        //TODO: Implement Listener
+    public boolean hasNetwork(){
+        Network activeNetwork = connectivityManager.getActiveNetwork();
+        if(activeNetwork == null){
+            return false;
+        }
+        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork);
+        return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
     }
 
     private void writeLatestData(UpdateTypes updateTypes){
@@ -182,7 +206,8 @@ public class UpdateManager {
 
         String newestDataStr = getLatestUpdateTime(updateTypes);
         Date newestDataDate = DataFactory.getDate(newestDataStr, DATE_FORMAT);
-
+        Log.i(TAG, "isUpdateAvailable: " + lastUpdateDate);
+        Log.i(TAG, "isUpdateAvailable: " + newestDataDate);
         return newestDataDate.after(lastUpdateDate);
     }
 }

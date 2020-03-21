@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,6 +17,17 @@ import android.widget.TextView;
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.UpdateManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /*
  *   This is the activity for showing welcome screen and animation.
@@ -39,9 +51,26 @@ public class MainActivity extends AppCompatActivity {
         setIconAnim();
         setWelcomeAnim();
 
+
         //Auto jump to the restaurant activity
         Handler handler = new Handler();
         runnable = () -> {
+
+            //This is how to update data
+            UpdateManager.createInstance(this);
+            UpdateManager updateManager = UpdateManager.getInstance();
+            short availableUpdates = updateManager.getAvailableUpdates();
+
+            updateManager.updateData(availableUpdates);
+            //AvailableUpdates returns the thing that you need to update
+            //If it equals updateManager.AvailableUpdates.NO_UPDATE, don't show the UpdateActivity.
+            //else, you can call updateData and passing in that value to update the data.
+
+            //Can use UpdateManager.hasNetwork() to check the connectivity of network.
+            //All functions are pre-checked the network, so those can be used without checking the hasNetWork()
+
+            //TODO: Implement the UpdatingActivity UI.
+
             DataFactory.getDataFromInternet = true;
             DataManager.createInstance(this);
             Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
@@ -49,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         };
         handler.postDelayed(runnable,3000);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

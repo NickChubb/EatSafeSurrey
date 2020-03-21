@@ -1,10 +1,12 @@
 package com.argon.restaurantinsurrey.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /*
  *   This is a singleton manager class to manage all restaurant/violation data.
@@ -34,23 +36,38 @@ public class DataManager {
 
     //----------------------------
 
-    final private static String RESTAURANTS_FILE = "restaurants_itr1.csv";
-    final private static String INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
-    final private static String ALL_REPORTS_FILE = "AllViolations.txt";
+    final private static String DEFAULT_RESTAURANTS_FILE = "restaurants_itr1.csv";
+    final private static String DEFAULT_INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
+    final private static String DEFAULT_ALL_REPORTS_FILE = "AllViolations.txt";
+
+    final private static String RESTAURANTS_FILE = "restaurants.csv";
+    final private static String INSPECTIONS_REPORTS_FILE = "inspection_reports.csv";
 
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
     private ArrayList<ViolationData> validViolations;
 
     private DataManager(Context context) {
+        File restaurantsFile = new File(context.getFilesDir(), RESTAURANTS_FILE);
+        ArrayList<String> restaurantStrings = null;
+        if(restaurantsFile.exists()){
+            restaurantStrings = DataFactory.readLinesFromFile(restaurantsFile);
+        }else {
+            restaurantStrings = DataFactory.readLinesFromAssets(context, DEFAULT_RESTAURANTS_FILE);
+        }
 
-        ArrayList<String> restaurantStrings = DataFactory.readLines(context, RESTAURANTS_FILE);
         this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
-
         this.restaurantData.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
-        ArrayList<String> reportStrings = DataFactory.readLines(context, INSPECTIONS_REPORTS_FILE);
-        ArrayList<String> validReportsStrings = DataFactory.readLines(context, ALL_REPORTS_FILE);
+        File reportsFile = new File(context.getFilesDir(),INSPECTIONS_REPORTS_FILE);
+        ArrayList<String> reportStrings = null;
+        if(reportsFile.exists()) {
+            reportStrings = DataFactory.readLinesFromFile(reportsFile);
+        } else {
+            reportStrings = DataFactory.readLinesFromAssets(context, DEFAULT_INSPECTIONS_REPORTS_FILE);
+        }
+
+        ArrayList<String> validReportsStrings = DataFactory.readLinesFromAssets(context, DEFAULT_ALL_REPORTS_FILE);
         validViolations = ViolationData.getAllViolations(validReportsStrings);
 
         this.reportData = ReportData.getAllReports(reportStrings, validViolations);

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,7 @@ public class DataFactory {
 
     final public static String TAG = "DataFileProcessor";
 
-    public static ArrayList<String> readLines(Context context, String filename){
+    public static ArrayList<String> readLinesFromAssets(Context context, String filename){
         AssetManager assetManager = context.getAssets();
         ArrayList<String> lines = new ArrayList<>();
         try{
@@ -46,6 +47,22 @@ public class DataFactory {
             }
             return lines;
         } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<String> readLinesFromFile(File file){
+        ArrayList<String> lines = new ArrayList<>();
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String buffer;
+            while ((buffer = bufferedReader.readLine()) != null){
+                lines.add(buffer);
+            }
+            return lines;
+        } catch (Exception e){
             e.printStackTrace();
             return null;
         }
@@ -67,7 +84,7 @@ public class DataFactory {
         try {
             date = format.parse(dateAsString);
         } catch (Exception e) {
-            Log.i(TAG, "stringToDate: Parsing date failed");
+            Log.i(TAG, "stringToDate: Parsing date failed: " + dateAsString);
             return null;
         }
         return date;
