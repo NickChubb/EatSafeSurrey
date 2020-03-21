@@ -9,7 +9,11 @@ import android.util.Log;
 
 import com.argon.restaurantinsurrey.R;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,8 +61,8 @@ public class DataFactory {
 
 
 
-    public static Date getDate(String dateAsString) {
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+    public static Date getDate(String dateAsString, String dateFormat) {
+        DateFormat format = new SimpleDateFormat(dateFormat, Locale.getDefault());
         Date date;
         try {
             date = format.parse(dateAsString);
@@ -70,6 +74,35 @@ public class DataFactory {
     }
 
     public static boolean getDataFromInternet = false;
+
+    public static String getStringFromInternet(String urlString){
+        HttpURLConnection connection = null;
+        try {
+
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(2000);
+            connection.setReadTimeout(2000);
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String buffer;
+            while ((buffer = bufferedReader.readLine()) != null){
+                stringBuilder.append(buffer);
+                stringBuilder.append("\n");
+            }
+            return stringBuilder.toString();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
+        return null;
+    }
 
     private static Bitmap getImageFromInternet(String urlString){
         HttpURLConnection connection = null;
@@ -103,6 +136,19 @@ public class DataFactory {
         }
     }
 
+    public static void writeToFile(String string, File file){
+        try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file, false);
+            writer.write(string);
+            writer.flush();
+            writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h){
         int width = bitmap.getWidth();

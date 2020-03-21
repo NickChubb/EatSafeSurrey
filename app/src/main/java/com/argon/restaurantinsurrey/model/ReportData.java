@@ -111,7 +111,7 @@ public class ReportData {
             }
 
             String dateAsString = noQuotesSplitString[1];
-            Date date = DataFactory.getDate(dateAsString);
+            Date date = DataFactory.getDate(dateAsString, "yyyyMMdd");
             String inspTypeAsString = noQuotesSplitString[2];
 
             InspType inspType;
