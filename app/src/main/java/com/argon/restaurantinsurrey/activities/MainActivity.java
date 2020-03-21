@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         runnable = () -> {
 
             //This is how to update data
+            //Those four lines should be implemented in the UpdatingActivity rather than here
+            //Please implement the UpdatingActivity, and then move these lines to there.
             UpdateManager.createInstance(this);
             UpdateManager updateManager = UpdateManager.getInstance();
             short availableUpdates = updateManager.getAvailableUpdates();
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             //If it equals updateManager.AvailableUpdates.NO_UPDATE, don't show the UpdateActivity.
             //else, you can call updateData and passing in that value to update the data.
 
-            //Can use UpdateManager.hasNetwork() to check the connectivity of network.
+            //Can use updateManager.hasNetwork() to check the connectivity of network.
             //All functions are pre-checked the network, so those can be used without checking the hasNetWork()
 
             //TODO: Implement the UpdatingActivity UI.
