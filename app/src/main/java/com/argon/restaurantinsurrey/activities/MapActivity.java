@@ -18,6 +18,9 @@ import android.util.Log;
 import android.util.LogPrinter;
 import android.widget.Toast;
 
+import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -41,6 +44,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -55,6 +59,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private GoogleMap map;
+    private DataManager dataManager;
+    private List<RestaurantData> restaurantDataList;
+    private List<LatLng> restaurantLatLngList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setUpVariables();
         getLocationPermission();
+
+
+
+    }
+
+    private void setUpVariables() {
+        dataManager = DataManager.getInstance();
+        restaurantDataList = dataManager.getAllRestaurants();
+
+        for(RestaurantData restaurantData : restaurantDataList){
+            LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
+            restaurantLatLngList.add(restaurantLatLng);
+        }
+
     }
 
     private void getDeviceLocation(){
@@ -159,12 +181,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if(locationPermissionsGranted){
             getDeviceLocation();
-
             map.setMyLocationEnabled(true);
 
 
-
         }
+
+        for(LatLng restaurantLatLng : restaurantLatLngList){
+
+            map.addMarker(new MarkerOptions().position(restaurantLatLng));
+        }
+
 
     }
 
