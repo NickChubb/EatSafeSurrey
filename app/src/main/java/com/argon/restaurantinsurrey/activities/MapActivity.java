@@ -76,50 +76,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void addMapMarkers(){
 
-//        clusterManager = new ClusterManager<ClusterMarker>(this, mGoogleMap);
-//
-//        mGoogleMap.setOnCameraIdleListener(clusterManager);
-//        mGoogleMap.setOnMarkerClickListener(clusterManager);
-//        addItems();
+        if(mGoogleMap != null ) {
 
-
-        clusterManager = new ClusterManager<ClusterMarker>(this,mGoogleMap);
-        mGoogleMap.setOnCameraIdleListener(clusterManager);
-        mGoogleMap.setOnMarkerClickListener(clusterManager);
-//        if(clusterManagerRenderer == null){
-        clusterManagerRenderer = new MyClusterManagerRenderer(this, mGoogleMap, clusterManager);
-//        }
-
-        for(LatLng restaurantLatLng : restaurantLatLngList){
-
-            Log.d(TAG, "addMarkers: " + restaurantLatLng.latitude + " " + restaurantLatLng.longitude);
-            try{
-                String snippet = "restaurant";
-                int image = R.drawable.fork_icon;
-
-                ClusterMarker newClusterMarker = new ClusterMarker(
-                        restaurantLatLng,
-                        "chicken town",
-                        snippet,
-                        image
-                );
-                clusterManager.addItem(newClusterMarker);
-                clusterMarkerList.add(newClusterMarker);
-            } catch (NullPointerException e){
-                Log.d(TAG, "addMapMarkers: NullPinterException: " + e.getMessage());
+            if (clusterManager == null) {
+                clusterManager = new ClusterManager<ClusterMarker>(this, mGoogleMap);
+            }
+            mGoogleMap.setOnCameraIdleListener(clusterManager);
+            if (clusterManagerRenderer == null) {
+                clusterManagerRenderer = new MyClusterManagerRenderer(this, mGoogleMap, clusterManager);
+                clusterManager.setRenderer(clusterManagerRenderer);
             }
 
-        }
-    }
+            for (LatLng restaurantLatLng : restaurantLatLngList) {
 
-    private void addItems() {
+                Log.d(TAG, "addMarkers: " + restaurantLatLng.latitude + " " + restaurantLatLng.longitude);
+                try {
+                    String snippet = "restaurant";
+                    int image = R.drawable.fork_icon;
 
+                    ClusterMarker newClusterMarker = new ClusterMarker(
+                            restaurantLatLng,
+                            "chicken town",
+                            snippet,
+                            image
+                    );
+                    clusterManager.addItem(newClusterMarker);
+                    clusterMarkerList.add(newClusterMarker);
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "addMapMarkers: NullPinterException: " + e.getMessage());
+                }
 
-        for(LatLng restaurantLatLng : restaurantLatLngList){
+            }
+            mGoogleMap.setOnCameraIdleListener(clusterManager);
+            mGoogleMap.setOnMarkerClickListener(clusterManager);
 
-            ClusterMarker location = new ClusterMarker(restaurantLatLng,"title", "sinppet", R.drawable.green_warning_sign);
-            clusterManager.addItem(location);
-
+            clusterManager.cluster();
         }
     }
 
@@ -229,15 +220,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if(locationPermissionsGranted){
             getDeviceLocation();
             mGoogleMap.setMyLocationEnabled(true);
-
-
         }
-
-//        for(LatLng restaurantLatLng : restaurantLatLngList){
-//
-//            mGoogleMap.addMarker(new MarkerOptions().position(restaurantLatLng));
-//        }
-
         addMapMarkers();
 
     }
