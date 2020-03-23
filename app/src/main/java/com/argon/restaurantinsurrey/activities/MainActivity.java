@@ -56,27 +56,34 @@ public class MainActivity extends AppCompatActivity {
         Handler handler = new Handler();
         runnable = () -> {
 
-            //This is how to update data
-            //Those four lines should be implemented in the UpdatingActivity rather than here
-            //Please implement the UpdatingActivity, and then move these lines to there.
-            UpdateManager.createInstance(this);
-            UpdateManager updateManager = UpdateManager.getInstance();
-            short availableUpdates = updateManager.getAvailableUpdates();
-
-            updateManager.updateData(availableUpdates);
-            //AvailableUpdates returns the thing that you need to update
-            //If it equals updateManager.AvailableUpdates.NO_UPDATE, don't show the UpdateActivity.
-            //else, you can call updateData and passing in that value to update the data.
-
             //Can use updateManager.hasNetwork() to check the connectivity of network.
             //All functions are pre-checked the network, so those can be used without checking the hasNetWork()
 
             //TODO: Implement the UpdatingActivity UI.
 
-            DataFactory.getDataFromInternet = true;
+
             DataManager.createInstance(this);
-            Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
-            startActivity(i);
+
+            UpdateManager.createInstance(this);
+
+            UpdateManager updateManager = UpdateManager.getInstance();
+
+            if(updateManager.getAvailableUpdates() !=  UpdateManager.AvailableUpdates.NO_UPDATE){
+
+                Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
+                startActivity(i);
+
+            }else{
+
+
+                DataFactory.getDataFromInternet = true;
+
+                Intent i = UpdateActivity.makeLaunchIntent(MainActivity.this);
+                startActivity(i);
+
+
+            }
+
         };
         handler.postDelayed(runnable,3000);
     }
