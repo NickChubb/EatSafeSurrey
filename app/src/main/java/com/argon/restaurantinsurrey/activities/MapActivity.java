@@ -111,43 +111,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 else {
                     ReportData.HazardRating hazardRating = reportDataList.get(0).getHazardRating();
-
+                    int image;
                     switch (hazardRating){
                         case HIGH:
-                            newClusterMarker = new ClusterMarker(
-                                    restaurantLatLng,
-                                    title,
-                                    snippet,
-                                    R.drawable.red_warning_sign
-                            );
+                            image = R.drawable.red_warning_sign;
                             break;
                         case MODERATE:
-                            newClusterMarker = new ClusterMarker(
-                                    restaurantLatLng,
-                                    title,
-                                    snippet,
-                                    R.drawable.yellow_warning_sign
-                            );
+                            image = R.drawable.yellow_warning_sign;
+
                             break;
                         case LOW:
-                            newClusterMarker = new ClusterMarker(
-                                    restaurantLatLng,
-                                    title,
-                                    snippet,
-                                    R.drawable.green_warning_sign
-                            );
+                            image = R.drawable.green_warning_sign;
                             break;
                         default:
-                            newClusterMarker = new ClusterMarker(
-                                    restaurantLatLng,
-                                    title,
-                                    snippet,
-                                    R.drawable.green_warning_sign
-                            );
+                            image = R.drawable.grey_warning_sign;
                     }
-
+                    newClusterMarker = new ClusterMarker(
+                            restaurantLatLng,
+                            title,
+                            snippet,
+                            image
+                    );
                 }
-
 
                 clusterManager.addItem(newClusterMarker);
                 clusterMarkerList.add(newClusterMarker);
