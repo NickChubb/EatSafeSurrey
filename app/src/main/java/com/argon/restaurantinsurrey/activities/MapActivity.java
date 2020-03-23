@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
 //import com.argon.restaurantinsurrey.ui.ClusterMarker;
 //import com.argon.restaurantinsurrey.ui.MyClusterManagerRenderer;
@@ -56,6 +57,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DataManager dataManager;
     private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
+    private List<ReportData> reportDataList;
     private ClusterManager clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
@@ -87,24 +89,68 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 clusterManager.setRenderer(clusterManagerRenderer);
             }
 
-            for (LatLng restaurantLatLng : restaurantLatLngList) {
 
-                Log.d(TAG, "addMarkers: " + restaurantLatLng.latitude + " " + restaurantLatLng.longitude);
-                try {
-                    String snippet = "restaurant";
-                    int image = R.drawable.fork_icon;
+            for(int i = 0; i < restaurantLatLngList.size(); i++){
 
-                    ClusterMarker newClusterMarker = new ClusterMarker(
+                LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude, restaurantLatLngList.get(i).longitude);
+                String title = restaurantDataList.get(i).getName();
+                String snippet = restaurantDataList.get(i).getAddress();
+                String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
+                reportDataList = dataManager.getReports(trackingNumber);
+
+                ClusterMarker newClusterMarker;
+
+                if(reportDataList.isEmpty()){
+                    int image = R.drawable.green_warning_sign;
+                        newClusterMarker = new ClusterMarker(
                             restaurantLatLng,
-                            "chicken town",
+                            title,
                             snippet,
                             image
                     );
-                    clusterManager.addItem(newClusterMarker);
-                    clusterMarkerList.add(newClusterMarker);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "addMapMarkers: NullPinterException: " + e.getMessage());
                 }
+                else {
+                    ReportData.HazardRating hazardRating = reportDataList.get(0).getHazardRating();
+
+                    switch (hazardRating){
+                        case HIGH:
+                            newClusterMarker = new ClusterMarker(
+                                    restaurantLatLng,
+                                    title,
+                                    snippet,
+                                    R.drawable.red_warning_sign
+                            );
+                            break;
+                        case MODERATE:
+                            newClusterMarker = new ClusterMarker(
+                                    restaurantLatLng,
+                                    title,
+                                    snippet,
+                                    R.drawable.yellow_warning_sign
+                            );
+                            break;
+                        case LOW:
+                            newClusterMarker = new ClusterMarker(
+                                    restaurantLatLng,
+                                    title,
+                                    snippet,
+                                    R.drawable.green_warning_sign
+                            );
+                            break;
+                        default:
+                            newClusterMarker = new ClusterMarker(
+                                    restaurantLatLng,
+                                    title,
+                                    snippet,
+                                    R.drawable.green_warning_sign
+                            );
+                    }
+
+                }
+
+
+                clusterManager.addItem(newClusterMarker);
+                clusterMarkerList.add(newClusterMarker);
 
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
