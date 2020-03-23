@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".activities.UpdateActivity">
 
+    <Button
+        android:id="@+id/buttonCancelUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel Updating"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.63" />
+
+    <TextView
+        android:id="@+id/txtUpdating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCancelUpdate"
+        app:layout_constraintEnd_toEndOf="@+id/buttonCancelUpdate"
+        app:layout_constraintStart_toStartOf="@+id/buttonCancelUpdate"
+        tools:text="Updating..." />
 </androidx.constraintlayout.widget.ConstraintLayout>
