@@ -37,24 +37,17 @@ public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMark
 
     }
 
+    @Override
+    protected boolean shouldRenderAsCluster(Cluster<ClusterMarker> cluster) {
+        return cluster.getSize()>1;
+    }
 
     @Override
     protected void onBeforeClusterItemRendered(ClusterMarker item, MarkerOptions markerOptions) {
         imageView.setImageResource(item.getIconPicture());
         Bitmap icon = iconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).snippet(item.getTitle());
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).snippet("");
     }
 
-    @Override
-    protected void onBeforeClusterRendered(Cluster<ClusterMarker> cluster, MarkerOptions markerOptions) {
-        super.onBeforeClusterRendered(cluster, markerOptions);
-        Bitmap icon = iconGenerator.makeIcon();
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
-    }
-
-    @Override
-    protected void onClusterItemRendered(ClusterMarker clusterItem, Marker marker) {
-        marker.setTag(clusterItem);
-    }
 }
