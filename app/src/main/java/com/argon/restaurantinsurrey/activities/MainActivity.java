@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             UpdateManager updateManager = UpdateManager.getInstance();
 
+
             if(updateManager.getAvailableUpdates() ==  UpdateManager.AvailableUpdates.NO_UPDATE){
 
                 Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);

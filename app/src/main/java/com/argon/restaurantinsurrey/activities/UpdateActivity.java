@@ -19,7 +19,7 @@ import com.argon.restaurantinsurrey.model.UpdateManager;
 public class UpdateActivity extends AppCompatActivity {
 
     public static Intent makeLaunchIntent(Context c) {
-        Intent intent = new Intent(c, RestaurantListActivity.class);
+        Intent intent = new Intent(c, UpdateActivity.class);
         return intent;
     }
 
@@ -51,6 +51,11 @@ public class UpdateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+                // go to list screen
+                Intent i = RestaurantListActivity.makeLaunchIntent(UpdateActivity.this);
+                startActivity(i);
             }
         });
 
@@ -59,8 +64,8 @@ public class UpdateActivity extends AppCompatActivity {
 
     private void setIconAnim() {
         ImageView icon = findViewById(R.id.icon_update_arrow);
-        RotateAnimation animation = new RotateAnimation(0.0f, -10.0f * 360.0f, 0, 0, 40, 0);;
-        animation.setDuration(3000); // Change to length of download
+        RotateAnimation animation = new RotateAnimation(0.0f, 10.0f * 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);;
+        animation.setDuration(6000); // Change to length of download
         animation.setRepeatCount(0);
         icon.startAnimation(animation);
     }
