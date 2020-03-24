@@ -54,5 +54,10 @@
     <string name="map">MAP</string>
     <string name="restaurant">RESTAURANT</string>
 
+    <!--    Map Activity    -->
+    <string name="text_map_activity_see_reports">See Reports</string>
+    <string name="text_map_activity_low">LOW</string>
+    <string name="text_map_activity_medium">MODERATE</string>
+    <string name="text_map_activity_high">HIGH</string>
 
 </resources>
