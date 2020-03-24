@@ -8,10 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.argon.restaurantinsurrey.model.DataManager;
@@ -35,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -162,29 +168,44 @@ public class MapActivity extends AppCompatActivity implements
             clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener() {
                 @Override
                 public void onClusterItemInfoWindowClick(ClusterItem item) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-                    builder.setTitle(item.getTitle());
-                    builder.setMessage(item.getSnippet());
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                    final AlertDialog alert = builder.create();
-                    alert.show();
+                    showRestaurantDialog();
                 }
             });
 
             clusterManager.cluster();
         }
+    }
+
+    private void showRestaurantDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this, R.style.AlerDialogTheme);
+        View view = LayoutInflater.from(MapActivity.this).inflate(
+                R.layout.custom_low_hazard_dialog,
+                (ConstraintLayout) findViewById(R.id.low_hazard_layout_dialog_container)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.text_hazard_level)).setText(" Low");
+        ((TextView) view.findViewById(R.id.text_Message)).setText("Da Message");
+        ((Button) view.findViewById(R.id.go_to_restaurant_btn)).setText("See Reports");
+        ((ImageView) view.findViewById(R.id.image_low_hazard_icon)).setImageResource(R.drawable.green_warning_sign);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+
+        alertDialog.show();
+
+
     }
 
 
