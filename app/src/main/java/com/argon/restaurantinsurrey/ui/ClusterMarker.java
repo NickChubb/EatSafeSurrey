@@ -11,13 +11,33 @@ public class ClusterMarker implements ClusterItem {
     private String snippet;
     private int iconPicture;
     private ReportData.HazardRating hazardRating;
+    private int index;
 
-    public ClusterMarker(LatLng position, String title, String snippet, int iconPicture, ReportData.HazardRating hazardRating) {
+    public ClusterMarker(LatLng position, String title, String snippet, int iconPicture,
+                         ReportData.HazardRating hazardRating,
+                         int index) {
         this.position = position;
         this.title = title;
         this.snippet = snippet;
         this.iconPicture = iconPicture;
         this.hazardRating = hazardRating;
+        this.index = index;
+    }
+
+    public ReportData.HazardRating getHazardRating() {
+        return hazardRating;
+    }
+
+    public void setHazardRating(ReportData.HazardRating hazardRating) {
+        this.hazardRating = hazardRating;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
     public ClusterMarker() {
     }

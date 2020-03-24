@@ -34,7 +34,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -93,8 +92,6 @@ public class MapActivity extends AppCompatActivity implements
         setUpVariables();
         getLocationPermission();
 
-
-
     }
 
     private void addMapMarkers(){
@@ -109,11 +106,10 @@ public class MapActivity extends AppCompatActivity implements
                 clusterManagerRenderer = new MyClusterManagerRenderer(this, mGoogleMap, clusterManager);
                 clusterManager.setRenderer(clusterManagerRenderer);
             }
-
-
             for(int i = 0; i < restaurantLatLngList.size(); i++){
 
-                LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude, restaurantLatLngList.get(i).longitude);
+                LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude,
+                        restaurantLatLngList.get(i).longitude);
                 String title = restaurantDataList.get(i).getName();
                 String snippet = restaurantDataList.get(i).getAddress();
                 String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
@@ -128,7 +124,8 @@ public class MapActivity extends AppCompatActivity implements
                             title,
                                 "Address: " + snippet,
                             image,
-                            ReportData.HazardRating.LOW
+                            ReportData.HazardRating.LOW,
+                            i
                     );
                 }
                 else {
@@ -153,7 +150,8 @@ public class MapActivity extends AppCompatActivity implements
                             title,
                             "Address: " + snippet,
                             image,
-                            hazardRating
+                            hazardRating,
+                            i
                     );
                 }
 
@@ -168,7 +166,10 @@ public class MapActivity extends AppCompatActivity implements
             clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener() {
                 @Override
                 public void onClusterItemInfoWindowClick(ClusterItem item) {
-                    showRestaurantDialog();
+                    ClusterMarker marker = (ClusterMarker) item;
+                    showLowHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+//                    showMediumHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+//                    showHighHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
                 }
             });
 
@@ -176,25 +177,32 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-    private void showRestaurantDialog() {
-
+    private void showMediumHazardDialog(String name, String address, int index) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this, R.style.AlerDialogTheme);
         View view = LayoutInflater.from(MapActivity.this).inflate(
                 R.layout.custom_low_hazard_dialog,
-                (ConstraintLayout) findViewById(R.id.low_hazard_layout_dialog_container)
+                (ConstraintLayout) findViewById(R.id.medium_hazard_layout_dialog)
         );
         builder.setView(view);
-        ((TextView) view.findViewById(R.id.text_hazard_level)).setText(" Low");
-        ((TextView) view.findViewById(R.id.text_Message)).setText("Da Message");
-        ((Button) view.findViewById(R.id.go_to_restaurant_btn)).setText("See Reports");
-        ((ImageView) view.findViewById(R.id.image_low_hazard_icon)).setImageResource(R.drawable.green_warning_sign);
+        ImageView hazardIcon = (ImageView) view.findViewById(R.id.image_low_hazard_icon);
+        TextView hazardRatingTextView = (TextView)view.findViewById(R.id.text_low_hazard_dialog_hazard_level);
+        TextView restaurantNameTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_name);
+        TextView restaurantAddressTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_address);
+        Button seeReportsBtn = (Button) view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn);
+
+        restaurantNameTextView.setText(name);
+        restaurantAddressTextView.setText(address);
+        hazardRatingTextView.setText(R.string.text_map_activity_low);
+        seeReportsBtn.setText(R.string.text_map_activity_see_reports);
+        hazardIcon.setImageResource(R.drawable.ic_check_circle_black_50dp);
 
         final AlertDialog alertDialog = builder.create();
 
-        view.findViewById(R.id.go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                Intent intent = RestaurantDetailActivity.makeLaunchIntent(MapActivity.this, index);
+                startActivity(intent);
             }
         });
 
@@ -202,10 +210,46 @@ public class MapActivity extends AppCompatActivity implements
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
+        alertDialog.show();
+    }
+    private void showHighHazardDialog(String name, String address, int index) {
+    }
+
+    private void showLowHazardDialog(String name, String address, int index) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this, R.style.AlerDialogTheme);
+        View view = LayoutInflater.from(MapActivity.this).inflate(
+                R.layout.custom_low_hazard_dialog,
+                (ConstraintLayout) findViewById(R.id.low_hazard_layout_dialog_container)
+        );
+        builder.setView(view);
+        ImageView hazardIcon = (ImageView) view.findViewById(R.id.image_low_hazard_icon);
+        TextView hazardRatingTextView = (TextView)view.findViewById(R.id.text_low_hazard_dialog_hazard_level);
+        TextView restaurantNameTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_name);
+        TextView restaurantAddressTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_address);
+        Button seeReportsBtn = (Button) view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn);
+
+        restaurantNameTextView.setText(name);
+        restaurantAddressTextView.setText(address);
+        hazardRatingTextView.setText(R.string.text_map_activity_low);
+        seeReportsBtn.setText(R.string.text_map_activity_see_reports);
+        hazardIcon.setImageResource(R.drawable.ic_check_circle_black_50dp);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = RestaurantDetailActivity.makeLaunchIntent(MapActivity.this, index);
+                startActivity(intent);
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
 
         alertDialog.show();
-
-
     }
 
 

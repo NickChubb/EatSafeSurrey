@@ -52,9 +52,11 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <!--    Custom Dialog    -->
-    <string name="text_name">Name</string>
-    <string name="text_address">Address</string>
 
+    <!--    Map Activity    -->
+    <string name="text_map_activity_see_reports">See Reports</string>
+    <string name="text_map_activity_low">LOW</string>
+    <string name="text_map_activity_medium">MEDIUM</string>
+    <string name="text_map_activity_high">HIGH</string>
 
 </resources>
