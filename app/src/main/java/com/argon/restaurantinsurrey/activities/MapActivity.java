@@ -167,9 +167,21 @@ public class MapActivity extends AppCompatActivity implements
                 @Override
                 public void onClusterItemInfoWindowClick(ClusterItem item) {
                     ClusterMarker marker = (ClusterMarker) item;
-                    showLowHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
-//                    showMediumHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
-//                    showHighHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+                    switch (marker.getHazardRating()){
+                        case LOW:
+                            showLowHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+                            break;
+                        case MODERATE:
+                            showMediumHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+                            break;
+                        case HIGH:
+                            showHighHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+                            break;
+                        default:
+                            showLowHazardDialog(marker.getTitle(),marker.getSnippet(), marker.getIndex());
+                            break;
+                    }
+
                 }
             });
 
@@ -180,25 +192,25 @@ public class MapActivity extends AppCompatActivity implements
     private void showMediumHazardDialog(String name, String address, int index) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this, R.style.AlerDialogTheme);
         View view = LayoutInflater.from(MapActivity.this).inflate(
-                R.layout.custom_low_hazard_dialog,
+                R.layout.custom_medium_hazard_dialog,
                 (ConstraintLayout) findViewById(R.id.medium_hazard_layout_dialog)
         );
         builder.setView(view);
-        ImageView hazardIcon = (ImageView) view.findViewById(R.id.image_low_hazard_icon);
-        TextView hazardRatingTextView = (TextView)view.findViewById(R.id.text_low_hazard_dialog_hazard_level);
-        TextView restaurantNameTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_name);
-        TextView restaurantAddressTextView = (TextView) view.findViewById(R.id.text_low_hazard_dialog_restaurant_address);
-        Button seeReportsBtn = (Button) view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn);
+        ImageView hazardIcon = (ImageView) view.findViewById(R.id.image_medium_hazard_icon);
+        TextView hazardRatingTextView = (TextView)view.findViewById(R.id.text_medium_hazard_dialog_hazard_level);
+        TextView restaurantNameTextView = (TextView) view.findViewById(R.id.text_medium_hazard_dialog_restaurant_name);
+        TextView restaurantAddressTextView = (TextView) view.findViewById(R.id.text_medium_hazard_dialog_restaurant_address);
+        Button seeReportsBtn = (Button) view.findViewById(R.id.medium_hazard_dialog_go_to_restaurant_btn);
 
         restaurantNameTextView.setText(name);
         restaurantAddressTextView.setText(address);
-        hazardRatingTextView.setText(R.string.text_map_activity_low);
+        hazardRatingTextView.setText(R.string.text_map_activity_medium);
         seeReportsBtn.setText(R.string.text_map_activity_see_reports);
-        hazardIcon.setImageResource(R.drawable.ic_check_circle_black_50dp);
+        hazardIcon.setImageResource(R.drawable.ic_warning_black_50dp);
 
         final AlertDialog alertDialog = builder.create();
 
-        view.findViewById(R.id.low_hazard_dialog_go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.medium_hazard_dialog_go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = RestaurantDetailActivity.makeLaunchIntent(MapActivity.this, index);
@@ -213,6 +225,39 @@ public class MapActivity extends AppCompatActivity implements
         alertDialog.show();
     }
     private void showHighHazardDialog(String name, String address, int index) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this, R.style.AlerDialogTheme);
+        View view = LayoutInflater.from(MapActivity.this).inflate(
+                R.layout.custom_high_hazard_dialog,
+                (ConstraintLayout) findViewById(R.id.high_hazard_layout_dialog_container)
+        );
+        builder.setView(view);
+        ImageView hazardIcon = (ImageView) view.findViewById(R.id.image_high_hazard_icon);
+        TextView hazardRatingTextView = (TextView)view.findViewById(R.id.text_high_hazard_dialog_hazard_level);
+        TextView restaurantNameTextView = (TextView) view.findViewById(R.id.text_high_hazard_dialog_restaurant_name);
+        TextView restaurantAddressTextView = (TextView) view.findViewById(R.id.text_high_hazard_dialog_restaurant_address);
+        Button seeReportsBtn = (Button) view.findViewById(R.id.high_hazard_dialog_go_to_restaurant_btn);
+
+        restaurantNameTextView.setText(name);
+        restaurantAddressTextView.setText(address);
+        hazardRatingTextView.setText(R.string.text_map_activity_high);
+        seeReportsBtn.setText(R.string.text_map_activity_see_reports);
+        hazardIcon.setImageResource(R.drawable.ic_not_interested_black_50dp);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.high_hazard_dialog_go_to_restaurant_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = RestaurantDetailActivity.makeLaunchIntent(MapActivity.this, index);
+                startActivity(intent);
+            }
+        });
+
+        if(alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 
     private void showLowHazardDialog(String name, String address, int index) {

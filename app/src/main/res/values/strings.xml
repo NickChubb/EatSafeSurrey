@@ -56,7 +56,7 @@
     <!--    Map Activity    -->
     <string name="text_map_activity_see_reports">See Reports</string>
     <string name="text_map_activity_low">LOW</string>
-    <string name="text_map_activity_medium">MEDIUM</string>
+    <string name="text_map_activity_medium">MODERATE</string>
     <string name="text_map_activity_high">HIGH</string>
 
 </resources>
