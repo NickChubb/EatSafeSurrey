@@ -94,7 +94,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude, restaurantLatLngList.get(i).longitude);
                 String title = restaurantDataList.get(i).getName();
-                String snippet = restaurantDataList.get(i).getAddress();
+                String snippet = "Address: " + restaurantDataList.get(i).getAddress();
                 String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
                 reportDataList = dataManager.getReports(trackingNumber);
 
