@@ -55,11 +55,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements
-        OnMapReadyCallback,
-        GoogleMap.OnInfoWindowClickListener,
-        ClusterManager.OnClusterClickListener<ClusterMarker>,
-        ClusterManager.OnClusterItemClickListener<ClusterMarker>,
-        ClusterManager.OnClusterInfoWindowClickListener
+        OnMapReadyCallback
+
 {
 
     private static final String TAG = "MapActivity";
@@ -78,7 +75,6 @@ public class MapActivity extends AppCompatActivity implements
     private List<ReportData> reportDataList;
     private ClusterManager clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
-    private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
 
     private AlertDialog dialog;
 
@@ -101,7 +97,6 @@ public class MapActivity extends AppCompatActivity implements
             if (clusterManager == null) {
                 clusterManager = new ClusterManager<ClusterMarker>(this, mGoogleMap);
             }
-            mGoogleMap.setOnCameraIdleListener(clusterManager);
             if (clusterManagerRenderer == null) {
                 clusterManagerRenderer = new MyClusterManagerRenderer(this, mGoogleMap, clusterManager);
                 clusterManager.setRenderer(clusterManagerRenderer);
@@ -117,6 +112,9 @@ public class MapActivity extends AppCompatActivity implements
 
                 ClusterMarker newClusterMarker;
 
+                if(title.equals("Peace Portal Golf Course Lounge")){
+                    Log.d(TAG, "Address found");
+                }
                 if(reportDataList.isEmpty()){
                     int image = R.drawable.green_warning_sign;
                         newClusterMarker = new ClusterMarker(
@@ -154,10 +152,9 @@ public class MapActivity extends AppCompatActivity implements
                             i
                     );
                 }
-
-                clusterManager.addItem(newClusterMarker);
-                clusterMarkerList.add(newClusterMarker);
-
+                if(newClusterMarker != null) {
+                    clusterManager.addItem(newClusterMarker);
+                }
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
@@ -184,7 +181,6 @@ public class MapActivity extends AppCompatActivity implements
 
                 }
             });
-
             clusterManager.cluster();
         }
     }
@@ -414,78 +410,9 @@ public class MapActivity extends AppCompatActivity implements
         return intent;
     }
 
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-        builder.setTitle(marker.getTitle());
-        builder.setMessage(marker.getSnippet());
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
 
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onClusterClick(Cluster<ClusterMarker> cluster) {
-        return false;
-    }
-
-    @Override
-    public void onClusterInfoWindowClick(Cluster cluster) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-        builder.setTitle("title");
-        builder.setMessage("marker.getSnippet()");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onClusterItemClick(ClusterMarker item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-        builder.setTitle("marker.getTitle()");
-        builder.setMessage("marker.getSnippet()");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
-        return false;
-    }
 }
+/*Resources:
+* https://www.youtube.com/watch?v=3cJ9eia49w4&t=1483s
+* https://www.youtube.com/watch?v=U6Z8FkjGEb4&t=604s
+*/
