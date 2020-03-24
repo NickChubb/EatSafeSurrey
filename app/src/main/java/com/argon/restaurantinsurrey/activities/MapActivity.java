@@ -5,11 +5,14 @@ package com.argon.restaurantinsurrey.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
@@ -25,9 +28,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -36,13 +41,21 @@ import androidx.core.content.ContextCompat;
 import com.argon.restaurantinsurrey.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 //import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements
+        OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener,
+        ClusterManager.OnClusterClickListener<ClusterMarker>,
+        ClusterManager.OnClusterItemClickListener<ClusterMarker>,
+        ClusterManager.OnClusterInfoWindowClickListener
+{
 
     private static final String TAG = "MapActivity";
 
@@ -61,6 +74,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ClusterManager clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
+
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +109,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude, restaurantLatLngList.get(i).longitude);
                 String title = restaurantDataList.get(i).getName();
-                String snippet = "Address: " + restaurantDataList.get(i).getAddress();
+                String snippet = restaurantDataList.get(i).getAddress();
                 String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
                 reportDataList = dataManager.getReports(trackingNumber);
 
@@ -105,8 +120,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         newClusterMarker = new ClusterMarker(
                             restaurantLatLng,
                             title,
-                            snippet,
-                            image
+                                "Address: " + snippet,
+                            image,
+                            ReportData.HazardRating.LOW
                     );
                 }
                 else {
@@ -129,8 +145,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     newClusterMarker = new ClusterMarker(
                             restaurantLatLng,
                             title,
-                            snippet,
-                            image
+                            "Address: " + snippet,
+                            image,
+                            hazardRating
                     );
                 }
 
@@ -140,6 +157,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
+            mGoogleMap.setOnInfoWindowClickListener(clusterManager);
+
+            clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener() {
+                @Override
+                public void onClusterItemInfoWindowClick(ClusterItem item) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+                    builder.setTitle(item.getTitle());
+                    builder.setMessage(item.getSnippet());
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    final AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
 
             clusterManager.cluster();
         }
@@ -260,5 +302,80 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public static Intent makeLaunchIntent(Context context){
         Intent intent = new Intent(context, MapActivity.class);
         return intent;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+        builder.setTitle(marker.getTitle());
+        builder.setMessage(marker.getSnippet());
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onClusterClick(Cluster<ClusterMarker> cluster) {
+        return false;
+    }
+
+    @Override
+    public void onClusterInfoWindowClick(Cluster cluster) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+        builder.setTitle("title");
+        builder.setMessage("marker.getSnippet()");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onClusterItemClick(ClusterMarker item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+        builder.setTitle("marker.getTitle()");
+        builder.setMessage("marker.getSnippet()");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MapActivity.this,"No", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+        Toast.makeText(MapActivity.this,"Yes", Toast.LENGTH_SHORT).show();
+        return false;
     }
 }
