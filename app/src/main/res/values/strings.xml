@@ -42,6 +42,7 @@
     <string name="text_inspection_by_date_less_one_year">%s %d</string>
     <string name="text_inspection_by_date">%s %d</string>
     <string name="text_inspection_no_date">None</string>
+    <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_map_and_restaurant_list">MapAndRestaurantListActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
