@@ -60,7 +60,7 @@ public class ViolationData {
     public static ViolationData getViolation(String line){
         String[] splitString = line.split(",");
         if(splitString.length != 4){
-            Log.i(TAG, "getViolation: UnavaliableData");
+            Log.i(TAG, "getViolation: UnavaliableData: " + line);
             return null;
         }
         try {
