@@ -135,6 +135,7 @@ public class UpdateManager {
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
         String presentDateStr = format.format(presentDate);
         editor.putString(LAST_UPDATE_DATA_PREFERENCE, presentDateStr);
+        editor.apply();
     }
 
     public boolean hasNetwork(){
