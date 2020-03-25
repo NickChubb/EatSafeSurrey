@@ -45,9 +45,21 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONException;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.maps.android.heatmaps.HeatmapTileProvider.DEFAULT_RADIUS;
+
+/*
+    Same as MapActivity but extends fragment for switching between restaurant list and map
+
+ */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
@@ -56,6 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final float DEFAULT_ZOOM = 10f;
+    private static final double DEFAULT_RANGE = 0.0001;
     private boolean locationPermissionsGranted = false;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -64,12 +77,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
     private List<ReportData> reportDataList;
-    private ClusterManager clusterManager;
+    private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
-
     private AlertDialog dialog;
+    private static final String DEFAULT_DELETE_LIST = "itemsDeleted";
+
+    private static final String DEFAULT_ADDED_LIST = "itemsAdded";
+
+
+
 
     @Nullable
     @Override
@@ -87,9 +105,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if(mGoogleMap != null ) {
 
             if (clusterManager == null) {
-                clusterManager = new ClusterManager<ClusterMarker>(getActivity(), mGoogleMap);
+                clusterManager = new CustomClusterManager<>(getActivity(), mGoogleMap);
             }
-            mGoogleMap.setOnCameraIdleListener(clusterManager);
             if (clusterManagerRenderer == null) {
                 clusterManagerRenderer = new MyClusterManagerRenderer(getActivity(), mGoogleMap, clusterManager);
                 clusterManager.setRenderer(clusterManagerRenderer);
@@ -102,6 +119,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 String snippet = restaurantDataList.get(i).getAddress();
                 String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
                 reportDataList = dataManager.getReports(trackingNumber);
+
+
+                Log.d(TAG, title + " " + snippet);
 
                 ClusterMarker newClusterMarker;
 
@@ -173,7 +193,48 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             });
 
+            clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener() {
+                @Override
+                public boolean onClusterClick(Cluster cluster) {
+                    float maxZoomLevel = mGoogleMap.getMaxZoomLevel();
+
+                    float currentZoomLevel = mGoogleMap.getCameraPosition().zoom;
+
+                    // only show markers if users is in the max zoom level
+
+                    if (currentZoomLevel != maxZoomLevel) {
+                        return false;
+                    }
+
+                    if (clusterManager.itemsInSameLocation(cluster) == false) {
+                        return false;
+                    }
+
+                    // relocate the markers around the current markers position
+                    int counter = 0;
+                    float rotateFactor = (360 / cluster.getItems().size());
+
+                    List<ClusterMarker> allItems = new ArrayList<>(cluster.getItems());
+                    for (ClusterMarker item : allItems) {
+
+                        double lat = item.getPosition().latitude + (DEFAULT_RANGE * Math.cos(++counter * rotateFactor));
+
+                        double lng = item.getPosition().longitude + (DEFAULT_RANGE * Math.sin(counter * rotateFactor));
+
+                        LatLng coordinate = new LatLng(lat,lng);
+
+                        ClusterMarker copy = new ClusterMarker(coordinate, item.getTitle(),  item.getSnippet(), item.getIconPicture(),item.getHazardRating(), item.getIndex());
+
+                        clusterManager.removeItem(item);
+                        clusterManager.addItem(copy);
+                        clusterManager.cluster();
+                    }
+                    return true;
+                }
+            });
+
             clusterManager.cluster();
+
         }
     }
 
@@ -403,4 +464,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return intent;
     }
 
+
+    private class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
+
+        CustomClusterManager(Context context, GoogleMap map) {
+            super(context, map);
+        }
+
+         boolean itemsInSameLocation(Cluster<T> cluster) {
+            LinkedList<T> items = new LinkedList<>(cluster.getItems());
+            T item = items.remove(0);
+
+            double longitude = item.getPosition().longitude;
+
+            double latitude = item.getPosition().latitude;
+
+            for (T t : items) {
+                if (Double.compare(longitude, t.getPosition().longitude) != 0 && Double.compare(latitude, t.getPosition().latitude) != 0) {
+                    return false;
+                }
+            }
+            return true;
+
+        }
+
+    }
+
 }
+/*Resources:
+* https://github.com/menismu/android-maps-utils/blob/master/demo/src/com/google/maps/android/utils/demo/ClusteringSameLocationActivity.java#L107
+*/
