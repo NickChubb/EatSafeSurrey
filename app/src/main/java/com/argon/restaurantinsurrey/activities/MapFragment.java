@@ -472,7 +472,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
          boolean itemsInSameLocation(Cluster<T> cluster) {
-            LinkedList<T> items = new LinkedList<>(cluster.getItems());
+            List<T> items = new ArrayList<>(cluster.getItems());
             T item = items.remove(0);
 
             double longitude = item.getPosition().longitude;
@@ -493,4 +493,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 }
 /*Resources:
 * https://github.com/menismu/android-maps-utils/blob/master/demo/src/com/google/maps/android/utils/demo/ClusteringSameLocationActivity.java#L107
+* https://www.youtube.com/watch?v=fPFr0So1LmI
+* https://www.youtube.com/watch?v=Vt6H9TOmsuo
+* https://www.youtube.com/watch?v=U6Z8FkjGEb4&t=610s
 */
