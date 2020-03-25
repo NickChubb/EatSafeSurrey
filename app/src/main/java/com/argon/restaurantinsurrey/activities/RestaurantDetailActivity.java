@@ -57,6 +57,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         setUpVariables();
 
         setUpUI();
