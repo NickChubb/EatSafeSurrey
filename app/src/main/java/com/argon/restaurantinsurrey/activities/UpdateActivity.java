@@ -18,6 +18,8 @@ import com.argon.restaurantinsurrey.model.UpdateManager;
 
 public class UpdateActivity extends AppCompatActivity {
 
+    final public static String TAG = "UpdateActivity";
+
     public static Intent makeLaunchIntent(Context c) {
         Intent intent = new Intent(c, UpdateActivity.class);
         return intent;
@@ -50,9 +52,7 @@ public class UpdateActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
+                
                 // go to list screen
                 Intent i = RestaurantListActivity.makeLaunchIntent(UpdateActivity.this);
                 startActivity(i);
