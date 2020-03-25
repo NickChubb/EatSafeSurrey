@@ -48,12 +48,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment implements
-        OnMapReadyCallback,
-        GoogleMap.OnInfoWindowClickListener,
-        ClusterManager.OnClusterClickListener<ClusterMarker>,
-        ClusterManager.OnClusterItemClickListener<ClusterMarker>,
-        ClusterManager.OnClusterInfoWindowClickListener{
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
 
@@ -408,78 +403,4 @@ public class MapFragment extends Fragment implements
         return intent;
     }
 
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());               //
-        builder.setTitle(marker.getTitle());
-        builder.setMessage(marker.getSnippet());
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();       //
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"No", Toast.LENGTH_SHORT).show();      //
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();             //
-    }
-
-    @Override
-    public boolean onClusterClick(Cluster<ClusterMarker> cluster) {
-        return false;
-    }
-
-    @Override
-    public void onClusterInfoWindowClick(Cluster cluster) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());           //
-        builder.setTitle("title");
-        builder.setMessage("marker.getSnippet()");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();     //
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"No", Toast.LENGTH_SHORT).show();      //
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();             //
-    }
-
-    @Override
-    public boolean onClusterItemClick(ClusterMarker item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());           //
-        builder.setTitle("marker.getTitle()");
-        builder.setMessage("marker.getSnippet()");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();     //
-
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(),"No", Toast.LENGTH_SHORT).show();      //
-
-            }
-        });
-        final AlertDialog alert = builder.create();
-        alert.show();
-        Toast.makeText(getActivity(),"Yes", Toast.LENGTH_SHORT).show();             //
-        return false;
-    }
 }
