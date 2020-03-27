@@ -102,7 +102,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1,true);
                         break;
                 }
-    });
+        });
 
     }
 }

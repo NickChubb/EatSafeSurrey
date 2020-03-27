@@ -34,7 +34,7 @@ import java.util.Locale;
  */
 public class DataFactory {
 
-    final public static String TAG = "DataFileProcessor";
+    final public static String TAG = "DataFactory";
 
     public static ArrayList<String> readLinesFromAssets(Context context, String filename){
         AssetManager assetManager = context.getAssets();
@@ -189,7 +189,6 @@ public class DataFactory {
             return context.getString(R.string.text_inspection, dayCount);
         }
         else if(dayCount >30 && dayCount <= 365){
-//          int month = calTargetDate.get(Calendar.MONTH) + 1;
             String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
             int day = calTargetDate.get(Calendar.DATE);
             return context.getString(R.string.text_inspection_by_date_less_one_year, month, day);
@@ -197,8 +196,6 @@ public class DataFactory {
         else {
             int year = calTargetDate.get(Calendar.YEAR);
             String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
-//            int month = calTargetDate.get(Calendar.MONTH) + 1;
-//            int day = calTargetDate.get(Calendar.DATE);
             return context.getString(R.string.text_inspection_by_date, month, year);
         }
     }
@@ -213,19 +210,6 @@ public class DataFactory {
                 return R.drawable.red_warning_sign;
             default:
                 return R.drawable.grey_warning_sign;
-        }
-    }
-
-    public static int getHazardRatingBackgroundColor(ReportData.HazardRating hazardRating){
-        switch (hazardRating){
-            case LOW:
-                return R.color.hazardBackgroundLow;
-            case MODERATE:
-                return R.color.hazardBackgroundModerate;
-            case HIGH:
-                return R.color.hazardBackgroundHigh;
-            default:
-                return R.color.hazardBackgroundLow;
         }
     }
 

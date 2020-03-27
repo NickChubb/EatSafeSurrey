@@ -54,5 +54,17 @@
     <string name="text_map_activity_see_reports">See Reports</string>
     <string name="text_map_activity_address_detail">Address: %s</string>
 
+    <!-- UpdateActivity -->
+    <string name="status_update_waiting">Waiting…</string>
+    <string name="status_update_downloading_restaurants">Downloading Restaurants Data…</string>
+    <string name="status_update_downloading_reports">Downloading Inspection Reports Data…</string>
+    <string name="status_update_downloading_images">Downloading Restaurant Images… (%d/%d)</string>
+    <string name="text_update_cancel">Cancel</string>
+    <string name="title_update_alert">New Data is Available</string>
+    <string name="message_update_alert">Do you want to update? \n\n(Update restaurant images may takes long.)</string>
+    <string name="text_update_alert_no">No</string>
+    <string name="text_update_alert_data_only">Update without images</string>
+    <string name="text_update_alert_update">Update</string>
+
 
 </resources>
