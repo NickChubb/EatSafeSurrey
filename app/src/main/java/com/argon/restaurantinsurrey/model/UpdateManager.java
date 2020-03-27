@@ -199,6 +199,7 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
             writeLatestData(UpdateTypes.REPORTS);
             String latestUpdateTime = getLatestUpdateTime(UpdateTypes.REPORTS);
             editor.putString(LAST_UPDATE_REPORTS_PREFERENCE, latestUpdateTime);
+            editor.apply();
         }
 
         if(isCancelled()){
@@ -211,6 +212,7 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
             writeLatestData(UpdateTypes.RESTAURANTS);
             String latestUpdateTime = getLatestUpdateTime(UpdateTypes.RESTAURANTS);
             editor.putString(LAST_UPDATE_RESTAURANTS_PREFERENCE, latestUpdateTime);
+            editor.apply();
         }
 
         if(isCancelled()){
