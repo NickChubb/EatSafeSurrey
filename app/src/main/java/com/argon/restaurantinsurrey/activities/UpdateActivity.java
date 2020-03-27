@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.UpdateManager;
 
 import org.w3c.dom.Text;
@@ -28,6 +29,7 @@ public class UpdateActivity extends AppCompatActivity {
     private Button cancelButton;
     private TextView statusTextView;
     private ProgressBar progressBar;
+    private UpdateManager manager;
 
     public static Intent makeLaunchIntent(Context c) {
         Intent intent = new Intent(c, UpdateActivity.class);
@@ -39,10 +41,48 @@ public class UpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_data);
 
-        UpdateManager.createInstance(this);
-        UpdateManager manager = UpdateManager.getInstance();
+        manager = UpdateManager.getInstance(this);
 
         setUpUI();
+
+        manager.setUpdateStatusListener(new UpdateManager.UpdateStatusListener() {
+            @Override
+            public void onPrepareUpdate(int maxProgress) {
+                progressBar.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                statusTextView.setVisibility(View.VISIBLE);
+                statusTextView.setText(R.string.status_update_waiting);
+                progressBar.setProgress(0, false);
+                progressBar.setMax(maxProgress);
+            }
+
+            @Override
+            public void onStatusUpdated(UpdateManager.UpdateTypes type, int progress, int maxProgress) {
+                switch (type){
+                    case IMAGES:
+                        statusTextView.setText(R.string.status_update_downloading_images);
+                        break;
+                    case REPORTS:
+                        statusTextView.setText(R.string.status_update_downloading_reports);
+                        break;
+                    case RESTAURANTS:
+                        statusTextView.setText(R.string.status_update_downloading_restaurants);
+                        break;
+                }
+                progressBar.setProgress(progress, true);
+                progressBar.setMax(maxProgress);
+            }
+
+            @Override
+            public void onUpdateFinished() {
+                goToMainPage();
+            }
+
+            @Override
+            public void onUpdateCancelled() {
+                goToMainPage();
+            }
+        });
 
         short availableUpdates = manager.getAvailableUpdates();
         if (availableUpdates == UpdateManager.AvailableUpdates.NO_UPDATE){
@@ -59,6 +99,9 @@ public class UpdateActivity extends AppCompatActivity {
         cancelButton.setVisibility(View.INVISIBLE);
         statusTextView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
+        cancelButton.setOnClickListener(v -> {
+            manager.cancel(true);
+        });
     }
 
     private void prepareForUpdate() {
@@ -66,11 +109,14 @@ public class UpdateActivity extends AppCompatActivity {
                 .setTitle(R.string.title_update_alert)
                 .setMessage(R.string.message_update_alert)
                 .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
-
+                    short updates = manager.getAvailableUpdates();
+                    manager.execute(updates);
                 })
 
                 .setNegativeButton(R.string.text_update_alert_data_only, (dialog, which) -> {
-
+                    short updates = manager.getAvailableUpdates();
+                    updates = (short) (updates & ~UpdateManager.AvailableUpdates.IMAGES);
+                    manager.execute(updates);
                 })
 
                 .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {

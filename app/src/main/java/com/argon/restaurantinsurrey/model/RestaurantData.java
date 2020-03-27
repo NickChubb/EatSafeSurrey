@@ -1,5 +1,6 @@
 package com.argon.restaurantinsurrey.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -98,7 +99,7 @@ public class RestaurantData {
         this.lon = lon;
     }
 
-    public static RestaurantData getRestaurant(String line){
+    public static RestaurantData getRestaurant(Context context, String line){
         String[] splitString = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         String[] noQuotesSplitString = DataFactory.removeQuotesMark(splitString);
 
@@ -118,7 +119,7 @@ public class RestaurantData {
             String type = noQuotesSplitString[4];
             double lat = Double.valueOf(noQuotesSplitString[5]);
             double lon = Double.valueOf(noQuotesSplitString[6]);
-            Bitmap image = DataFactory.getImage(trackingNumber);
+            Bitmap image = DataFactory.getImage(context, trackingNumber);
             RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
             return restaurant;
         } catch (Exception e){
@@ -127,10 +128,10 @@ public class RestaurantData {
         }
     }
 
-    public static ArrayList<RestaurantData> getAllRestaurants(ArrayList<String> lines){
+    public static ArrayList<RestaurantData> getAllRestaurants(Context context, ArrayList<String> lines){
         ArrayList<RestaurantData> data = new ArrayList<>();
         for (String line: lines) {
-            RestaurantData restaurantData = getRestaurant(line);
+            RestaurantData restaurantData = getRestaurant(context, line);
             if(restaurantData != null){
                 data.add(restaurantData);
             }

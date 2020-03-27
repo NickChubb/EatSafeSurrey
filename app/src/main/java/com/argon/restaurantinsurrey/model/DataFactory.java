@@ -125,10 +125,11 @@ public class DataFactory {
     private static final String SERVER_URL = "http://www.magicspica.com/files/";
     private static final String IMAGE_PATH = "images/";
 
-    private static void downloadImageFromServer(Context context, String trackingNumber){
+    public static void downloadImageFromServer(Context context, String path){
         HttpURLConnection connection = null;
+
         try {
-            String urlString = SERVER_URL + IMAGE_PATH + trackingNumber + ".jpg";
+            String urlString = SERVER_URL + path + ".jpg";
             URL url = new URL(urlString);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -138,8 +139,14 @@ public class DataFactory {
             InputStream inputStream = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-            String filename = trackingNumber + ".jpg";
-            File file=new File(context.getFilesDir(), IMAGE_PATH + filename);
+            File filePath = new File(context.getFilesDir(), IMAGE_PATH);
+            if(!filePath.exists()){
+                filePath.mkdirs();
+            }
+            File file=new File(context.getFilesDir(), path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
             FileOutputStream fileOutputStream=new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
             fileOutputStream.flush();
@@ -150,8 +157,6 @@ public class DataFactory {
             connection.disconnect();
         }
     }
-
-
 
     public static Bitmap getImage(Context context, String trackingNumber){
         String filename = trackingNumber + ".jpg";

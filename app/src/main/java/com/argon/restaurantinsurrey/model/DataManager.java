@@ -56,7 +56,7 @@ public class DataManager {
             restaurantStrings = DataFactory.readLinesFromAssets(context, DEFAULT_RESTAURANTS_FILE);
         }
 
-        this.restaurantData = RestaurantData.getAllRestaurants(restaurantStrings);
+        this.restaurantData = RestaurantData.getAllRestaurants(context, restaurantStrings);
         this.restaurantData.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
         File reportsFile = new File(context.getFilesDir(),INSPECTIONS_REPORTS_FILE);

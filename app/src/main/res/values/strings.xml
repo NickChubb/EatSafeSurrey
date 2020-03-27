@@ -62,7 +62,7 @@
     <string name="text_update_cancel">Cancel</string>
     <string name="title_update_alert">New Data is Available</string>
     <string name="message_update_alert">Do you want to update? \n\n(Update restaurant images may takes long.)</string>
-    <string name="text_update_alert_no">No</string>
+    <string name="text_update_alert_no">Do not update</string>
     <string name="text_update_alert_data_only">Update without images</string>
     <string name="text_update_alert_update">Update</string>
 
