@@ -61,7 +61,7 @@
     <string name="status_update_downloading_images">Downloading Restaurant Images… (%d/%d)</string>
     <string name="text_update_cancel">Cancel</string>
     <string name="title_update_alert">New Data is Available</string>
-    <string name="message_update_alert">Do you want to update? \n\n(Update restaurant images may takes long.)</string>
+    <string name="message_update_alert">Do you want to update? \n\nUpdate restaurant images may takes long.\nIf choose update without images, you can still download images tomorrow.</string>
     <string name="text_update_alert_no">Do not update</string>
     <string name="text_update_alert_data_only">Update without images</string>
     <string name="text_update_alert_update">Update</string>
