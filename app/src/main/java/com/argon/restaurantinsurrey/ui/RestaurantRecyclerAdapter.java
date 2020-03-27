@@ -66,26 +66,21 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         String inspectionDateText;
         int hazardResourceId;
-//        int hazardBackgroundColorId;
         int issues;
         if(report != null){
             inspectionDateText = DataFactory.getFormattedDate(mContext, report.getInspectionDate());
             hazardResourceId = DataFactory.getHazardRatingImage(report.getHazardRating());
-//            hazardBackgroundColorId = DataFileProcessor.getHazardRatingBackgroundColor(report.getHazardRating());
             issues = report.getNumNonCritical() + report.getNumCritical();
         } else {
             inspectionDateText = mContext.getString(R.string.text_inspection_no_date);
             hazardResourceId = R.drawable.green_warning_sign;
-//            hazardBackgroundColorId = R.color.hazardBackgroundLow;
             issues = 0;
         }
-//        int hazardBackgroundColor = mContext.getColor(hazardBackgroundColorId);
         holder.date.setText(inspectionDateText);
         holder.hazardImage.setImageResource(hazardResourceId);
         String issuesText = mContext.getString(R.string.text_issues, issues);
         holder.issues.setText(issuesText);
-//        holder.parentLayout.setBackgroundColor(hazardBackgroundColor);
-        Bitmap bitmap = current_restaurant.getImage();
+        Bitmap bitmap = manager.getImageByTrackingNumber(trackingNumber);
         if(bitmap != null) {
             bitmap = DataFactory.zoomBitmap(bitmap, holder.restaurantImage.getLayoutParams().width, holder.restaurantImage.getLayoutParams().height);
             holder.restaurantImage.setImageBitmap(bitmap);

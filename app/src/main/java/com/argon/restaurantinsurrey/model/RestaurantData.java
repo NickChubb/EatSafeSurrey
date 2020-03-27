@@ -1,5 +1,6 @@
 package com.argon.restaurantinsurrey.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -21,9 +22,8 @@ public class RestaurantData {
     private String type;
     private double lat;
     private double lon;
-    private Bitmap image;
 
-    public RestaurantData(String name, String address, String trackingNumber, String city, String type, double lat, double lon, Bitmap image) {
+    public RestaurantData(String name, String address, String trackingNumber, String city, String type, double lat, double lon) {
         this.name = name;
         this.address = address;
         this.trackingNumber = trackingNumber;
@@ -31,15 +31,6 @@ public class RestaurantData {
         this.type = type;
         this.lat = lat;
         this.lon = lon;
-        this.image = image;
-    }
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
     }
 
     public String getName() {
@@ -59,7 +50,7 @@ public class RestaurantData {
     }
 
     public String getTrackingNumber() {
-        return trackingNumber;
+        return trackingNumber.replaceAll(" ", "");
     }
 
     public void setTrackingNumber(String trackingNumber) {
@@ -98,7 +89,7 @@ public class RestaurantData {
         this.lon = lon;
     }
 
-    public static RestaurantData getRestaurant(String line){
+    public static RestaurantData getRestaurant(Context context, String line){
         String[] splitString = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         String[] noQuotesSplitString = DataFactory.removeQuotesMark(splitString);
 
@@ -118,8 +109,7 @@ public class RestaurantData {
             String type = noQuotesSplitString[4];
             double lat = Double.valueOf(noQuotesSplitString[5]);
             double lon = Double.valueOf(noQuotesSplitString[6]);
-            Bitmap image = DataFactory.getImage(trackingNumber);
-            RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon, image);
+            RestaurantData restaurant = new RestaurantData(name, address, trackingNumber, city, type, lat, lon);
             return restaurant;
         } catch (Exception e){
             Log.e(TAG, "getRestaurant: " + line + " Cannot convert to restaurant data.");
@@ -127,10 +117,10 @@ public class RestaurantData {
         }
     }
 
-    public static ArrayList<RestaurantData> getAllRestaurants(ArrayList<String> lines){
+    public static ArrayList<RestaurantData> getAllRestaurants(Context context, ArrayList<String> lines){
         ArrayList<RestaurantData> data = new ArrayList<>();
         for (String line: lines) {
-            RestaurantData restaurantData = getRestaurant(line);
+            RestaurantData restaurantData = getRestaurant(context, line);
             if(restaurantData != null){
                 data.add(restaurantData);
             }

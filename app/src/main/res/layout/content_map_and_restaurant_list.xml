@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.MapAndRestaurantListActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_map_and_restaurant_list">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/ViewPager_MapAndRestaurantListActivity_vp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10" />
+
+    <RadioGroup
+        android:id="@+id/RadioGroup_MapAndRestaurantListActivity_rg"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/RadioButton_MapAndRestaurantListActivity_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/fragment_map"
+            android:textColor="@color/navi_selector"
+            android:textSize="28sp" />
+
+        <RadioButton
+            android:id="@+id/RadioButton_MapAndRestaurantListActivity_restaurant"
+            android:text="@string/fragment_restaurant"
+            android:textSize="28sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:button="@null"
+            android:textColor="@color/navi_selector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.argon.restaurantinsurrey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -8,10 +9,12 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.DataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.List;
 
 public class MapAndRestaurantListActivity extends AppCompatActivity {
 
-    public static final String INDEX_VALUE = "MapAndRestaurantListActivity";
+    public static final String TAG = "MapAndRestaurantListActivity";
 
     public static Intent makeLaunchIntent(Context c) {
         Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
@@ -41,7 +44,13 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_and_restaurant_list);
+        Toolbar toolbar = findViewById(R.id.toolbar_map_and_restaurant);
+        setSupportActionBar(toolbar);
 
+        Log.i(TAG, "onCreate: ");
+        DataManager.createInstance(this);
+        
+        
         pages = new ArrayList<>();
         pages.add(new MapFragment());
         pages.add(new RestaurantListFragment());
@@ -54,13 +63,11 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-
                 return pages.get(position);
             }
 
             @Override
             public int getCount() {
-
                 return pages.size();
             }
         });
@@ -81,7 +88,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                         radioButton_Restaurant.setChecked(true);
                         break;
                 }
-
             }
 
             @Override
@@ -99,7 +105,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(1,true);
                         break;
                 }
-    });
+        });
 
     }
 }

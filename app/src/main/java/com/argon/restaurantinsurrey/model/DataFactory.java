@@ -13,6 +13,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,7 +36,7 @@ import java.util.Locale;
  */
 public class DataFactory {
 
-    final public static String TAG = "DataFileProcessor";
+    final public static String TAG = "DataFactory";
 
     public static ArrayList<String> readLinesFromAssets(Context context, String filename){
         AssetManager assetManager = context.getAssets();
@@ -90,7 +92,6 @@ public class DataFactory {
         return date;
     }
 
-    public static boolean getDataFromInternet = false;
 
     public static String getStringFromInternet(String urlString){
         HttpURLConnection connection = null;
@@ -121,9 +122,14 @@ public class DataFactory {
         return null;
     }
 
-    private static Bitmap getImageFromInternet(String urlString){
+    private static final String SERVER_URL = "http://www.magicspica.com/files/";
+    private static final String IMAGE_PATH = "images/";
+
+    public static void downloadImageFromServer(Context context, String path){
         HttpURLConnection connection = null;
+
         try {
+            String urlString = SERVER_URL + path;
             URL url = new URL(urlString);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -132,24 +138,38 @@ public class DataFactory {
             connection.connect();
             InputStream inputStream = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
+
+            File filePath = new File(context.getFilesDir(), IMAGE_PATH);
+            if(!filePath.exists()){
+                filePath.mkdirs();
+            }
+            File file=new File(context.getFilesDir(), path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileOutputStream fileOutputStream=new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (Exception e){
-            getDataFromInternet = false;
             e.printStackTrace();
         } finally {
             connection.disconnect();
         }
-        return null;
     }
 
-    private static final String IMAGE_URL = "http://www.magicspica.com/files/images/";
-
-    public static Bitmap getImage(String trackingNumber){
-        if(getDataFromInternet) {
-            String urlString = IMAGE_URL + trackingNumber + ".jpg";
-            return getImageFromInternet(urlString);
-        } else {
-            return null;
+    public static Bitmap getImage(Context context, String imagePath){
+        File file = new File(context.getFilesDir(), imagePath);
+        if(!file.exists()){
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.not_found);
+        }
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
+            return bitmap;
+        } catch (Exception e){
+            e.printStackTrace();
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.not_found);
         }
     }
 

@@ -58,33 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
             //Can use updateManager.hasNetwork() to check the connectivity of network.
             //All functions are pre-checked the network, so those can be used without checking the hasNetWork()
-
-            //TODO: Implement the UpdatingActivity UI.
-
-
-            DataManager.createInstance(this);
-
-            UpdateManager.createInstance(this);
-
-            UpdateManager updateManager = UpdateManager.getInstance();
-
-
-            if(updateManager.getAvailableUpdates() ==  UpdateManager.AvailableUpdates.NO_UPDATE){
-
-                Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-
-            }else{
-
-
-                DataFactory.getDataFromInternet = true;
-
-                Intent i = UpdateActivity.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-
-
-            }
-
+            Intent i = UpdateActivity.makeLaunchIntent(MainActivity.this);
+            startActivity(i);
+            finish();
         };
         handler.postDelayed(runnable,3000);
     }

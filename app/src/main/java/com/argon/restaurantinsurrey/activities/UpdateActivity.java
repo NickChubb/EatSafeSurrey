@@ -1,24 +1,36 @@
 package com.argon.restaurantinsurrey.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.UpdateManager;
+
+import org.w3c.dom.Text;
 
 public class UpdateActivity extends AppCompatActivity {
 
     final public static String TAG = "UpdateActivity";
+
+    private Button cancelButton;
+    private TextView statusTextView;
+    private ProgressBar progressBar;
+    private UpdateManager manager;
 
     public static Intent makeLaunchIntent(Context c) {
         Intent intent = new Intent(c, UpdateActivity.class);
@@ -30,43 +42,106 @@ public class UpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_data);
 
+        manager = UpdateManager.getInstance(this);
 
-        // animation of the update screen
-        setIconAnim();
+        setUpUI();
 
-
-        //This is how to update data
-        //Those four lines should be implemented in the UpdatingActivity rather than here
-        //Please implement the UpdatingActivity, and then move these lines to there.
-
-        UpdateManager updateManager = UpdateManager.getInstance();
-
-        short availableUpdates = updateManager.getAvailableUpdates();
-
-        //AvailableUpdates returns the thing that you need to update
-
-        updateManager.updateData(availableUpdates);
-
-
-        Button btnCancel = findViewById(R.id.button_cancel_update);
-        btnCancel.setOnClickListener(new Button.OnClickListener() {
+        manager.setUpdateStatusListener(new UpdateManager.UpdateStatusListener() {
             @Override
-            public void onClick(View v) {
-                
-                // go to list screen
-                Intent i = RestaurantListActivity.makeLaunchIntent(UpdateActivity.this);
-                startActivity(i);
+            public void onPrepareUpdate(int maxProgress) {
+                progressBar.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                statusTextView.setVisibility(View.VISIBLE);
+                statusTextView.setText(R.string.status_update_waiting);
+                progressBar.setProgress(0, false);
+                progressBar.setMax(maxProgress);
+            }
+
+            @Override
+            public void onStatusUpdated(UpdateManager.UpdateTypes type, int progress, int maxProgress) {
+                switch (type){
+                    case IMAGES:
+                        statusTextView.setText(getString(R.string.status_update_downloading_images, progress, maxProgress));
+                        break;
+                    case REPORTS:
+                        statusTextView.setText(R.string.status_update_downloading_reports);
+                        break;
+                    case RESTAURANTS:
+                        statusTextView.setText(R.string.status_update_downloading_restaurants);
+                        break;
+                }
+                progressBar.setProgress(progress, true);
+                progressBar.setMax(maxProgress);
+            }
+
+            @Override
+            public void onUpdateFinished() {
+                goToMainPage();
+            }
+
+            @Override
+            public void onUpdateCancelled() {
+                goToMainPage();
             }
         });
 
-
+        short availableUpdates = manager.getAvailableUpdates();
+        if (availableUpdates == UpdateManager.AvailableUpdates.NO_UPDATE){
+            goToMainPage();
+        } else {
+            prepareForUpdate(availableUpdates);
+        }
     }
 
-    private void setIconAnim() {
-        ImageView icon = findViewById(R.id.icon_update_arrow);
-        RotateAnimation animation = new RotateAnimation(0.0f, 10.0f * 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);;
-        animation.setDuration(6000); // Change to length of download
-        animation.setRepeatCount(0);
-        icon.startAnimation(animation);
+    private void setUpUI() {
+        cancelButton = findViewById(R.id.button_update_cancel);
+        statusTextView = findViewById(R.id.text_update_status);
+        progressBar = findViewById(R.id.bar_update_progress);
+        cancelButton.setVisibility(View.INVISIBLE);
+        statusTextView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        cancelButton.setOnClickListener(v -> {
+            manager.cancel(true);
+        });
     }
+
+    private void prepareForUpdate(short updates) {
+        final short FINAL_UPDATES = updates;
+        AlertDialog alertDialog;
+        if(updates == UpdateManager.AvailableUpdates.IMAGES){
+            alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.title_update_alert_image_only)
+                    .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
+                        manager.execute(FINAL_UPDATES);
+                    })
+                    .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {
+                        goToMainPage();
+                    })
+                    .create();
+        } else {
+            alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.title_update_alert)
+                    .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
+                        manager.execute(FINAL_UPDATES);
+                    })
+                    .setNegativeButton(R.string.text_update_alert_data_only, (dialog, which) -> {
+                        short updates_without_image = (short) (FINAL_UPDATES & ~UpdateManager.AvailableUpdates.IMAGES);
+                        manager.execute(updates_without_image);
+                    })
+                    .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {
+                        goToMainPage();
+                    })
+                    .create();
+        }
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(getString(R.string.message_update_alert));
+        alertDialog.show();
+    }
+
+    private void goToMainPage(){
+        Intent i = MapAndRestaurantListActivity.makeLaunchIntent(this);
+        startActivity(i);
+        finish();
+    }
+
 }
