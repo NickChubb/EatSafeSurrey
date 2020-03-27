@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -60,7 +61,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onStatusUpdated(UpdateManager.UpdateTypes type, int progress, int maxProgress) {
                 switch (type){
                     case IMAGES:
-                        statusTextView.setText(R.string.status_update_downloading_images);
+                        statusTextView.setText(getString(R.string.status_update_downloading_images, progress, maxProgress));
                         break;
                     case REPORTS:
                         statusTextView.setText(R.string.status_update_downloading_reports);
@@ -88,7 +89,7 @@ public class UpdateActivity extends AppCompatActivity {
         if (availableUpdates == UpdateManager.AvailableUpdates.NO_UPDATE){
             goToMainPage();
         } else {
-            prepareForUpdate();
+            prepareForUpdate(availableUpdates);
         }
     }
 
@@ -104,25 +105,36 @@ public class UpdateActivity extends AppCompatActivity {
         });
     }
 
-    private void prepareForUpdate() {
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.title_update_alert)
-                .setMessage(R.string.message_update_alert)
-                .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
-                    short updates = manager.getAvailableUpdates();
-                    manager.execute(updates);
-                })
-
-                .setNegativeButton(R.string.text_update_alert_data_only, (dialog, which) -> {
-                    short updates = manager.getAvailableUpdates();
-                    updates = (short) (updates & ~UpdateManager.AvailableUpdates.IMAGES);
-                    manager.execute(updates);
-                })
-
-                .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {
-                    goToMainPage();
-                }).create();
-
+    private void prepareForUpdate(short updates) {
+        final short FINAL_UPDATES = updates;
+        AlertDialog alertDialog;
+        if(updates == UpdateManager.AvailableUpdates.IMAGES){
+            alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.title_update_alert_image_only)
+                    .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
+                        manager.execute(FINAL_UPDATES);
+                    })
+                    .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {
+                        goToMainPage();
+                    })
+                    .create();
+        } else {
+            alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.title_update_alert)
+                    .setPositiveButton(R.string.text_update_alert_update, (dialog, which) -> {
+                        manager.execute(FINAL_UPDATES);
+                    })
+                    .setNegativeButton(R.string.text_update_alert_data_only, (dialog, which) -> {
+                        short updates_without_image = (short) (FINAL_UPDATES & ~UpdateManager.AvailableUpdates.IMAGES);
+                        manager.execute(updates_without_image);
+                    })
+                    .setNeutralButton(R.string.text_update_alert_no, (dialog, which) -> {
+                        goToMainPage();
+                    })
+                    .create();
+        }
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(getString(R.string.message_update_alert));
         alertDialog.show();
     }
 
@@ -131,12 +143,5 @@ public class UpdateActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
-
-
-
-
-
-
 
 }

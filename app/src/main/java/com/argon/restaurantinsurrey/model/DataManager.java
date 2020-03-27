@@ -2,11 +2,13 @@ package com.argon.restaurantinsurrey.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  *   This is a singleton manager class to manage all restaurant/violation data.
@@ -40,14 +42,19 @@ public class DataManager {
     final private static String DEFAULT_INSPECTIONS_REPORTS_FILE = "inspectionreports_itr1.csv";
     final private static String DEFAULT_ALL_REPORTS_FILE = "AllViolations.txt";
 
+    final private static String IMAGES_PATHS_FILE = "dir.csv";
     final private static String RESTAURANTS_FILE = "restaurants.csv";
     final private static String INSPECTIONS_REPORTS_FILE = "inspection_reports.csv";
 
     private ArrayList<ReportData> reportData;
     private ArrayList<RestaurantData> restaurantData;
     private ArrayList<ViolationData> validViolations;
+    private HashMap<String, String> imagePathMap;
+    private Context context;
 
     private DataManager(Context context) {
+        this.context = context;
+
         File restaurantsFile = new File(context.getFilesDir(), RESTAURANTS_FILE);
         ArrayList<String> restaurantStrings = null;
         if(restaurantsFile.exists()){
@@ -70,11 +77,31 @@ public class DataManager {
         ArrayList<String> validReportsStrings = DataFactory.readLinesFromAssets(context, DEFAULT_ALL_REPORTS_FILE);
         validViolations = ViolationData.getAllViolations(validReportsStrings);
 
-        this.reportData = ReportData.getAllReports(reportStrings, validViolations);
+         this.reportData = ReportData.getAllReports(reportStrings, validViolations);
         this.reportData.sort((o1, o2) -> {
             int ret = o1.getInspectionDate().after(o2.getInspectionDate())? -1: 1;
             return ret;
         });
+
+        readImagePathsFile();
+    }
+
+    private void readImagePathsFile() {
+        File imagePathsFile = new File(context.getFilesDir(), IMAGES_PATHS_FILE);
+        imagePathMap = new HashMap<>();
+        if (!imagePathsFile.exists()){
+            return;
+        }
+        ArrayList<String> lines = DataFactory.readLinesFromFile(imagePathsFile);
+        for(String line: lines){
+            String[] split = line.split(",");
+            imagePathMap.put(split[0], split[1]);
+        }
+    }
+
+    public Bitmap getImageByTrackingNumber(String trackingNumber){
+        String imagePath = imagePathMap.getOrDefault(trackingNumber, "Default");
+        return DataFactory.getImage(context, imagePath);
     }
 
     public int getRestaurantsSize(){

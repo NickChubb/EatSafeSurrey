@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -46,8 +47,10 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_map_and_restaurant);
         setSupportActionBar(toolbar);
 
+        Log.i(TAG, "onCreate: ");
         DataManager.createInstance(this);
-
+        
+        
         pages = new ArrayList<>();
         pages.add(new MapFragment());
         pages.add(new RestaurantListFragment());

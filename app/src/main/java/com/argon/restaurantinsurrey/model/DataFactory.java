@@ -36,7 +36,7 @@ import java.util.Locale;
  */
 public class DataFactory {
 
-    final public static String TAG = "DataFileProcessor";
+    final public static String TAG = "DataFactory";
 
     public static ArrayList<String> readLinesFromAssets(Context context, String filename){
         AssetManager assetManager = context.getAssets();
@@ -129,7 +129,7 @@ public class DataFactory {
         HttpURLConnection connection = null;
 
         try {
-            String urlString = SERVER_URL + path + ".jpg";
+            String urlString = SERVER_URL + path;
             URL url = new URL(urlString);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -158,11 +158,10 @@ public class DataFactory {
         }
     }
 
-    public static Bitmap getImage(Context context, String trackingNumber){
-        String filename = trackingNumber + ".jpg";
-        File file = new File(context.getFilesDir(), IMAGE_PATH + filename);
+    public static Bitmap getImage(Context context, String imagePath){
+        File file = new File(context.getFilesDir(), imagePath);
         if(!file.exists()){
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.mcdonalds);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.not_found);
         }
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -170,8 +169,7 @@ public class DataFactory {
             return bitmap;
         } catch (Exception e){
             e.printStackTrace();
-            Log.e(TAG, "getImage: " + trackingNumber);
-            return BitmapFactory.decodeResource(context.getResources(), R.drawable.mcdonalds);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.not_found);
         }
     }
 

@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -43,6 +45,7 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
     final private String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
     final private String RESTAURANTS_FILE_NAME = "restaurants.csv";
     final private String REPORTS_FILE_NAME = "inspection_reports.csv";
+    final private String IMAGES_DIR_FILE_NAME = "dir.csv";
 
     private Context context;
     private UpdateStatusListener updateStatusListener;
@@ -52,10 +55,11 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
     private JSONObject reportsData;
     private File restaurantsFile;
     private File reportsFile;
-    private File imagesDir;
+    private File imagesPath;
+    private File imagesDirFile;
     private ConnectivityManager connectivityManager;
     private int maxProgress;
-    private UpdateTypes presentUpdateStatu;
+    private UpdateTypes presentUpdateStatus;
 
     private UpdateManager(Context context){
         this.context = context;
@@ -81,16 +85,22 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
         }
         restaurantsFile = new File(context.getFilesDir(), RESTAURANTS_FILE_NAME);
         reportsFile = new File(context.getFilesDir(), REPORTS_FILE_NAME);
-        imagesDir = context.getFilesDir();
+        imagesPath = context.getFilesDir();
+        imagesDirFile = new File(imagesPath, IMAGES_DIR_FILE_NAME);
 
         maxProgress = 0;
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        maxProgress = 3;
+        updateStatusListener.onPrepareUpdate(maxProgress);
+    }
+
+    @Override
     protected Boolean doInBackground(Short... shorts) {
         short updates = shorts[0];
-        maxProgress = getNumOfUpdates(updates);
-        updateStatusListener.onPrepareUpdate(maxProgress);
         updateData(updates);
         return true;
     }
@@ -98,15 +108,13 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        updateStatusListener.onStatusUpdated(presentUpdateStatu, values[0], values[1]);
+        updateStatusListener.onStatusUpdated(presentUpdateStatus, values[0], values[1]);
     }
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
-        if(aBoolean){
-            updateStatusListener.onUpdateFinished();
-        }
+        updateStatusListener.onUpdateFinished();
     }
 
     @Override
@@ -171,6 +179,8 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
         if (isUpdateAvailable(UpdateTypes.IMAGES)){
             ret |= AvailableUpdates.IMAGES;
         }
+
+
         return ret;
     }
 
@@ -184,23 +194,30 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
         }
         SharedPreferences.Editor editor = preferences.edit();
         if ((updates & AvailableUpdates.REPORTS) > 0){
-            presentUpdateStatu = UpdateTypes.REPORTS;
+            presentUpdateStatus = UpdateTypes.REPORTS;
             publishProgress(presentProgress++, maxProgress);
             writeLatestData(UpdateTypes.REPORTS);
             String latestUpdateTime = getLatestUpdateTime(UpdateTypes.REPORTS);
             editor.putString(LAST_UPDATE_REPORTS_PREFERENCE, latestUpdateTime);
         }
 
+        if(isCancelled()){
+            return;
+        }
+
         if ((updates & AvailableUpdates.RESTAURANTS) > 0){
-            presentUpdateStatu = UpdateTypes.RESTAURANTS;
-            publishProgress(presentProgress++, maxProgress);
+            presentUpdateStatus = UpdateTypes.RESTAURANTS;
+            publishProgress(presentProgress, maxProgress);
             writeLatestData(UpdateTypes.RESTAURANTS);
             String latestUpdateTime = getLatestUpdateTime(UpdateTypes.RESTAURANTS);
             editor.putString(LAST_UPDATE_RESTAURANTS_PREFERENCE, latestUpdateTime);
-
         }
-        if ((updates &AvailableUpdates.IMAGES) > 0){
-            presentUpdateStatu = UpdateTypes.IMAGES;
+
+        if(isCancelled()){
+            return;
+        }
+        if ((updates&AvailableUpdates.IMAGES) > 0){
+            presentUpdateStatus = UpdateTypes.IMAGES;
             downloadImages();
         }
 
@@ -212,22 +229,33 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
 
     private void downloadImages() {
         String string = DataFactory.getStringFromInternet(IMAGE_LIST_URL);
+        DataFactory.writeToFile(string, imagesDirFile);
+
+        ArrayList<String> imagePaths = getImagePaths();
+        int presentProgress = 0;
+        publishProgress(presentProgress, imagePaths.size());
+        for (String imagePath: imagePaths){
+            if (isCancelled()){
+                return;
+            }
+            DataFactory.downloadImageFromServer(context, imagePath);
+            publishProgress(++presentProgress, imagePaths.size());
+        }
+    }
+
+    private ArrayList<String> getImagePaths() {
+        String string = DataFactory.getStringFromInternet(IMAGE_LIST_URL);
         //TODO: CSV MANAGER
         String[] lines = string.split("\n");
         ArrayList<String> imagePaths = new ArrayList<>();
         for(String line: lines){
             String path = line.split(",")[1];
-            File file = new File(imagesDir, path);
+            File file = new File(imagesPath, path);
             if(!file.exists()){
                 imagePaths.add(path);
             }
         }
-        int presentProgress = 0;
-        publishProgress(presentProgress, imagePaths.size());
-        for (String imagePath: imagePaths){
-            DataFactory.downloadImageFromServer(context, imagePath);
-            publishProgress(++presentProgress, imagePaths.size());
-        }
+        return imagePaths;
     }
 
     public boolean hasNetwork(){
@@ -284,6 +312,21 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
     }
 
 
+    private Boolean hasNewImage() {
+        String string = DataFactory.getStringFromInternet(IMAGE_LIST_URL);
+        //TODO: CSV MANAGER
+        String[] lines = string.split("\n");
+        ArrayList<String> imagePaths = new ArrayList<>();
+        for(String line: lines){
+            String path = line.split(",")[1];
+            File file = new File(imagesPath, path);
+            if(!file.exists()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean isUpdateAvailable(UpdateTypes updateTypes){
         String lastUpdateStr = null;
         JSONObject data = null;
@@ -293,18 +336,17 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
                 data = reportsData;
                 break;
             case RESTAURANTS:
-            case IMAGES:
                 lastUpdateStr = preferences.getString(LAST_UPDATE_RESTAURANTS_PREFERENCE, "2015-08-14T10:50:38.365988");
                 data = restaurantsData;
                 break;
+            case IMAGES:
+                return hasNewImage();
         }
 
         Date lastUpdateDate = DataFactory.getDate(lastUpdateStr, DATE_FORMAT);
 
         String newestDataStr = getLatestUpdateTime(updateTypes);
         Date newestDataDate = DataFactory.getDate(newestDataStr, DATE_FORMAT);
-        Log.i(TAG, "isUpdateAvailable: " + lastUpdateDate);
-        Log.i(TAG, "isUpdateAvailable: " + newestDataDate);
         return newestDataDate.after(lastUpdateDate);
     }
 }
