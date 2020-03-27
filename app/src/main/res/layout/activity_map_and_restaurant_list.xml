@@ -1,50 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activities.MapAndRestaurantListActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/ViewPager_MapAndRestaurantListActivity_vp"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10" />
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <RadioGroup
-        android:id="@+id/RadioGroup_MapAndRestaurantListActivity_rg"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="0dp">
-
-        <RadioButton
-            android:id="@+id/RadioButton_MapAndRestaurantListActivity_map"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_map_and_restaurant"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center"
-            android:text="@string/map"
-            android:textColor="@color/navi_selector"
-            android:textSize="28sp" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_MapAndRestaurantListActivity_restaurant"
-            android:text="@string/restaurant"
-            android:textSize="28sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:button="@null"
-            android:textColor="@color/navi_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    </com.google.android.material.appbar.AppBarLayout>
 
+    <include layout="@layout/content_map_and_restaurant_list" />
 
-    </RadioGroup>
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

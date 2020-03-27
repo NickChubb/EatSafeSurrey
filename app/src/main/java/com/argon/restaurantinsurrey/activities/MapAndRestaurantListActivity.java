@@ -1,6 +1,7 @@
 package com.argon.restaurantinsurrey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class MapAndRestaurantListActivity extends AppCompatActivity {
 
-    public static final String INDEX_VALUE = "MapAndRestaurantListActivity";
+    public static final String TAG = "MapAndRestaurantListActivity";
 
     public static Intent makeLaunchIntent(Context c) {
         Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
@@ -42,6 +43,8 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_and_restaurant_list);
+        Toolbar toolbar = findViewById(R.id.toolbar_map_and_restaurant);
+        setSupportActionBar(toolbar);
 
         DataManager.createInstance(this);
 
@@ -57,13 +60,11 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-
                 return pages.get(position);
             }
 
             @Override
             public int getCount() {
-
                 return pages.size();
             }
         });
