@@ -35,6 +35,7 @@
         android:layout_height="179dp"
         app:layout_constraintBottom_toTopOf="@+id/text_updating"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/updating" />
 </androidx.constraintlayout.widget.ConstraintLayout>

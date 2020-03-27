@@ -6,6 +6,10 @@
     <string name="basic_date_format">MM/dd/yyyy</string>
     <string name="text_other">OTHER</string>
 
+    <string name="text_high_hazard">HIGH</string>
+    <string name="text_moderate_hazard">MODERATE</string>
+    <string name="text_low_hazard">LOW</string>
+
     <!--    MainActivity    -->
     <string name="welcome">Welcome!</string>
     <string name="by_argon">By: Argon</string>
@@ -29,9 +33,6 @@
     <string name="title_violations">Violations: </string>
     <string name="title_no_violations">No violations available</string>
     <string name="title_hazard_level">Hazard Level: </string>
-    <string name="text_high_hazard">HIGH</string>
-    <string name="text_moderate_hazard">MODERATE</string>
-    <string name="text_low_hazard">LOW</string>
     <string name="text_critical_issues">Critical issues: %d</string>
     <string name="text_non_critical_issues">Non critical issues: %d</string>
     <string name="text_follow_up_inspection">Follow-Up</string>
@@ -44,6 +45,7 @@
     <string name="text_inspection_no_date">None</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_map_and_restaurant_list">MapAndRestaurantListActivity</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -55,10 +57,9 @@
     <string name="map">MAP</string>
     <string name="restaurant">RESTAURANT</string>
 
-    <!--    Map Activity    -->
+    <!--    Map Fragment    -->
     <string name="text_map_activity_see_reports">See Reports</string>
-    <string name="text_map_activity_low">LOW</string>
-    <string name="text_map_activity_medium">MODERATE</string>
-    <string name="text_map_activity_high">HIGH</string>
+    <string name="text_map_activity_address_detail">Address: %s</string>
+
 
 </resources>

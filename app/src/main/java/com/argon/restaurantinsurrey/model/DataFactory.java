@@ -212,7 +212,7 @@ public class DataFactory {
             case HIGH:
                 return R.drawable.red_warning_sign;
             default:
-                return R.drawable.green_warning_sign;
+                return R.drawable.grey_warning_sign;
         }
     }
 

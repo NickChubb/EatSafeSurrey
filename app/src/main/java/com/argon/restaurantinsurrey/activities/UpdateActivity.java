@@ -54,7 +54,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 
                 // go to list screen
-                Intent i = RestaurantListActivity.makeLaunchIntent(UpdateActivity.this);
+                Intent i = MapAndRestaurantListActivity.makeLaunchIntent(UpdateActivity.this);
                 startActivity(i);
             }
         });

@@ -61,30 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
             //TODO: Implement the UpdatingActivity UI.
 
-
-            DataManager.createInstance(this);
-
             UpdateManager.createInstance(this);
 
             UpdateManager updateManager = UpdateManager.getInstance();
 
+            Intent i = null;
 
             if(updateManager.getAvailableUpdates() ==  UpdateManager.AvailableUpdates.NO_UPDATE){
-
-                Intent i = RestaurantListActivity.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-
+                i = MapAndRestaurantListActivity.makeLaunchIntent(MainActivity.this);
             }else{
-
-
-                DataFactory.getDataFromInternet = true;
-
-                Intent i = UpdateActivity.makeLaunchIntent(MainActivity.this);
-                startActivity(i);
-
-
+                DataFactory.getDataFromInternet = false;
+                i = UpdateActivity.makeLaunchIntent(MainActivity.this);
             }
-
+            startActivity(i);
         };
         handler.postDelayed(runnable,3000);
     }
