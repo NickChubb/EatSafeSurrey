@@ -221,6 +221,10 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
             downloadImages();
         }
 
+        if(isCancelled()){
+            return;
+        }
+
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
         String presentDateStr = format.format(presentDate);
         editor.putString(LAST_UPDATE_DATA_PREFERENCE, presentDateStr);
