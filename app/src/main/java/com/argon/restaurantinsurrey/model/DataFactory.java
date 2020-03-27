@@ -13,6 +13,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,7 +36,7 @@ import java.util.Locale;
  */
 public class DataFactory {
 
-    final public static String TAG = "DataFactory";
+    final public static String TAG = "DataFileProcessor";
 
     public static ArrayList<String> readLinesFromAssets(Context context, String filename){
         AssetManager assetManager = context.getAssets();
@@ -90,7 +92,6 @@ public class DataFactory {
         return date;
     }
 
-    public static boolean getDataFromInternet = false;
 
     public static String getStringFromInternet(String urlString){
         HttpURLConnection connection = null;
@@ -121,9 +122,13 @@ public class DataFactory {
         return null;
     }
 
-    private static Bitmap getImageFromInternet(String urlString){
+    private static final String SERVER_URL = "http://www.magicspica.com/files/";
+    private static final String IMAGE_PATH = "images/";
+
+    private static void downloadImageFromServer(Context context, String trackingNumber){
         HttpURLConnection connection = null;
         try {
+            String urlString = SERVER_URL + IMAGE_PATH + trackingNumber + ".jpg";
             URL url = new URL(urlString);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
@@ -132,24 +137,36 @@ public class DataFactory {
             connection.connect();
             InputStream inputStream = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
+
+            String filename = trackingNumber + ".jpg";
+            File file=new File(context.getFilesDir(), IMAGE_PATH + filename);
+            FileOutputStream fileOutputStream=new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (Exception e){
-            getDataFromInternet = false;
             e.printStackTrace();
         } finally {
             connection.disconnect();
         }
-        return null;
     }
 
-    private static final String IMAGE_URL = "http://www.magicspica.com/files/images/";
 
-    public static Bitmap getImage(String trackingNumber){
-        if(getDataFromInternet) {
-            String urlString = IMAGE_URL + trackingNumber + ".jpg";
-            return getImageFromInternet(urlString);
-        } else {
-            return null;
+
+    public static Bitmap getImage(Context context, String trackingNumber){
+        String filename = trackingNumber + ".jpg";
+        File file = new File(context.getFilesDir(), IMAGE_PATH + filename);
+        if(!file.exists()){
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.mcdonalds);
+        }
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
+            return bitmap;
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, "getImage: " + trackingNumber);
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.mcdonalds);
         }
     }
 
@@ -189,6 +206,7 @@ public class DataFactory {
             return context.getString(R.string.text_inspection, dayCount);
         }
         else if(dayCount >30 && dayCount <= 365){
+//          int month = calTargetDate.get(Calendar.MONTH) + 1;
             String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
             int day = calTargetDate.get(Calendar.DATE);
             return context.getString(R.string.text_inspection_by_date_less_one_year, month, day);
@@ -196,6 +214,8 @@ public class DataFactory {
         else {
             int year = calTargetDate.get(Calendar.YEAR);
             String month =calTargetDate.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+//            int month = calTargetDate.get(Calendar.MONTH) + 1;
+//            int day = calTargetDate.get(Calendar.DATE);
             return context.getString(R.string.text_inspection_by_date, month, year);
         }
     }
@@ -209,7 +229,20 @@ public class DataFactory {
             case HIGH:
                 return R.drawable.red_warning_sign;
             default:
-                return R.drawable.grey_warning_sign;
+                return R.drawable.green_warning_sign;
+        }
+    }
+
+    public static int getHazardRatingBackgroundColor(ReportData.HazardRating hazardRating){
+        switch (hazardRating){
+            case LOW:
+                return R.color.hazardBackgroundLow;
+            case MODERATE:
+                return R.color.hazardBackgroundModerate;
+            case HIGH:
+                return R.color.hazardBackgroundHigh;
+            default:
+                return R.color.hazardBackgroundLow;
         }
     }
 
