@@ -89,8 +89,6 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
     }
 
     private void setUpUI(){
-
-
         TextView restaurantAddressTextView = findViewById(R.id.text_restaurant_detail_address);
         TextView restaurantNameTextView = findViewById(R.id.text_restaurant_detail_name);
 

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -246,17 +248,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void getDeviceLocation(){
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         try{
-            if(locationPermissionsGranted){
+            int locationMode = Settings.Secure.getInt(getContext().getContentResolver(), Settings.Secure.LOCATION_MODE);
+            if(locationPermissionsGranted && locationMode != Settings.Secure.LOCATION_MODE_OFF){
                 Task location = fusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Log.d(TAG, "found location");
                         Location currentLocation = (Location) task.getResult();
 
-                        LatLng currentLatLng = new LatLng(currentLocation.getLatitude(),
-                                currentLocation.getLongitude());
+                        if(currentLocation != null) {
+                            LatLng currentLatLng = new LatLng(currentLocation.getLatitude(),
+                                    currentLocation.getLongitude());
 
-                        moveCamera(currentLatLng);
+                            moveCamera(currentLatLng);
+                        }
                     }
                     else{
                         Log.d(TAG, "location not found");
@@ -267,6 +272,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 

@@ -3,6 +3,7 @@ package com.argon.restaurantinsurrey.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +87,10 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             holder.restaurantImage.setImageBitmap(bitmap);
         }
 
+        int p = restaurantsListFull.indexOf(current_restaurant);
         holder.itemView.setOnClickListener(v -> {
             //launches calculate activity on ListView item click
-            Intent intent = RestaurantDetailActivity.makeLaunchIntent(mContext, position);
+            Intent intent = RestaurantDetailActivity.makeLaunchIntent(mContext, p);
             mContext.startActivity(intent);
         });
     }
