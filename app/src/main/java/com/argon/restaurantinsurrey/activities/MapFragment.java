@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -94,11 +96,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText.isEmpty()){
-                    resetClusterManager();
+                    clusterManager.addItems(clusterMarkerList);
+                    clusterManager.cluster();
                 }
                 else{
-                    clusterManager.clearItems();
-                    clusterManager.cluster();
+                    clusterManager.getFilter().filter(newText);
                 }
                 return false;
             }
@@ -106,13 +108,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void resetClusterManager(){
-
-        for(ClusterMarker clusterMarker : clusterMarkerList){
-            clusterManager.addItem(clusterMarker);
-        }
-        clusterManager.cluster();
-    }
 
     private void addMapMarkers(){
 
@@ -354,7 +349,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addMapMarkers();
     }
 
-    private static class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
+    private class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> implements Filterable {
         CustomClusterManager(Context context, GoogleMap map) {
             super(context, map);
         }
@@ -370,6 +365,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
             return true;
         }
+
+        @Override
+        public Filter getFilter() {
+            return mapFilter;
+        }
+
+        private Filter mapFilter = new Filter(){
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                List<ClusterMarker> filteredClusterMarkers = new ArrayList<>();
+
+                if(constraint == null || constraint.length() == 0){
+                    filteredClusterMarkers.addAll(clusterMarkerList);
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+
+                    for(ClusterMarker clusterMarker : clusterMarkerList){
+                        if(clusterMarker.getTitle().toLowerCase().contains(filterPattern)){
+                            filteredClusterMarkers.add(clusterMarker);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = filteredClusterMarkers;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                clusterManager.clearItems();
+                clusterManager.addItems((List)results.values);
+                clusterManager.cluster();
+            }
+        };
+
     }
 }
 /*Resources:
