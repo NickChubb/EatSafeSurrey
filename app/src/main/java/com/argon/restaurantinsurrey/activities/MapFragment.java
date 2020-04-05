@@ -70,6 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
+    
 
     @Nullable
     @Override
@@ -93,7 +94,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 clusterManager.setRenderer(clusterManagerRenderer);
             }
             for(int i = 0; i < restaurantLatLngList.size(); i++){
-
                 LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude,
                         restaurantLatLngList.get(i).longitude);
                 String title = restaurantDataList.get(i).getName();
@@ -121,7 +121,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 );
                 clusterManager.addItem(clusterMarker);
                 clusterMarkerList.add(clusterMarker);
-
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);

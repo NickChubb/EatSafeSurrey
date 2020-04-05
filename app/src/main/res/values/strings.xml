@@ -53,6 +53,7 @@
     <!--    Map Fragment    -->
     <string name="text_map_activity_see_reports">See Reports</string>
     <string name="text_map_activity_address_detail">Address: %s</string>
+    <string name="enter_a_restaurant_name">Enter a restaurant name</string>
 
     <!-- UpdateActivity -->
     <string name="status_update_waiting">Waiting…</string>
