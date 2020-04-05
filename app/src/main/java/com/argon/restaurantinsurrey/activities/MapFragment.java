@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -15,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -70,7 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
-    
+    private SearchView searchView;
 
     @Nullable
     @Override
@@ -79,7 +78,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         setUpVariables();
         initializeMap();
         getLocationPermission();
+        setUpSearchBar();
         return viewFrag;
+    }
+
+    private void setUpSearchBar() {
+        searchView = (SearchView)viewFrag.findViewById(R.id.search_bar_map_fragment);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                
+
+                return false;
+            }
+        });
+
     }
 
     private void addMapMarkers(){
