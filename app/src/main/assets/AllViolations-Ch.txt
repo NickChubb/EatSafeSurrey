@@ -1,0 +1,39 @@
+All violations from Surrey's data set:
+
+101,Not Critical,不符合规例的计划/构造/改动 [s. 3; s. 4],Not Repeat
+102,Not Critical,经营未经批准的食物业处所 [s. 6(1)],Not Repeat
+103,Not Critical,经营食品服务机构时未持有有效许可证 [s. 8(1)],Not Repeat
+104,Not Critical,许可证未张贴在明显的位置 [s. 8(7)],Not Repeat
+201,Critical,被污染的或不适合人类食用的食物 [s. 13],Not Repeat
+202,Critical,未加工成可以安全食用的食物 [s. 14(1)],Not Repeat
+203,Critical,食物未以恰当的方式冷却 [s. 12(a)],Not Repeat
+204,Critical,未煮熟或未加热到可以安全食用的食物 [s. 14(1)],Not Repeat
+205,Critical,在4°C以上冷藏存储/陈列有潜在危险的食品 [s. 14(2)],Not Repeat
+206,Critical,在60°C以下存储/陈列潜在潜在危险食品 [s. 14(2)],Not Repeat
+207,Critical,以前提供的食物未丢弃 [s. 15],Not Repeat
+208,Not Critical,从未经批准的来源获得的食物 [s. 11],Not Repeat
+209,Not Critical,没有保护食物不受污染 [s. 12(a)],Not Repeat
+210,Not Critical,食物未以恰当的的方式解冻 [s. 14(2)],Not Repeat
+211,Not Critical,在-18°C以上冷冻存储/陈列潜在危险食品 [s. 14(3)],Not Repeat
+212,Not Critical,操作员未提供可接受的书面食品处理程序 [s. 23],Not Repeat
+301,Critical,设备/器具/食物接触面未保持卫生 [s. 17(1)],Not Repeat
+302,Critical,设备/器具/食物接触面未正确清洗和消毒 [s. 17(2)],Not Repeat
+303,Critical,设备/设施/冷热水卫生维护不足 [s. 17(3); s. 4(1)(f)],Not Repeat
+304,Not Critical,营业处有害虫 [s. 26(a)],Not Repeat
+305,Not Critical,观察到的环境可能使有害生物进入/携带/繁殖 [s. 26(b)(c)],Not Repeat
+306,Not Critical,食品处所未保持卫生 [s. 17(1)],Not Repeat
+307,Not Critical,设备/器具/食物接触面的设计/材料不合适 [s. 16; s. 19],Not Repeat
+308,Not Critical,设备/器具/食物接触面工作不正常 [s. 16(b)],Not Repeat
+309,Not Critical,化学清洁剂和类似试剂的存储或标签不正确 [s. 27],Not Repeat
+310,Not Critical,一次性容器和用具多次使用 [s. 20],Not Repeat
+311,Not Critical,未按批准的计划维护营业处 [s. 6(1)(b)],Not Repeat
+312,Not Critical,食品经营场所不需要的物品被存储在经营场所 [s. 18],Not Repeat
+313,Not Critical,营业处内有活体动物，但不包括批准区域内的引导动物 [s. 25(1)],Not Repeat
+314,Not Critical,经营者未提供正确的书面卫生程序 [s. 24],Not Repeat
+315,Not Critical,制冷设备和保温设备缺少精确的温度计 [s. 19(2)],Not Repeat
+401,Critical,员工没有足够的洗手台 [s. 21(4)],Not Repeat
+402,Critical,员工没有正确或频繁地洗手 [s. 21(3)],Not Repeat
+403,Not Critical,员工缺乏良好的个人卫生习惯，没有干净的衣服和头发 [s. 21(1)],Not Repeat
+404,Not Critical,员工在食品准备/加工/存储区域吸烟 [s. 21(2)],Not Repeat
+501,Not Critical,运营商没有食品安全1级或同等水平 [s. 10(1)],Not Repeat
+502,Not Critical,在操作员不在的情况下，没有值班人员具有食品安全1级或同等水平 [s. 10(2)],Not Repeat
