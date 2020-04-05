@@ -93,12 +93,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                
-
+                if(newText.isEmpty()){
+                    resetClusterManager();
+                }
+                else{
+                    clusterManager.clearItems();
+                    clusterManager.cluster();
+                }
                 return false;
             }
         });
 
+    }
+
+    private void resetClusterManager(){
+
+        for(ClusterMarker clusterMarker : clusterMarkerList){
+            clusterManager.addItem(clusterMarker);
+        }
+        clusterManager.cluster();
     }
 
     private void addMapMarkers(){
