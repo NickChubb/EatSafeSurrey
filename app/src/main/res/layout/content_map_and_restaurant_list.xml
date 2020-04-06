@@ -9,12 +9,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_map_and_restaurant_list">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/ViewPager_MapAndRestaurantListActivity_vp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10" />
-
     <SearchView
         android:id="@+id/search_bar_map_and_list_activity"
         android:layout_width="match_parent"
@@ -27,10 +21,16 @@
         android:elevation="5dp"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fragment_map"
-        app:layout_constraintStart_toEndOf="@id/fragment_map"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/enter_a_restaurant_name" />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/ViewPager_MapAndRestaurantListActivity_vp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10" />
+
 
     <RadioGroup
         android:id="@+id/RadioGroup_MapAndRestaurantListActivity_rg"

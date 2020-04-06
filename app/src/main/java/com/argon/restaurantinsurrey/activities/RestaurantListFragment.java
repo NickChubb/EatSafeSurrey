@@ -38,7 +38,7 @@ public class RestaurantListFragment extends Fragment {
 
         adapter = new RestaurantRecyclerAdapter(getActivity());
         list.setAdapter(adapter);
-        
+
         return view;
     }
 
