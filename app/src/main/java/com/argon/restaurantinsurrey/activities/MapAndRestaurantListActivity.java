@@ -4,20 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.ui.ClusterMarker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /*
  *
@@ -25,7 +31,7 @@ import java.util.List;
  *
  */
 
-public class MapAndRestaurantListActivity extends AppCompatActivity {
+public class MapAndRestaurantListActivity extends AppCompatActivity{
 
     public static final String TAG = "MapAndRestaurantListActivity";
 
@@ -38,7 +44,10 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
     private List<Fragment> pages;
     private RadioButton radioButton_Map;
     private RadioButton radioButton_Restaurant;
+    private Fragment mapFragment;
+    private Fragment restaurantListFragment;
 
+    private String searchText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +61,13 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         
         
         pages = new ArrayList<>();
-        pages.add(new MapFragment());
-        pages.add(new RestaurantListFragment());
+
+        mapFragment = new MapFragment();
+        restaurantListFragment = new RestaurantListFragment();
+
+        pages.add(mapFragment);
+
+        pages.add(restaurantListFragment);
 
         viewPager = (ViewPager)findViewById(R.id.ViewPager_MapAndRestaurantListActivity_vp);
         radioGroup = (RadioGroup)findViewById(R.id.RadioGroup_MapAndRestaurantListActivity_rg);
@@ -80,6 +94,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                FragmentTransaction fragmentTransaction;
                 switch (position){
                     case 0:
                         radioButton_Map.setChecked(true);
@@ -107,5 +122,28 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                 }
         });
 
+        setUpSearchBar();
+    }
+
+    private void setUpSearchBar() {
+        SearchView searchView = (SearchView) findViewById(R.id.search_bar_map_and_list_activity);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ((MapFragment)pages.get(0)).refreshMap(newText);
+                ((RestaurantListFragment)pages.get(1)).refreshList(newText);
+                return false;
+            }
+        });
+
+    }
+
+    public String getSearchText() {
+        return searchText;
     }
 }

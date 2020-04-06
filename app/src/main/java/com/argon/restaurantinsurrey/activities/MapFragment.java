@@ -67,11 +67,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
     private List<ReportData> reportDataList;
+
+
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
     private SearchView searchView;
+
 
     @Nullable
     @Override
@@ -80,34 +83,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         setUpVariables();
         initializeMap();
         getLocationPermission();
-        setUpSearchBar();
         return viewFrag;
     }
-
-    private void setUpSearchBar() {
-        searchView = (SearchView)viewFrag.findViewById(R.id.search_bar_map_fragment);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.isEmpty()){
-                    clusterManager.addItems(clusterMarkerList);
-                    clusterManager.cluster();
-                }
-                else{
-                    clusterManager.getFilter().filter(newText);
-                }
-                return false;
-            }
-        });
-
-    }
-
 
     private void addMapMarkers(){
 
@@ -349,7 +326,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addMapMarkers();
     }
 
-    private class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> implements Filterable {
+    public class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> implements Filterable {
         CustomClusterManager(Context context, GoogleMap map) {
             super(context, map);
         }
@@ -404,6 +381,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         };
 
     }
+
+    public void refreshMap(String searchText){
+        clusterManager.getFilter().filter(searchText);
+    }
+
 }
 /*Resources:
 * https://github.com/menismu/android-maps-utils/blob/master/demo/src/com/google/maps/android/utils/demo/ClusteringSameLocationActivity.java#L107

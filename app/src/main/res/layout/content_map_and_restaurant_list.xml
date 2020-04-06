@@ -15,6 +15,23 @@
         android:layout_height="wrap_content"
         android:layout_weight="10" />
 
+    <SearchView
+        android:id="@+id/search_bar_map_and_list_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/search_bar_round"
+        android:elevation="5dp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragment_map"
+        app:layout_constraintStart_toEndOf="@id/fragment_map"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="@string/enter_a_restaurant_name" />
+
     <RadioGroup
         android:id="@+id/RadioGroup_MapAndRestaurantListActivity_rg"
         android:layout_weight="0"
@@ -48,5 +65,7 @@
 
 
     </RadioGroup>
+
+
 
 </LinearLayout>
