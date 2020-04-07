@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,28 +22,20 @@ import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
 
-/*
- *   This is the adapter for showing each restaurant in the RecyclerView of RestaurantListActivity.
- *
- */
+public class UpdatedFavoritesAdapter extends RecyclerView.Adapter<UpdatedFavoritesAdapter.ImageViewHolder> {
 
-public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRecyclerAdapter.ImageViewHolder> implements Filterable {
-
-    final public static String TAG = "RestaurantRecyclerAdapter";
-
-    private DataManager manager;
+    final public static String TAG = "UpdatedFavoritesAdapter";
 
     private Context mContext;
 
+    private DataManager manager;
     private ArrayList<RestaurantData> restaurants;
-    private ArrayList<RestaurantData> restaurantsListFull;
 
-    public RestaurantRecyclerAdapter(Context mContext){
-        this.manager = DataManager.getInstance();
+    public UpdatedFavoritesAdapter(Context mContext) {
         this.mContext = mContext;
 
-        restaurants = manager.createRestaurantsList();
-        restaurantsListFull = manager.createRestaurantsList();
+        manager = DataManager.getInstance();
+        restaurants = manager.createFavoriteList();
     }
 
     @NonNull
@@ -56,8 +46,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         RestaurantData current_restaurant = restaurants.get(position);
         String trackingNumber = current_restaurant.getTrackingNumber();
 
@@ -97,42 +86,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     @Override
     public int getItemCount() {
         return restaurants.size();
-}
-
-    @Override
-    public Filter getFilter() {
-        return restaurantFilter;
     }
-
-    private Filter restaurantFilter = new Filter(){
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint){
-            ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
-
-            if(constraint == null || constraint.length() == 0){
-                filteredRestaurantList.addAll(restaurantsListFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for(RestaurantData restaurant : restaurantsListFull){
-                        if(restaurant.getName().toLowerCase().contains(filterPattern)){
-                            filteredRestaurantList.add(restaurant);
-                        }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredRestaurantList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            restaurants.clear();
-            restaurants.addAll((ArrayList)results.values);
-            notifyDataSetChanged();
-        }
-    };
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder{
         TextView name;
@@ -149,7 +103,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             name = itemView.findViewById(R.id.text_restaurant_list_name);
             date = itemView.findViewById(R.id.text_restaurant_list_date);
             issues = itemView.findViewById(R.id.text_restaurant_list_issue_num);
-            parentLayout = itemView.findViewById(R.id.restaurantRecyclerLayout);
+            parentLayout = itemView.findViewById(R.id.list_updated_notification);
         }
     }
 

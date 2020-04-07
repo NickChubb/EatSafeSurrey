@@ -206,8 +206,20 @@ public class DataManager {
         return favoriteList.size();
     }
 
+    public RestaurantData getFavoriteRestaurant(int index){
+        return favoriteList.get(index);
+    }
+
     public void swapFavoriteListElements(int firstIndex, int secondIndex){
         Collections.swap(favoriteList, firstIndex, secondIndex);
+    }
+
+    public boolean hasNewUpdatedFavorites(){
+        return violationUpdatedFavorites.size() > 0;
+    }
+
+    public int getIndexForRestaurant(RestaurantData restaurant){
+        return restaurantData.indexOf(restaurant);
     }
 
     public ArrayList<ReportData> getReports(String trackingNumber){
