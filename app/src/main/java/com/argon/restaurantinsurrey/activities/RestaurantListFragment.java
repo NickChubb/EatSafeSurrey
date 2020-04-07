@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class RestaurantListFragment extends Fragment {
 
     final public static String TAG = "RestaurantListFragment";
     private RestaurantRecyclerAdapter adapter;
+
 
     @Nullable
     @Override
@@ -45,5 +47,10 @@ public class RestaurantListFragment extends Fragment {
     public void refreshList(String searchText){
         adapter.getFilter().filter(searchText);
     }
+
+    public void filterHazardLevel(ReportData.HazardRating hazardRating){
+        adapter.filterHazardLevel(hazardRating);
+    }
+
 
 }

@@ -192,6 +192,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
         cancelButton.setOnClickListener(click -> filterDialog.dismiss());
         okButton.setOnClickListener(click-> {
             ((MapFragment) pages.get(0)).filterHazardLevel(hazardLevelFilterOption);
+            ((RestaurantListFragment)pages.get(1)).filterHazardLevel(hazardLevelFilterOption);
             filterDialog.dismiss();
         });
 
