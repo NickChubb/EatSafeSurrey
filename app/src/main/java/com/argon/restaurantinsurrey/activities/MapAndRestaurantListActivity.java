@@ -26,9 +26,11 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.ui.ClusterMarker;
 
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
     private Fragment mapFragment;
     private Fragment restaurantListFragment;
     private AlertDialog filterDialog;
+    private ReportData.HazardRating hazardLevelFilterOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,20 +160,41 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
             RadioButton radioButton = new RadioButton(this);
 
-            radioButton.setText(level);
+            radioButton.setText(getResources().getString(R.string.hazard_level) + level);
 
-            // TODO: set on-click callbacks
+            radioButton.setOnClickListener(click->{
+
+               if (level.equals(getResources().getString(R.string.hazard_level_filter_option_low))){
+                    hazardLevelFilterOption = ReportData.HazardRating.LOW;
+                }
+                else if (level.equals(getResources().getString(R.string.hazard_level_filter_option_moderate))){
+                    hazardLevelFilterOption = ReportData.HazardRating.MODERATE;
+                }
+                else if (level.equals(getResources().getString(R.string.hazard_level_filter_option_high))){
+                    hazardLevelFilterOption = ReportData.HazardRating.HIGH;
+                }
+                else {
+                    hazardLevelFilterOption = null;
+                }
+            });
+
             radioGroup.addView(radioButton);
         }
-
-
-
-
-
 
         builder.setView(view);
         filterDialog = builder.create();
         filterDialog.show();
+
+        Button cancelButton = view.findViewById(R.id.button_filter_dialog_cancel);
+        Button okButton = view.findViewById(R.id.button_filter_dialog_ok);
+
+        cancelButton.setOnClickListener(click -> filterDialog.dismiss());
+        okButton.setOnClickListener(click-> {
+            ((MapFragment) pages.get(0)).filterHazardLevel(hazardLevelFilterOption);
+            filterDialog.dismiss();
+
+        });
+
     }
 
     private void setUpSearchBar() {

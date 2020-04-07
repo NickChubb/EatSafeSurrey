@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -72,8 +71,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
+    private List<ClusterMarker> nameFilteredClusterMarkerList = new ArrayList<>();
     private View viewFrag;
-    private SearchView searchView;
 
 
     @Nullable
@@ -125,6 +124,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 );
                 clusterManager.addItem(clusterMarker);
                 clusterMarkerList.add(clusterMarker);
+                nameFilteredClusterMarkerList.add(clusterMarker);
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
@@ -375,7 +375,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 clusterManager.clearItems();
+                nameFilteredClusterMarkerList.clear();
                 clusterManager.addItems((List)results.values);
+                nameFilteredClusterMarkerList.addAll((List)results.values);
                 clusterManager.cluster();
             }
         };
@@ -384,6 +386,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void refreshMap(String searchText){
         clusterManager.getFilter().filter(searchText);
+    }
+
+    public void filterHazardLevel(ReportData.HazardRating hazardRating){
+
+        if(hazardRating == null){
+            clusterManager.clearItems();
+            clusterManager.addItems(nameFilteredClusterMarkerList);
+            clusterManager.cluster();
+        }
+        else {
+            List<ClusterMarker> filterHazards = new ArrayList<>();
+
+
+            for (ClusterMarker clusterMarker : nameFilteredClusterMarkerList) {
+
+                if (clusterMarker.getHazardRating().equals(hazardRating) == true) {
+                    filterHazards.add(clusterMarker);
+                }
+            }
+
+            clusterManager.clearItems();
+            clusterManager.addItems(filterHazards);
+            clusterManager.cluster();
+        }
     }
 
 }

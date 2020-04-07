@@ -53,10 +53,20 @@
     <!--    Map Fragment    -->
     <string name="text_map_activity_see_reports">See Reports</string>
     <string name="text_map_activity_address_detail">Address: %s</string>
+
+
+    <!--    Map and List Activity   -->
     <string name="enter_a_restaurant_name">Enter a restaurant name</string>
     <string name="text_filter_by">Filter by</string>
     <string name="text_min_critical_violations">Minimum Critical Violations:</string>
     <string name="text_max_critical_violations">Maximum Critical Violations:</string>
+    <string name="hazard_level">Hazard level:   </string>
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">CANCEL</string>
+    <string name="hazard_level_filter_option_none">NONE</string>
+    <string name="hazard_level_filter_option_low">LOW</string>
+    <string name="hazard_level_filter_option_moderate">MODERATE</string>
+    <string name="hazard_level_filter_option_high">HIGH</string>
 
     <!-- UpdateActivity -->
     <string name="status_update_waiting">Waiting…</string>
