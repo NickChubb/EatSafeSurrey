@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="violation_short_descriptions">
+        <item>101, 计划不符合规范</item>
+        <item>102, 营业未经批准</item>
+        <item>103, 无有效许可证</item>
+        <item>104, 许可证未张贴</item>
+        <item>201, 食物未加工</item>
+        <item>202, 食物未安全处理</item>
+        <item>203, 食物未冷却</item>
+        <item>204, 食物未加热</item>
+        <item>205, 食物在4 °C以上存储</item>
+        <item>206, 热食在60 °C以下</item>
+        <item>207, 食物未丢弃</item>
+        <item>208, 食物来源未经批准</item>
+        <item>209, 食物未受保护</item>
+        <item>210, 食物未解冻恰当</item>
+        <item>211, 冷冻食物在-18 °C以上存储</item>
+        <item>212, 食物处理方式不可接受</item>
+        <item>301, 设备未保持卫生</item>
+        <item>302, 设备未正确清洗和消毒</item>
+        <item>303, 设施维护不足</item>
+        <item>304, 营业处有害虫</item>
+        <item>305, 潜在害虫威胁</item>
+        <item>306, 食物处所不卫生</item>
+        <item>307, 设备设计不恰当</item>
+        <item>308, 设备工作不正常</item>
+        <item>309, 化学物品处理不恰当</item>
+        <item>310, 一次性设备多次使用</item>
+        <item>311, 维护方法未经批准</item>
+        <item>312, 不需要的物品被存储</item>
+        <item>313, 营业处内有活体动物</item>
+        <item>314, 未提供正确卫生程序</item>
+        <item>315, 缺少精确温控措施</item>
+        <item>401, 缺少洗手台</item>
+        <item>402, 员工未正确洗手</item>
+        <item>403, 员工缺少良好的卫生习惯</item>
+        <item>404, 员工在不恰当区域吸烟</item>
+        <item>501, 运营商未满足食品安全等级</item>
+        <item>502, 员工未满足食品安全等级</item>
+
+    </string-array>
+</resources>
