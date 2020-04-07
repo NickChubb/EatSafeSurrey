@@ -94,12 +94,6 @@ public class DataManager {
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        saveFavoriteListFile();
-    }
-
     private void saveFavoriteListFile(){
         File file = new File(context.getFilesDir(), FAVORITE_LIST_FILE);
         StringBuilder stringBuilder = new StringBuilder();
@@ -160,6 +154,11 @@ public class DataManager {
         }
     }
 
+
+    public void saveData(){
+        saveFavoriteListFile();
+    }
+
     public Bitmap getImageByTrackingNumber(String trackingNumber){
         String imagePath = imagePathMap.getOrDefault(trackingNumber, "Default");
         return DataFactory.getImage(context, imagePath);
@@ -185,6 +184,10 @@ public class DataManager {
 
     public ArrayList<RestaurantData> createFavoriteList(){
         return new ArrayList<>(favoriteList);
+    }
+
+    public ArrayList<RestaurantData> createViolationUpdatedFavoriteList(){
+        return new ArrayList<>(violationUpdatedFavorites);
     }
 
     public void addFavorite(RestaurantData restaurant){

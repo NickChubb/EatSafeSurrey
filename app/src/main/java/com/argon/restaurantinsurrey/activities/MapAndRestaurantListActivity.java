@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
 
         Log.i(TAG, "onCreate: ");
         DataManager.createInstance(this);
-        
         
         pages = new ArrayList<>();
         pages.add(new MapFragment());
@@ -108,4 +108,11 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DataManager.getInstance().saveData();
+    }
+
 }
