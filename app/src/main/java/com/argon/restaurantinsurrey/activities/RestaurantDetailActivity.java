@@ -71,12 +71,9 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
     private void setUpVariables() {
         DataManager manager = DataManager.getInstance();
 
-        ArrayList<ReportData> allReports = manager.getAllReports();
-        ArrayList<RestaurantData> restaurants = manager.getAllRestaurants();
-
         Intent intent = getIntent();
         int restaurantIndex = intent.getIntExtra(INDEX_VALUE, 0);
-        restaurantData = restaurants.get(restaurantIndex);
+        restaurantData = manager.getRestaurant(restaurantIndex);
 
         address = restaurantData.getAddress();
         restaurantName = restaurantData.getName();

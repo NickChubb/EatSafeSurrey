@@ -63,12 +63,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private DataManager dataManager;
-    private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
-    private List<ReportData> reportDataList;
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
-    private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
 
     @Nullable
@@ -96,10 +93,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude,
                         restaurantLatLngList.get(i).longitude);
-                String title = restaurantDataList.get(i).getName();
-                String snippet = restaurantDataList.get(i).getAddress();
-                String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
-                reportDataList = dataManager.getReports(trackingNumber);
+                RestaurantData restaurant = dataManager.getRestaurant(i);
+                String title = restaurant.getName();
+                String snippet = restaurant.getAddress();
+                String trackingNumber = restaurant.getTrackingNumber();
+                List<ReportData> reportDataList = dataManager.getReports(trackingNumber);
 
                 ReportData.HazardRating hazardRating;
                 int image;
@@ -120,7 +118,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         i
                 );
                 clusterManager.addItem(clusterMarker);
-                clusterMarkerList.add(clusterMarker);
 
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
@@ -237,9 +234,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void setUpVariables() {
         dataManager = DataManager.getInstance();
-        restaurantDataList = dataManager.getAllRestaurants();
 
-        for(RestaurantData restaurantData : restaurantDataList){
+        for(int i = 0; i < dataManager.getRestaurantsSize(); i++){
+            RestaurantData restaurantData = dataManager.getRestaurant(i);
             LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
             restaurantLatLngList.add(restaurantLatLng);
         }

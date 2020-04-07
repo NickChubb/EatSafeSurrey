@@ -227,7 +227,7 @@ public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
             return;
         }
 
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.US);
         String presentDateStr = format.format(presentDate);
         editor.putString(LAST_UPDATE_DATA_PREFERENCE, presentDateStr);
         editor.apply();
