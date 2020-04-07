@@ -71,9 +71,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
+    private List<ClusterMarker> clusterManagerClusterMarkerList = new ArrayList<>();
     private List<ClusterMarker> nameFilteredClusterMarkerList = new ArrayList<>();
     private View viewFrag;
-
+    private ReportData.HazardRating filterHazardRating = null;
+    private String filterName = null;
 
     @Nullable
     @Override
@@ -124,7 +126,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 );
                 clusterManager.addItem(clusterMarker);
                 clusterMarkerList.add(clusterMarker);
-                nameFilteredClusterMarkerList.add(clusterMarker);
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
@@ -375,9 +376,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 clusterManager.clearItems();
-                nameFilteredClusterMarkerList.clear();
                 clusterManager.addItems((List)results.values);
-                nameFilteredClusterMarkerList.addAll((List)results.values);
                 clusterManager.cluster();
             }
         };
@@ -385,32 +384,65 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void refreshMap(String searchText){
-        clusterManager.getFilter().filter(searchText);
+        filterName = searchText;
+
+        if(filterHazardRating == null) {
+            clusterManager.getFilter().filter(searchText);
+        }
+        else{
+            filterAll();
+        }
     }
 
     public void filterHazardLevel(ReportData.HazardRating hazardRating){
 
-        if(hazardRating == null){
-            clusterManager.clearItems();
-            clusterManager.addItems(nameFilteredClusterMarkerList);
-            clusterManager.cluster();
+        filterHazardRating = hazardRating;
+
+        if(filterName == null || filterName.length() == 0) {
+            if (hazardRating == null) {
+                clusterManager.clearItems();
+                clusterManager.addItems(clusterMarkerList);
+                clusterManager.cluster();
+            }
+            else {
+                List<ClusterMarker> filterHazards = new ArrayList<>();
+                for (ClusterMarker clusterMarker : clusterMarkerList) {
+
+                    if (clusterMarker.getHazardRating().equals(hazardRating) == true) {
+                        filterHazards.add(clusterMarker);
+                    }
+                }
+                clusterManager.clearItems();
+                clusterManager.addItems(filterHazards);
+                clusterManager.cluster();
+            }
+        }
+        else if (hazardRating == null){
+            refreshMap(filterName);
         }
         else {
-            List<ClusterMarker> filterHazards = new ArrayList<>();
-
-
-            for (ClusterMarker clusterMarker : nameFilteredClusterMarkerList) {
-
-                if (clusterMarker.getHazardRating().equals(hazardRating) == true) {
-                    filterHazards.add(clusterMarker);
-                }
-            }
-
-            clusterManager.clearItems();
-            clusterManager.addItems(filterHazards);
-            clusterManager.cluster();
+            filterAll();
         }
     }
+
+    private void filterAll(){
+
+        String filterPattern = filterName.toLowerCase().trim();
+
+        List<ClusterMarker> filteredClusterMarkers = new ArrayList<>();
+
+        for(ClusterMarker clusterMarker : clusterMarkerList){
+            if(clusterMarker.getTitle().toLowerCase().contains(filterPattern) && clusterMarker.getHazardRating().equals(filterHazardRating)){
+                filteredClusterMarkers.add(clusterMarker);
+            }
+        }
+        clusterManager.clearItems();
+        clusterManager.addItems(filteredClusterMarkers);
+        clusterManager.cluster();
+    }
+
+
+
 
 }
 /*Resources:

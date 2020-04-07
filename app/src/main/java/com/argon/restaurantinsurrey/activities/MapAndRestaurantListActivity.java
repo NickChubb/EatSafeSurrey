@@ -140,8 +140,9 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
     private void setUpFilterOptionButton() {
         Button filterButton = findViewById(R.id.button_filter_map_and_list_activity);
-        filterButton.setOnClickListener(click -> openDialog());
-
+        filterButton.setOnClickListener(click ->
+            openDialog()
+        );
     }
 
     private void openDialog() {
@@ -192,7 +193,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
         okButton.setOnClickListener(click-> {
             ((MapFragment) pages.get(0)).filterHazardLevel(hazardLevelFilterOption);
             filterDialog.dismiss();
-
         });
 
     }
