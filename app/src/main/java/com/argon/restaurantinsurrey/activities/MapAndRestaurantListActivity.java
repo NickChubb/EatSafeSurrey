@@ -30,16 +30,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
 
     public static final String TAG = "MapAndRestaurantListActivity";
 
-    public static Intent makeLaunchIntent(Context c) {
-        Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
-        return intent;
-    }
-    private ViewPager viewPager;
-    private RadioGroup  radioGroup;
-    private List<Fragment> pages;
-    private RadioButton radioButton_Map;
-    private RadioButton radioButton_Restaurant;
-
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +41,25 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
 
         Log.i(TAG, "onCreate: ");
         DataManager.createInstance(this);
-        
-        pages = new ArrayList<>();
+        dataManager = DataManager.getInstance();
+
+        setUpUI();
+
+        if(dataManager.hasNewUpdatedFavorites()){
+            Intent intent = UpdatedNotificationActivity.makeLaunchIntent(this);
+            startActivity(intent);
+        }
+    }
+
+    private void setUpUI() {
+        List<Fragment> pages = new ArrayList<>();
         pages.add(new MapFragment());
         pages.add(new RestaurantListFragment());
 
-        viewPager = (ViewPager)findViewById(R.id.ViewPager_MapAndRestaurantListActivity_vp);
-        radioGroup = (RadioGroup)findViewById(R.id.RadioGroup_MapAndRestaurantListActivity_rg);
-        radioButton_Map = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_map);
-        radioButton_Restaurant = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_restaurant);
+        ViewPager viewPager = (ViewPager)findViewById(R.id.ViewPager_MapAndRestaurantListActivity_vp);
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.RadioGroup_MapAndRestaurantListActivity_rg);
+        RadioButton radioButton_Map = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_map);
+        RadioButton radioButton_Restaurant = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_restaurant);
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -97,22 +98,26 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         });
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-                switch (checkedId) {
-                    case R.id.RadioButton_MapAndRestaurantListActivity_map:
-                        viewPager.setCurrentItem(0,true);
-                        break;
-                    case R.id.RadioButton_MapAndRestaurantListActivity_restaurant:
-                        viewPager.setCurrentItem(1,true);
-                        break;
-                }
+            switch (checkedId) {
+                case R.id.RadioButton_MapAndRestaurantListActivity_map:
+                    viewPager.setCurrentItem(0,true);
+                    break;
+                case R.id.RadioButton_MapAndRestaurantListActivity_restaurant:
+                    viewPager.setCurrentItem(1,true);
+                    break;
+            }
         });
+    }
 
+    public static Intent makeLaunchIntent(Context c) {
+        Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
+        return intent;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        DataManager.getInstance().saveData();
+        dataManager.saveData();
     }
 
 }
