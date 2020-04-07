@@ -202,6 +202,10 @@ public class DataManager {
         }
     }
 
+    public boolean checkFavorite(RestaurantData restaurant){
+        return favoriteList.contains(restaurant);
+    }
+
     public int getFavoriteListSize(){
         return favoriteList.size();
     }
