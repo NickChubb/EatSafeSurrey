@@ -119,7 +119,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 filteredRestaurantList.addAll(restaurantsListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
+                filterName = filterPattern;
                 for(RestaurantData restaurant : restaurantsListFull){
                         if(restaurant.getName().toLowerCase().contains(filterPattern)){
                             filteredRestaurantList.add(restaurant);
@@ -162,6 +162,8 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     public void filterHazardLevel(ReportData.HazardRating hazardRating){
 
+        filterHazardRating = hazardRating;
+
         if(hazardRating == null){
             restaurants.clear();
             restaurants.addAll(restaurantsListFull);
@@ -189,6 +191,14 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             restaurants.addAll(filteredRestaurantList);
             notifyDataSetChanged();
         }
+    }
+
+
+    public void setFilteredRecyclerView(List<RestaurantData> restaurantData){
+        restaurants.clear();
+        restaurants.addAll(restaurantData);
+        notifyDataSetChanged();
+
     }
 
 }

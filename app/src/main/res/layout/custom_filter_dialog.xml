@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:inputType="number"
             app:layout_constraintStart_toEndOf="@id/text_min_critical_violations_map_and_list_activity"
             app:layout_constraintTop_toBottomOf="@id/radio_group_hazard_level_filter_map_and_list_activity" />
 
@@ -77,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:inputType="number"
             app:layout_constraintStart_toEndOf="@id/text_max_critical_violations_map_and_list_activity"
             app:layout_constraintTop_toBottomOf="@id/text_min_critical_violations_map_and_list_activity" />
 

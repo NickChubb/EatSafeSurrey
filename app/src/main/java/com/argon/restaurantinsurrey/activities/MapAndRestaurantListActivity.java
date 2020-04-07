@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
@@ -31,6 +32,8 @@ import android.widget.Toast;
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.model.SearchFilter;
 import com.argon.restaurantinsurrey.ui.ClusterMarker;
 
 import java.util.ArrayList;
@@ -60,6 +63,15 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
     private Fragment restaurantListFragment;
     private AlertDialog filterDialog;
     private ReportData.HazardRating hazardLevelFilterOption;
+    private SearchFilter searchFilter;
+
+    private DataManager manager;
+    private List<RestaurantData> restaurantsListFull;
+    private ReportData.HazardRating filterHazardRating = null;
+    private String filterName = null;
+    private String filterMinimumViolation = null;
+    private String filterMaximumViolation = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +82,12 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
         Log.i(TAG, "onCreate: ");
         DataManager.createInstance(this);
-        
-        
-        pages = new ArrayList<>();
 
+        manager = DataManager.getInstance();
+        restaurantsListFull = manager.getAllRestaurants();
+        searchFilter = new SearchFilter();
+
+        pages = new ArrayList<>();
         mapFragment = new MapFragment();
         restaurantListFragment = new RestaurantListFragment();
 
@@ -186,13 +200,21 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
         filterDialog = builder.create();
         filterDialog.show();
 
+        EditText minimumViolationEditText = view.findViewById(R.id.edit_text_min_critical_violations_map_and_list_activity);
+        EditText maximumViolationEditText = view.findViewById(R.id.edit_text_max_critical_violations_map_and_list_activity);
+
+
         Button cancelButton = view.findViewById(R.id.button_filter_dialog_cancel);
         Button okButton = view.findViewById(R.id.button_filter_dialog_ok);
 
         cancelButton.setOnClickListener(click -> filterDialog.dismiss());
         okButton.setOnClickListener(click-> {
-            ((MapFragment) pages.get(0)).filterHazardLevel(hazardLevelFilterOption);
-            ((RestaurantListFragment)pages.get(1)).filterHazardLevel(hazardLevelFilterOption);
+            ((MapFragment)pages.get(0)).setFilteredMap(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+
+            ((RestaurantListFragment) pages.get(1)).
+                    setFilteredRestaurant(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+            filterMinimumViolation = minimumViolationEditText.getText().toString();
+            filterMaximumViolation = maximumViolationEditText.getText().toString();
             filterDialog.dismiss();
         });
 
@@ -208,8 +230,12 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((MapFragment)pages.get(0)).refreshMap(newText);
-                ((RestaurantListFragment)pages.get(1)).refreshList(newText);
+                filterName = newText;
+                ((MapFragment)pages.get(0)).setFilteredMap(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+
+                ((RestaurantListFragment) pages.get(1)).
+                            setFilteredRestaurant(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+
                 return false;
             }
         });

@@ -442,6 +442,51 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    public void setFilteredMap(List<RestaurantData> restaurantDataList){
+
+        List<LatLng> filteredLatLngList = new ArrayList<>();
+        List<ReportData> filteredReportDataList = new ArrayList<>();
+        List<ClusterMarker> filteredClusterMarkerList = new ArrayList<>();
+        for(RestaurantData restaurantData : restaurantDataList){
+            LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
+            filteredLatLngList.add(restaurantLatLng);
+        }
+
+        for(int i = 0; i < filteredLatLngList.size(); i++){
+            LatLng restaurantLatLng = new LatLng(filteredLatLngList.get(i).latitude,
+                    filteredLatLngList.get(i).longitude);
+            String title = restaurantDataList.get(i).getName();
+            String snippet = restaurantDataList.get(i).getAddress();
+            String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
+            filteredReportDataList = dataManager.getReports(trackingNumber);
+
+            ReportData.HazardRating hazardRating;
+            int image;
+            if(filteredReportDataList.isEmpty()) {
+                hazardRating = ReportData.HazardRating.LOW;
+                image = R.drawable.green_warning_sign;
+            } else {
+                hazardRating = filteredReportDataList.get(0).getHazardRating();
+                image = DataFactory.getHazardRatingImage(hazardRating);
+            }
+
+            ClusterMarker clusterMarker = new ClusterMarker(
+                    restaurantLatLng,
+                    title,
+                    getString(R.string.text_map_activity_address_detail, snippet),
+                    image,
+                    hazardRating,
+                    i
+            );
+            filteredClusterMarkerList.add(clusterMarker);
+        }
+
+        clusterManager.clearItems();
+        clusterManager.addItems(filteredClusterMarkerList);
+        clusterManager.cluster();
+
+    }
+
 
 
 }
