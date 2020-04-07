@@ -2,6 +2,8 @@ package com.argon.restaurantinsurrey.model;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -231,4 +233,5 @@ public class ReportData {
                 ", violations=" + violations +
                 '}'+"\n";
     }
+
 }

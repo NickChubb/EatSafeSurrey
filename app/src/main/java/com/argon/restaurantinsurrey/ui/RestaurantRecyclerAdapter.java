@@ -3,7 +3,6 @@ package com.argon.restaurantinsurrey.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +44,8 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         this.manager = DataManager.getInstance();
         this.mContext = mContext;
 
-        restaurants = manager.getAllRestaurants();
-        restaurantsListFull = manager.getAllRestaurants();
+        restaurants = manager.createRestaurantsList();
+        restaurantsListFull = manager.createRestaurantsList();
     }
 
     @NonNull

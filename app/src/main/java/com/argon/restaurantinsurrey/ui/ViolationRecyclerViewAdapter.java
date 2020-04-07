@@ -120,4 +120,5 @@ public class ViolationRecyclerViewAdapter extends RecyclerView.Adapter<Violation
 
 
 
+
 }
