@@ -1,5 +1,6 @@
 package com.argon.restaurantinsurrey.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -8,14 +9,20 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
@@ -49,8 +56,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
     private RadioButton radioButton_Restaurant;
     private Fragment mapFragment;
     private Fragment restaurantListFragment;
-
-    private String searchText = "";
+    private AlertDialog filterDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +132,45 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
         });
 
         setUpSearchBar();
+        setUpFilterOptionButton();
+    }
+
+    private void setUpFilterOptionButton() {
+        Button filterButton = findViewById(R.id.button_filter_map_and_list_activity);
+        filterButton.setOnClickListener(click -> openDialog());
+
+    }
+
+    private void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlerDialogTheme);
+        View view = LayoutInflater.from(this).inflate(
+                R.layout.custom_filter_dialog,
+                findViewById(R.id.filter_dialog_container)
+        );
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group_hazard_level_filter_map_and_list_activity);
+
+        String[] hazardLevels = getResources().getStringArray(R.array.hazard_levels);
+
+        for(int i = 0; i < hazardLevels.length; i++){
+
+            String level = hazardLevels[i];
+
+            RadioButton radioButton = new RadioButton(this);
+
+            radioButton.setText(level);
+
+            // TODO: set on-click callbacks
+            radioGroup.addView(radioButton);
+        }
+
+
+
+
+
+
+        builder.setView(view);
+        filterDialog = builder.create();
+        filterDialog.show();
     }
 
     private void setUpSearchBar() {
@@ -146,7 +191,4 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
     }
 
-    public String getSearchText() {
-        return searchText;
-    }
 }

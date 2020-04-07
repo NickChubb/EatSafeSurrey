@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="hazard_levels">
+        <item>Hazard level: NONE</item>
+        <item>Hazard level: LOW</item>
+        <item>Hazard level: MODERATE</item>
+        <item>Hazard level: HIGH</item>
+    </string-array>
+</resources>
