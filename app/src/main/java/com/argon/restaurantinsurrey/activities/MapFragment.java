@@ -71,11 +71,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
-    private List<ClusterMarker> clusterManagerClusterMarkerList = new ArrayList<>();
-    private List<ClusterMarker> nameFilteredClusterMarkerList = new ArrayList<>();
     private View viewFrag;
-    private ReportData.HazardRating filterHazardRating = null;
-    private String filterName = null;
+
 
     @Nullable
     @Override
@@ -327,7 +324,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addMapMarkers();
     }
 
-    public class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> implements Filterable {
+    public class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
         CustomClusterManager(Context context, GoogleMap map) {
             super(context, map);
         }
@@ -344,101 +341,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return true;
         }
 
-        @Override
-        public Filter getFilter() {
-            return mapFilter;
-        }
-
-        private Filter mapFilter = new Filter(){
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-                List<ClusterMarker> filteredClusterMarkers = new ArrayList<>();
-
-                if(constraint == null || constraint.length() == 0){
-                    filteredClusterMarkers.addAll(clusterMarkerList);
-                } else {
-                    String filterPattern = constraint.toString().toLowerCase().trim();
-
-                    for(ClusterMarker clusterMarker : clusterMarkerList){
-                        if(clusterMarker.getTitle().toLowerCase().contains(filterPattern)){
-                            filteredClusterMarkers.add(clusterMarker);
-                        }
-                    }
-                }
-
-                FilterResults results = new FilterResults();
-                results.values = filteredClusterMarkers;
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                clusterManager.clearItems();
-                clusterManager.addItems((List)results.values);
-                clusterManager.cluster();
-            }
-        };
-
-    }
-
-    public void refreshMap(String searchText){
-        filterName = searchText;
-
-        if(filterHazardRating == null) {
-            clusterManager.getFilter().filter(searchText);
-        }
-        else{
-            filterAll();
-        }
-    }
-
-    public void filterHazardLevel(ReportData.HazardRating hazardRating){
-
-        filterHazardRating = hazardRating;
-
-        if(filterName == null || filterName.length() == 0) {
-            if (hazardRating == null) {
-                clusterManager.clearItems();
-                clusterManager.addItems(clusterMarkerList);
-                clusterManager.cluster();
-            }
-            else {
-                List<ClusterMarker> filterHazards = new ArrayList<>();
-                for (ClusterMarker clusterMarker : clusterMarkerList) {
-
-                    if (clusterMarker.getHazardRating().equals(hazardRating) == true) {
-                        filterHazards.add(clusterMarker);
-                    }
-                }
-                clusterManager.clearItems();
-                clusterManager.addItems(filterHazards);
-                clusterManager.cluster();
-            }
-        }
-        else if (hazardRating == null){
-            refreshMap(filterName);
-        }
-        else {
-            filterAll();
-        }
-    }
-
-    private void filterAll(){
-
-        String filterPattern = filterName.toLowerCase().trim();
-
-        List<ClusterMarker> filteredClusterMarkers = new ArrayList<>();
-
-        for(ClusterMarker clusterMarker : clusterMarkerList){
-            if(clusterMarker.getTitle().toLowerCase().contains(filterPattern) && clusterMarker.getHazardRating().equals(filterHazardRating)){
-                filteredClusterMarkers.add(clusterMarker);
-            }
-        }
-        clusterManager.clearItems();
-        clusterManager.addItems(filteredClusterMarkers);
-        clusterManager.cluster();
     }
 
 
