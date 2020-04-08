@@ -20,7 +20,7 @@ public class SearchFilter {
 
     public SearchFilter() {
         this.manager = DataManager.getInstance();
-        this.restaurantDataListFull = manager.getAllRestaurants();
+        this.restaurantDataListFull = manager.createRestaurantsList();
     }
 
 

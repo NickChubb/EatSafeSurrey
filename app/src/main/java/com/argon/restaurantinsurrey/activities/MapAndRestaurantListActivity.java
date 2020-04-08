@@ -84,7 +84,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         DataManager.createInstance(this);
         dataManager = DataManager.getInstance();
         manager = DataManager.getInstance();
-        restaurantsListFull = manager.getAllRestaurants();
+        restaurantsListFull = manager.createRestaurantsList();
         searchFilter = new SearchFilter();
 
         pages = new ArrayList<>();
