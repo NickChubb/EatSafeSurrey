@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -73,6 +74,8 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
     private String filterName = null;
     private String filterMinimumViolation = null;
     private String filterMaximumViolation = null;
+    private boolean isFavouritesSelected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,6 +215,12 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         EditText maximumViolationEditText = view.findViewById(R.id.edit_text_max_critical_violations_map_and_list_activity);
 
 
+        CheckBox favouritesCheckBox = view.findViewById(R.id.checkbox_favourites_map_and_list_activity);
+
+        favouritesCheckBox.setOnClickListener(click -> {
+            isFavouritesSelected = favouritesCheckBox.isChecked();
+        });
+
         Button cancelButton = view.findViewById(R.id.button_filter_dialog_cancel);
         Button okButton = view.findViewById(R.id.button_filter_dialog_ok);
 
@@ -224,16 +233,19 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                     searchFilter.filterAll(filterName,
                             hazardLevelFilterOption,
                             filterMinimumViolation,
-                            filterMaximumViolation));
+                            filterMaximumViolation,
+                            isFavouritesSelected));
 
             ((RestaurantListFragment) pages.get(1)).
                     setFilteredRestaurant(
                             searchFilter.filterAll(filterName,
                                     hazardLevelFilterOption,
                                     filterMinimumViolation,
-                                    filterMaximumViolation));
+                                    filterMaximumViolation,
+                                    isFavouritesSelected));
 
             filterDialog.dismiss();
+            isFavouritesSelected = false;
         });
 
     }
@@ -253,14 +265,16 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                         searchFilter.filterAll(filterName,
                                 hazardLevelFilterOption,
                                 filterMinimumViolation,
-                                filterMaximumViolation));
+                                filterMaximumViolation,
+                                isFavouritesSelected));
 
                 ((RestaurantListFragment) pages.get(1)).
                         setFilteredRestaurant(
                                 searchFilter.filterAll(filterName,
                                         hazardLevelFilterOption,
                                         filterMinimumViolation,
-                                        filterMaximumViolation));
+                                        filterMaximumViolation,
+                                        isFavouritesSelected));
 
                 return false;
             }

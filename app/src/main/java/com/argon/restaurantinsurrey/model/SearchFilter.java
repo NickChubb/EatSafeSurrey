@@ -128,52 +128,40 @@ public class SearchFilter {
         return filteredRestaurantList;
     }
 
+    public List<RestaurantData> filterByFavourites(boolean filterFavourites, List<RestaurantData> restaurantDataList){
+
+        if(filterFavourites == false){
+            return restaurantDataList;
+        }
+
+        ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
+
+        List<RestaurantData> favouritesList = manager.createFavoriteList();
+
+        for(RestaurantData restaurantData : restaurantDataList){
+            for(RestaurantData favouritesData : favouritesList){
+                if(restaurantData.getTrackingNumber().equals(favouritesData.getTrackingNumber())){
+                    filteredRestaurantList.add(restaurantData);
+                }
+            }
+        }
+
+        return filteredRestaurantList;
+    }
+
+
     public List<RestaurantData> filterAll(String filterName, ReportData.HazardRating hazardRating,
-                                          String minNumberOfViolation, String maxNumberOfViolation){
+                                          String minNumberOfViolation, String maxNumberOfViolation,
+                                          boolean filterFavourites){
 
 
-        if( isStringEmpty(filterName) == true &&
-                hazardRating == null &&
-                isStringEmpty(minNumberOfViolation) == true &&
-                isStringEmpty(maxNumberOfViolation) == true){
+        List<RestaurantData> filterNameList = filterByName(filterName, restaurantDataListFull);
+        List<RestaurantData> filterHazardRatingList = filterByHazardRating(hazardRating, filterNameList);
+        List<RestaurantData> filterMinViolationList = filterByMinViolation(minNumberOfViolation, filterHazardRatingList);
+        List<RestaurantData> filterMaxViolationList = filterByMaxViolation(maxNumberOfViolation, filterMinViolationList);
+        List<RestaurantData> filterFavouritesList = filterByFavourites(filterFavourites, filterMaxViolationList);
 
-            return restaurantDataListFull;
-        }
-        else if( isStringEmpty(filterName) == false &&
-                hazardRating == null &&
-                isStringEmpty(minNumberOfViolation) == true &&
-                isStringEmpty(maxNumberOfViolation) == true){
-
-            return filterByName(filterName, restaurantDataListFull);
-        }
-        else if(isStringEmpty(filterName) == true &&
-                hazardRating != null &&
-                isStringEmpty(minNumberOfViolation) == true &&
-                isStringEmpty(maxNumberOfViolation) == true){
-            return filterByHazardRating(hazardRating, restaurantDataListFull);
-        }
-        else if(isStringEmpty(filterName) == true &&
-                hazardRating == null &&
-                isStringEmpty(minNumberOfViolation) == false &&
-                isStringEmpty(maxNumberOfViolation) == true){
-
-            return filterByMinViolation(minNumberOfViolation, restaurantDataListFull);
-        }
-        else if(isStringEmpty(filterName) == true &&
-                hazardRating == null &&
-                isStringEmpty(minNumberOfViolation) == true &&
-                isStringEmpty(maxNumberOfViolation) == false){
-
-            return filterByMaxViolation(minNumberOfViolation, restaurantDataListFull);
-        }
-        else{
-            List<RestaurantData> filterNameList = filterByName(filterName, restaurantDataListFull);
-            List<RestaurantData> filterHazardRatingList = filterByHazardRating(hazardRating, filterNameList);
-            List<RestaurantData> filterMinViolationList = filterByMinViolation(minNumberOfViolation, filterHazardRatingList);
-            List<RestaurantData> filterMaxViolationList = filterByMaxViolation(maxNumberOfViolation, filterMinViolationList);
-
-            return filterMaxViolationList;
-        }
+        return filterFavouritesList;
 
     }
 
