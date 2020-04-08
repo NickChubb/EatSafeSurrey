@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/*
+/**
  *   This is the activity for showing the details of each restaurant
  *
  */
@@ -49,6 +50,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
     private RestaurantData restaurantData;
     private ArrayList<ReportData> restaurantReports;
 
+    private DataManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        manager = DataManager.getInstance();
 
         setUpVariables();
 
@@ -64,19 +68,17 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
 
         populateListView();
 
+        setUpFavouriteButton();
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_restaurant_detail);
         mapFragment.getMapAsync(this);
     }
 
     private void setUpVariables() {
-        DataManager manager = DataManager.getInstance();
-
-        ArrayList<ReportData> allReports = manager.getAllReports();
-        ArrayList<RestaurantData> restaurants = manager.getAllRestaurants();
 
         Intent intent = getIntent();
         int restaurantIndex = intent.getIntExtra(INDEX_VALUE, 0);
-        restaurantData = restaurants.get(restaurantIndex);
+        restaurantData = manager.getRestaurant(restaurantIndex);
 
         address = restaurantData.getAddress();
         restaurantName = restaurantData.getName();
@@ -110,6 +112,54 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
 
         InspectionRecyclerAdapter adapter = new InspectionRecyclerAdapter(this, restaurantTrackingNumber);
         list.setAdapter(adapter);
+    }
+
+    /**
+     * initializes favorite button ui and handles button click
+     */
+    private void setUpFavouriteButton() {
+
+        Button fb = findViewById(R.id.button_favourite);
+
+        // check if favourite on load and initialize UI
+        if(manager.checkFavorite(restaurantData)){
+
+            // not favourite
+            fb.setTag("filled");
+            fb.setBackgroundResource(R.drawable.heart_filled);
+
+        }else{
+
+            // is favourite
+            fb.setTag("outline");
+            fb.setBackgroundResource(R.drawable.heart_outline);
+
+        }
+
+
+        fb.setOnClickListener(v -> {
+
+            if(fb.getTag().equals("filled")){
+
+                // ui change
+                fb.setTag("outline");
+                fb.setBackgroundResource(R.drawable.heart_outline);
+
+                //remove from favourites
+                manager.removeFavorite(restaurantData);
+
+            }else if(fb.getTag().equals("outline")){
+
+                // ui change
+                fb.setTag("filled");
+                fb.setBackgroundResource(R.drawable.heart_filled);
+
+                // add to favourites
+                manager.addFavorite(restaurantData);
+            }
+
+        });
+
     }
 
 

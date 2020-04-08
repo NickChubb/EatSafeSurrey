@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -66,13 +68,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
     private List<ReportData> reportDataList;
-
-
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
     private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
-
 
     @Nullable
     @Override
@@ -96,12 +95,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 clusterManager.setRenderer(clusterManagerRenderer);
             }
             for(int i = 0; i < restaurantLatLngList.size(); i++){
+
                 LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude,
                         restaurantLatLngList.get(i).longitude);
-                String title = restaurantDataList.get(i).getName();
-                String snippet = restaurantDataList.get(i).getAddress();
-                String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
-                reportDataList = dataManager.getReports(trackingNumber);
+                RestaurantData restaurant = dataManager.getRestaurant(i);
+                String title = restaurant.getName();
+                String snippet = restaurant.getAddress();
+                String trackingNumber = restaurant.getTrackingNumber();
+                List<ReportData> reportDataList = dataManager.getReports(trackingNumber);
 
                 ReportData.HazardRating hazardRating;
                 int image;
@@ -238,9 +239,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void setUpVariables() {
         dataManager = DataManager.getInstance();
-        restaurantDataList = dataManager.getAllRestaurants();
 
-        for(RestaurantData restaurantData : restaurantDataList){
+        for(int i = 0; i < dataManager.getRestaurantsSize(); i++){
+            RestaurantData restaurantData = dataManager.getRestaurant(i);
             LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
             restaurantLatLngList.add(restaurantLatLng);
         }
@@ -340,7 +341,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
             return true;
         }
-
     }
 
 

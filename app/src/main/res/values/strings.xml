@@ -81,5 +81,8 @@
     <string name="text_update_alert_update">Update</string>
     <string name="title_update_alert_image_only">New Images are Available</string>
 
+    <!-- UpdatedNotificationActivity -->
+    <string name="text_updated_notification_for_favorites">There are some new reports for your favorite restaurants:</string>
+    <string name="title_activity_updated_notifications">Updated Notifications</string>
 
 </resources>

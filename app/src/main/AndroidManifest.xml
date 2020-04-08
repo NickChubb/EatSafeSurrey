@@ -13,15 +13,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@drawable/mainicon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/mainicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
-
 
 
         <uses-library
@@ -40,16 +39,20 @@
             android:label="@string/title_activity_inspection_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.UpdatedNotificationActivity"
+            android:label="@string/title_activity_updated_notifications"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.RestaurantDetailActivity"
             android:label="@string/title_activity_single_restaurant"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".activities.MapAndRestaurantListActivity"
+        <activity
+            android:name=".activities.MapAndRestaurantListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.UpdateActivity"
             android:label="@string/title_activity_map_and_restaurant_list"

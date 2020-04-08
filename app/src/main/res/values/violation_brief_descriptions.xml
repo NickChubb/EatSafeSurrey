@@ -11,6 +11,7 @@
         <item>204, Food not cooked or reheated</item>
         <item>205, Cold food stored above 4 °C</item>
         <item>206, Hot food stored below 60 °C</item>
+        <item>207, Food not discarded</item>
         <item>208, Unapproved food sources</item>
         <item>209, Food unprotected</item>
         <item>210, Food not thawed</item>

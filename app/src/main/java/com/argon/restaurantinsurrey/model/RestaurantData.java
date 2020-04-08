@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 /*
@@ -139,5 +141,13 @@ public class RestaurantData {
                 ", lat=" + lat +
                 ", lon=" + lon +
                 '}';
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof RestaurantData){
+            return ((RestaurantData)obj).trackingNumber == this.trackingNumber;
+        }
+        return super.equals(obj);
     }
 }

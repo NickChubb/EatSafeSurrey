@@ -24,8 +24,13 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -34,7 +39,11 @@ import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
 import com.argon.restaurantinsurrey.model.SearchFilter;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.model.SearchFilter;
 import com.argon.restaurantinsurrey.ui.ClusterMarker;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,21 +55,14 @@ import java.util.Map;
  *
  */
 
-public class MapAndRestaurantListActivity extends AppCompatActivity{
+public class MapAndRestaurantListActivity extends AppCompatActivity {
 
     public static final String TAG = "MapAndRestaurantListActivity";
 
-    public static Intent makeLaunchIntent(Context c) {
-        Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
-        return intent;
-    }
-    private ViewPager viewPager;
-    private RadioGroup  radioGroup;
+    DataManager dataManager;
     private List<Fragment> pages;
-    private RadioButton radioButton_Map;
-    private RadioButton radioButton_Restaurant;
-    private Fragment mapFragment;
-    private Fragment restaurantListFragment;
+
+
     private AlertDialog filterDialog;
     private ReportData.HazardRating hazardLevelFilterOption;
     private SearchFilter searchFilter;
@@ -71,8 +73,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
     private String filterName = null;
     private String filterMinimumViolation = null;
     private String filterMaximumViolation = null;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,23 +82,33 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
         Log.i(TAG, "onCreate: ");
         DataManager.createInstance(this);
-
+        dataManager = DataManager.getInstance();
         manager = DataManager.getInstance();
         restaurantsListFull = manager.getAllRestaurants();
         searchFilter = new SearchFilter();
 
         pages = new ArrayList<>();
-        mapFragment = new MapFragment();
-        restaurantListFragment = new RestaurantListFragment();
 
-        pages.add(mapFragment);
 
-        pages.add(restaurantListFragment);
+        setUpUI();
+        setUpSearchBar();
+        setUpFilterOptionButton();
 
-        viewPager = (ViewPager)findViewById(R.id.ViewPager_MapAndRestaurantListActivity_vp);
-        radioGroup = (RadioGroup)findViewById(R.id.RadioGroup_MapAndRestaurantListActivity_rg);
-        radioButton_Map = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_map);
-        radioButton_Restaurant = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_restaurant);
+        if(dataManager.hasNewUpdatedFavorites()){
+            Intent intent = UpdatedNotificationActivity.makeLaunchIntent(this);
+            startActivity(intent);
+        }
+    }
+
+    private void setUpUI() {
+        pages = new ArrayList<>();
+        pages.add(new MapFragment());
+        pages.add(new RestaurantListFragment());
+
+        ViewPager viewPager = (ViewPager)findViewById(R.id.ViewPager_MapAndRestaurantListActivity_vp);
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.RadioGroup_MapAndRestaurantListActivity_rg);
+        RadioButton radioButton_Map = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_map);
+        RadioButton radioButton_Restaurant = findViewById(R.id.RadioButton_MapAndRestaurantListActivity_restaurant);
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -138,24 +148,22 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
         });
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-                switch (checkedId) {
-                    case R.id.RadioButton_MapAndRestaurantListActivity_map:
-                        viewPager.setCurrentItem(0,true);
-                        break;
-                    case R.id.RadioButton_MapAndRestaurantListActivity_restaurant:
-                        viewPager.setCurrentItem(1,true);
-                        break;
-                }
+            switch (checkedId) {
+                case R.id.RadioButton_MapAndRestaurantListActivity_map:
+                    viewPager.setCurrentItem(0,true);
+                    break;
+                case R.id.RadioButton_MapAndRestaurantListActivity_restaurant:
+                    viewPager.setCurrentItem(1,true);
+                    break;
+            }
         });
 
-        setUpSearchBar();
-        setUpFilterOptionButton();
     }
 
     private void setUpFilterOptionButton() {
         Button filterButton = findViewById(R.id.button_filter_map_and_list_activity);
         filterButton.setOnClickListener(click ->
-            openDialog()
+                openDialog()
         );
     }
 
@@ -179,7 +187,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
             radioButton.setOnClickListener(click->{
 
-               if (level.equals(getResources().getString(R.string.hazard_level_filter_option_low))){
+                if (level.equals(getResources().getString(R.string.hazard_level_filter_option_low))){
                     hazardLevelFilterOption = ReportData.HazardRating.LOW;
                 }
                 else if (level.equals(getResources().getString(R.string.hazard_level_filter_option_moderate))){
@@ -214,16 +222,16 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
             ((MapFragment)pages.get(0)).setFilteredMap(
                     searchFilter.filterAll(filterName,
-                                            hazardLevelFilterOption,
-                                            filterMinimumViolation,
-                                            filterMaximumViolation));
+                            hazardLevelFilterOption,
+                            filterMinimumViolation,
+                            filterMaximumViolation));
 
             ((RestaurantListFragment) pages.get(1)).
                     setFilteredRestaurant(
                             searchFilter.filterAll(filterName,
-                                                    hazardLevelFilterOption,
-                                                    filterMinimumViolation,
-                                                    filterMaximumViolation));
+                                    hazardLevelFilterOption,
+                                    filterMinimumViolation,
+                                    filterMaximumViolation));
 
             filterDialog.dismiss();
         });
@@ -243,21 +251,31 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
                 filterName = newText;
                 ((MapFragment)pages.get(0)).setFilteredMap(
                         searchFilter.filterAll(filterName,
-                                                hazardLevelFilterOption,
-                                                filterMinimumViolation,
-                                                filterMaximumViolation));
+                                hazardLevelFilterOption,
+                                filterMinimumViolation,
+                                filterMaximumViolation));
 
                 ((RestaurantListFragment) pages.get(1)).
-                            setFilteredRestaurant(
-                                    searchFilter.filterAll(filterName,
-                                                            hazardLevelFilterOption,
-                                                            filterMinimumViolation,
-                                                            filterMaximumViolation));
+                        setFilteredRestaurant(
+                                searchFilter.filterAll(filterName,
+                                        hazardLevelFilterOption,
+                                        filterMinimumViolation,
+                                        filterMaximumViolation));
 
                 return false;
             }
         });
 
+    }
+    public static Intent makeLaunchIntent(Context c) {
+        Intent intent = new Intent(c, MapAndRestaurantListActivity.class);
+        return intent;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dataManager.saveData();
     }
 
 }

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         setIconAnim();
         setWelcomeAnim();
 
-
         //Auto jump to the restaurant activity
         Handler handler = new Handler();
         runnable = () -> {

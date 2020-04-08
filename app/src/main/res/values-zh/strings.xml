@@ -1,0 +1,74 @@
+<resources>
+    <!--    Global     -->
+    <string name="app_name">Surrey餐厅报告</string>
+    <string name="action_settings">设置</string>
+    <string name="restaurant_in_surrey">Surrey餐厅报告</string>
+    <string name="basic_date_format">MM/dd/yyyy</string>
+    <string name="text_other">其他</string>
+
+    <string name="text_high_hazard">高</string>
+    <string name="text_moderate_hazard">中</string>
+    <string name="text_low_hazard">低</string>
+
+    <!--    MainActivity    -->
+    <string name="welcome">欢迎!</string>
+    <string name="by_argon">By: Argon</string>
+
+    <!--    RestaurantListActivity    -->
+    <string name="title_activity_restaurant_list">Surrey餐厅报告</string>
+    <string name="text_issues">问题: %d</string>
+    <string name="text_last_inspection">上次检查: </string>
+
+    <!--    RestaurantDetailActivity    -->
+    <string name="title_activity_single_restaurant">餐厅详情</string>
+    <string name="text_restaurant_name">餐厅名称</string>
+    <string name="text_restaurant_address">餐厅地址</string>
+    <string name="title_restaurant_inspection">检查报告:</string>
+    <string name="title_no_inspections">无可用检查报告</string>
+
+    <!--    InspectionDetailsActivity    -->
+    <string name="title_activity_inspection_details">报告详情</string>
+    <string name="text_inspection_date">检查日期: %s</string>
+    <string name="text_inspection_type">检查种类: %s</string>
+    <string name="title_violations">违规: </string>
+    <string name="title_no_violations">无可用报告</string>
+    <string name="title_hazard_level">危险等级: </string>
+    <string name="text_critical_issues">重要问题: %d</string>
+    <string name="text_non_critical_issues">非重要问题: %d</string>
+    <string name="text_follow_up_inspection">跟进</string>
+    <string name="text_routine_inspection">常规</string>
+
+    <!--    Time Formatting    -->
+    <string name="text_inspection">%d天前</string>
+    <string name="text_inspection_by_date_less_one_year">%s %d</string>
+    <string name="text_inspection_by_date">%s %d</string>
+    <string name="text_inspection_no_date">无</string>
+    <string name="title_activity_map">地图</string>
+    <string name="title_activity_map_and_restaurant_list">餐厅</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="fragment_map">地图</string>
+    <string name="fragment_restaurant">餐厅</string>
+
+    <!--    Map Fragment    -->
+    <string name="text_map_activity_see_reports">查看报告</string>
+    <string name="text_map_activity_address_detail">地址: %s</string>
+
+    <!-- UpdateActivity -->
+    <string name="status_update_waiting">请稍等…</string>
+    <string name="status_update_downloading_restaurants">下载餐厅数据…</string>
+    <string name="status_update_downloading_reports">下载报告数据…</string>
+    <string name="status_update_downloading_images">下载餐厅图片… (%d/%d)</string>
+    <string name="text_update_cancel">关闭</string>
+    <string name="title_update_alert">新数据可用</string>
+    <string name="message_update_alert">是否进行更新? \n\n这将会花费一些时间\n如果更新但不下载照片，更新照片将在明天可用</string>
+    <string name="text_update_alert_no">不更新</string>
+    <string name="text_update_alert_data_only">更新但不下载照片</string>
+    <string name="text_update_alert_update">更新</string>
+    <string name="title_update_alert_image_only">新照片数据可用</string>
+
+    <!-- UpdatedNotificationActivity -->
+    <string name="text_updated_notification_for_favorites">您喜欢的餐厅有新的报告:</string>
+    <string name="title_activity_updated_notifications">通知</string>
+
+</resources>
