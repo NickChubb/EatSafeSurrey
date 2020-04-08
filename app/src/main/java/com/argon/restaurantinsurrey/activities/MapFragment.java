@@ -378,7 +378,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     getString(R.string.text_map_activity_address_detail, snippet),
                     image,
                     hazardRating,
-                    i
+                    findRestaurantIndex(restaurantDataList.get(i))
             );
             filteredClusterMarkerList.add(clusterMarker);
         }
@@ -389,6 +389,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+
+    private int findRestaurantIndex(RestaurantData restaurantData){
+
+        for(int i = 0; i < dataManager.getRestaurantsSize(); i++){
+            RestaurantData restaurant = dataManager.getRestaurant(i);
+            if(restaurant.getTrackingNumber().equals(restaurantData.getTrackingNumber())){
+                return i;
+            }
+        }
+
+        throw new IndexOutOfBoundsException("Cannot find restaurant");
+    }
 
 
 }
