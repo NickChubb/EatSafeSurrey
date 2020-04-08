@@ -47,15 +47,6 @@ public class RestaurantListFragment extends Fragment {
         return view;
     }
 
-    public void refreshList(String searchText){
-        filterName = searchText;
-        adapter.getFilter().filter(searchText);
-    }
-
-    public void filterHazardLevel(ReportData.HazardRating hazardRating){
-        filterHazardRating = hazardRating;
-        adapter.filterHazardLevel(hazardRating);
-    }
 
     public void setFilteredRestaurant(List<RestaurantData> restaurantData){
         adapter.setFilteredRecyclerView(restaurantData);

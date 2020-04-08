@@ -41,9 +41,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     private ArrayList<RestaurantData> restaurants;
     private ArrayList<RestaurantData> restaurantsListFull;
-    private List<ReportData> reportDataListFull;
-    private ReportData.HazardRating filterHazardRating = null;
-    private String filterName = null;
+
 
     public RestaurantRecyclerAdapter(Context mContext){
         this.manager = DataManager.getInstance();
@@ -51,7 +49,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
         restaurants = manager.getAllRestaurants();
         restaurantsListFull = manager.getAllRestaurants();
-        reportDataListFull = manager.getAllReports();
     }
 
     @NonNull
@@ -119,7 +116,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 filteredRestaurantList.addAll(restaurantsListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                filterName = filterPattern;
                 for(RestaurantData restaurant : restaurantsListFull){
                         if(restaurant.getName().toLowerCase().contains(filterPattern)){
                             filteredRestaurantList.add(restaurant);
@@ -160,38 +156,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     }
 
 
-    public void filterHazardLevel(ReportData.HazardRating hazardRating){
-
-        filterHazardRating = hazardRating;
-
-        if(hazardRating == null){
-            restaurants.clear();
-            restaurants.addAll(restaurantsListFull);
-            notifyDataSetChanged();
-        }
-        else {
-            ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
-
-            for (RestaurantData restaurant : restaurantsListFull) {
-                String trackingNumber = restaurant.getTrackingNumber();
-
-                List<ReportData> reportData = manager.getReports(trackingNumber);
-
-                if (reportData.isEmpty()) {
-                    if (hazardRating.equals(ReportData.HazardRating.LOW)) {
-                        filteredRestaurantList.add(restaurant);
-                    }
-                } else if (reportData.get(0).getHazardRating().equals(hazardRating)) {
-                    filteredRestaurantList.add(restaurant);
-                }
-
-            }
-
-            restaurants.clear();
-            restaurants.addAll(filteredRestaurantList);
-            notifyDataSetChanged();
-        }
-    }
 
 
     public void setFilteredRecyclerView(List<RestaurantData> restaurantData){
