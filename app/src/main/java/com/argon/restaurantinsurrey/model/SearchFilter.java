@@ -154,7 +154,6 @@ public class SearchFilter {
                                           String minNumberOfViolation, String maxNumberOfViolation,
                                           boolean filterFavourites){
 
-
         List<RestaurantData> filterNameList = filterByName(filterName, restaurantDataListFull);
         List<RestaurantData> filterHazardRatingList = filterByHazardRating(hazardRating, filterNameList);
         List<RestaurantData> filterMinViolationList = filterByMinViolation(minNumberOfViolation, filterHazardRatingList);
