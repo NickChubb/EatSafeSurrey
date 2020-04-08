@@ -2,6 +2,7 @@ package com.argon.restaurantinsurrey.ui;
 
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class ClusterMarker implements ClusterItem {

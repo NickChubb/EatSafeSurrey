@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,9 +65,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private DataManager dataManager;
+    private List<RestaurantData> restaurantDataList;
     private List<LatLng> restaurantLatLngList = new ArrayList<>();
+    private List<ReportData> reportDataList;
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
+    private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
 
     @Nullable
@@ -118,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         i
                 );
                 clusterManager.addItem(clusterMarker);
-
+                clusterMarkerList.add(clusterMarker);
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
@@ -320,7 +325,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addMapMarkers();
     }
 
-    private static class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
+    public class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
         CustomClusterManager(Context context, GoogleMap map) {
             super(context, map);
         }
@@ -337,6 +342,55 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return true;
         }
     }
+
+
+    public void setFilteredMap(List<RestaurantData> restaurantDataList){
+
+        List<LatLng> filteredLatLngList = new ArrayList<>();
+        List<ReportData> filteredReportDataList = new ArrayList<>();
+        List<ClusterMarker> filteredClusterMarkerList = new ArrayList<>();
+        for(RestaurantData restaurantData : restaurantDataList){
+            LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
+            filteredLatLngList.add(restaurantLatLng);
+        }
+
+        for(int i = 0; i < filteredLatLngList.size(); i++){
+            LatLng restaurantLatLng = new LatLng(filteredLatLngList.get(i).latitude,
+                    filteredLatLngList.get(i).longitude);
+            String title = restaurantDataList.get(i).getName();
+            String snippet = restaurantDataList.get(i).getAddress();
+            String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
+            filteredReportDataList = dataManager.getReports(trackingNumber);
+
+            ReportData.HazardRating hazardRating;
+            int image;
+            if(filteredReportDataList.isEmpty()) {
+                hazardRating = ReportData.HazardRating.LOW;
+                image = R.drawable.green_warning_sign;
+            } else {
+                hazardRating = filteredReportDataList.get(0).getHazardRating();
+                image = DataFactory.getHazardRatingImage(hazardRating);
+            }
+
+            ClusterMarker clusterMarker = new ClusterMarker(
+                    restaurantLatLng,
+                    title,
+                    getString(R.string.text_map_activity_address_detail, snippet),
+                    image,
+                    hazardRating,
+                    i
+            );
+            filteredClusterMarkerList.add(clusterMarker);
+        }
+
+        clusterManager.clearItems();
+        clusterManager.addItems(filteredClusterMarkerList);
+        clusterManager.cluster();
+
+    }
+
+
+
 }
 /*Resources:
 * https://github.com/menismu/android-maps-utils/blob/master/demo/src/com/google/maps/android/utils/demo/ClusteringSameLocationActivity.java#L107

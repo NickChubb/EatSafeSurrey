@@ -23,6 +23,7 @@ import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  *   This is the adapter for showing each restaurant in the RecyclerView of RestaurantListActivity.
@@ -39,6 +40,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
 
     private ArrayList<RestaurantData> restaurants;
     private ArrayList<RestaurantData> restaurantsListFull;
+
 
     public RestaurantRecyclerAdapter(Context mContext){
         this.manager = DataManager.getInstance();
@@ -113,7 +115,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
                 filteredRestaurantList.addAll(restaurantsListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
                 for(RestaurantData restaurant : restaurantsListFull){
                         if(restaurant.getName().toLowerCase().contains(filterPattern)){
                             filteredRestaurantList.add(restaurant);
@@ -151,6 +152,16 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
             issues = itemView.findViewById(R.id.text_restaurant_list_issue_num);
             parentLayout = itemView.findViewById(R.id.restaurantRecyclerLayout);
         }
+    }
+
+
+
+
+    public void setFilteredRecyclerView(List<RestaurantData> restaurantData){
+        restaurants.clear();
+        restaurants.addAll(restaurantData);
+        notifyDataSetChanged();
+
     }
 
 }

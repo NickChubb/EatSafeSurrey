@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filter_dialog_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:padding="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filter_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_dialog_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_filter_by_map_and_list_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/text_filter_by"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RadioGroup
+            android:id="@+id/radio_group_hazard_level_filter_map_and_list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_filter_by_map_and_list_activity" />
+
+
+        <TextView
+            android:id="@+id/text_min_critical_violations_map_and_list_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/text_min_critical_violations"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_group_hazard_level_filter_map_and_list_activity" />
+
+
+        <TextView
+            android:id="@+id/text_max_critical_violations_map_and_list_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/text_max_critical_violations"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_min_critical_violations_map_and_list_activity" />
+
+        <EditText
+            android:id="@+id/edit_text_min_critical_violations_map_and_list_activity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@id/text_min_critical_violations_map_and_list_activity"
+            app:layout_constraintTop_toBottomOf="@id/radio_group_hazard_level_filter_map_and_list_activity" />
+
+        <EditText
+            android:id="@+id/edit_text_max_critical_violations_map_and_list_activity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@id/text_max_critical_violations_map_and_list_activity"
+            app:layout_constraintTop_toBottomOf="@id/text_min_critical_violations_map_and_list_activity" />
+
+        <CheckBox
+            android:id="@+id/checkbox_favourites_map_and_list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_favourites"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_max_critical_violations_map_and_list_activity" />
+
+
+
+        <Button
+            android:id="@+id/button_filter_dialog_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_favourites_map_and_list_activity"
+            app:layout_constraintEnd_toEndOf="@id/filter_dialog"
+            android:text="@string/text_ok"/>
+
+        <Button
+            android:id="@+id/button_filter_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_favourites_map_and_list_activity"
+            app:layout_constraintEnd_toStartOf="@id/button_filter_dialog_ok"
+            android:text= "@string/text_cancel"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

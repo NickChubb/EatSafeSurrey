@@ -1,6 +1,7 @@
 package com.argon.restaurantinsurrey.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.ReportData;
+import com.argon.restaurantinsurrey.model.RestaurantData;
 import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
+
+import java.util.List;
+import java.util.Map;
 
 public class RestaurantListFragment extends Fragment {
 
     final public static String TAG = "RestaurantListFragment";
     private RestaurantRecyclerAdapter adapter;
+    private ReportData.HazardRating filterHazardRating = null;
+    private String filterName = null;
 
     @Nullable
     @Override
@@ -36,20 +44,13 @@ public class RestaurantListFragment extends Fragment {
         adapter = new RestaurantRecyclerAdapter(getActivity());
         list.setAdapter(adapter);
 
-        SearchView searchView = view.findViewById(R.id.search_restaurant_list);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText){
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
         return view;
     }
+
+
+    public void setFilteredRestaurant(List<RestaurantData> restaurantData){
+        adapter.setFilteredRecyclerView(restaurantData);
+    }
+
+
 }
