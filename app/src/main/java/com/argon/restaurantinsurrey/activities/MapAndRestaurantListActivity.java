@@ -209,12 +209,22 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
 
         cancelButton.setOnClickListener(click -> filterDialog.dismiss());
         okButton.setOnClickListener(click-> {
-            ((MapFragment)pages.get(0)).setFilteredMap(searchFilter.filterAll(filterName, hazardLevelFilterOption));
-
-            ((RestaurantListFragment) pages.get(1)).
-                    setFilteredRestaurant(searchFilter.filterAll(filterName, hazardLevelFilterOption));
             filterMinimumViolation = minimumViolationEditText.getText().toString();
             filterMaximumViolation = maximumViolationEditText.getText().toString();
+
+            ((MapFragment)pages.get(0)).setFilteredMap(
+                    searchFilter.filterAll(filterName,
+                                            hazardLevelFilterOption,
+                                            filterMinimumViolation,
+                                            filterMaximumViolation));
+
+            ((RestaurantListFragment) pages.get(1)).
+                    setFilteredRestaurant(
+                            searchFilter.filterAll(filterName,
+                                                    hazardLevelFilterOption,
+                                                    filterMinimumViolation,
+                                                    filterMaximumViolation));
+
             filterDialog.dismiss();
         });
 
@@ -231,10 +241,18 @@ public class MapAndRestaurantListActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextChange(String newText) {
                 filterName = newText;
-                ((MapFragment)pages.get(0)).setFilteredMap(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+                ((MapFragment)pages.get(0)).setFilteredMap(
+                        searchFilter.filterAll(filterName,
+                                                hazardLevelFilterOption,
+                                                filterMinimumViolation,
+                                                filterMaximumViolation));
 
                 ((RestaurantListFragment) pages.get(1)).
-                            setFilteredRestaurant(searchFilter.filterAll(filterName, hazardLevelFilterOption));
+                            setFilteredRestaurant(
+                                    searchFilter.filterAll(filterName,
+                                                            hazardLevelFilterOption,
+                                                            filterMinimumViolation,
+                                                            filterMaximumViolation));
 
                 return false;
             }

@@ -1,9 +1,18 @@
 package com.argon.restaurantinsurrey.model;
 
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SearchFilter {
+
+    final public static String TAG = "SearchFilter";
+
 
     private DataManager manager;
     private List<RestaurantData> restaurantDataListFull;
@@ -17,7 +26,7 @@ public class SearchFilter {
 
     public List<RestaurantData> filterByName(String name, List<RestaurantData> restaurantDataList){
         List<RestaurantData> filteredRestaurantList = new ArrayList<>();
-        if(name.length() == 0){
+        if(isStringEmpty(name)){
             return restaurantDataList;
         }
         else{
@@ -33,7 +42,8 @@ public class SearchFilter {
     }
 
 
-    public List<RestaurantData> filterByHazardRating(ReportData.HazardRating hazardRating, List<RestaurantData> restaurantDataList){
+    public List<RestaurantData> filterByHazardRating(ReportData.HazardRating hazardRating,
+                                                     List<RestaurantData> restaurantDataList){
 
         ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
 
@@ -62,23 +72,142 @@ public class SearchFilter {
 
     }
 
-    public List<RestaurantData> filterAll(String filterName, ReportData.HazardRating hazardRating){
+    public List<RestaurantData> filterByMinViolation(String numberOfViolation,
+                                                     List<RestaurantData> restaurantDataList){
 
-        if( (filterName == null || filterName.length() == 0) && hazardRating == null){
+        int minViolations;
+
+        if(isStringEmpty(numberOfViolation)){
+            Log.d(TAG, "numberOfViolation is null");
+            return restaurantDataList;
+        }
+        else{
+            minViolations = Integer.parseInt(numberOfViolation);
+        }
+
+        ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
+
+        for(RestaurantData restaurantData : restaurantDataList){
+
+            int criticalViolationWithinYear = numberOfCriticalViolationsWithinYear(restaurantData);
+
+            if(criticalViolationWithinYear >= minViolations){
+
+                filteredRestaurantList.add(restaurantData);
+            }
+
+        }
+        return filteredRestaurantList;
+    }
+
+    public List<RestaurantData> filterByMaxViolation(String numberOfViolation,
+                                                     List<RestaurantData> restaurantDataList){
+
+        int maxViolations;
+
+        if(isStringEmpty(numberOfViolation)){
+            Log.d(TAG, "numberOfViolation is null");
+            return restaurantDataList;
+        }
+        else{
+            maxViolations = Integer.parseInt(numberOfViolation);
+        }
+
+        ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
+
+        for(RestaurantData restaurantData : restaurantDataList){
+
+            int criticalViolationWithinYear = numberOfCriticalViolationsWithinYear(restaurantData);
+
+            if(criticalViolationWithinYear <= maxViolations){
+
+                filteredRestaurantList.add(restaurantData);
+            }
+
+        }
+        return filteredRestaurantList;
+    }
+
+    public List<RestaurantData> filterAll(String filterName, ReportData.HazardRating hazardRating,
+                                          String minNumberOfViolation, String maxNumberOfViolation){
+
+
+        if( isStringEmpty(filterName) == true &&
+                hazardRating == null &&
+                isStringEmpty(minNumberOfViolation) == true &&
+                isStringEmpty(maxNumberOfViolation) == true){
+
             return restaurantDataListFull;
         }
-        else if(filterName != null && hazardRating == null){
+        else if( isStringEmpty(filterName) == false &&
+                hazardRating == null &&
+                isStringEmpty(minNumberOfViolation) == true &&
+                isStringEmpty(maxNumberOfViolation) == true){
+
             return filterByName(filterName, restaurantDataListFull);
         }
-        else if( (filterName == null || filterName.length() == 0) && hazardRating != null){
+        else if(isStringEmpty(filterName) == true &&
+                hazardRating != null &&
+                isStringEmpty(minNumberOfViolation) == true &&
+                isStringEmpty(maxNumberOfViolation) == true){
             return filterByHazardRating(hazardRating, restaurantDataListFull);
+        }
+        else if(isStringEmpty(filterName) == true &&
+                hazardRating == null &&
+                isStringEmpty(minNumberOfViolation) == false &&
+                isStringEmpty(maxNumberOfViolation) == true){
+
+            return filterByMinViolation(minNumberOfViolation, restaurantDataListFull);
+        }
+        else if(isStringEmpty(filterName) == true &&
+                hazardRating == null &&
+                isStringEmpty(minNumberOfViolation) == true &&
+                isStringEmpty(maxNumberOfViolation) == false){
+
+            return filterByMaxViolation(minNumberOfViolation, restaurantDataListFull);
         }
         else{
             List<RestaurantData> filterNameList = filterByName(filterName, restaurantDataListFull);
             List<RestaurantData> filterHazardRatingList = filterByHazardRating(hazardRating, filterNameList);
-            return filterHazardRatingList;
+            List<RestaurantData> filterMinViolationList = filterByMinViolation(minNumberOfViolation, filterHazardRatingList);
+            List<RestaurantData> filterMaxViolationList = filterByMaxViolation(maxNumberOfViolation, filterMinViolationList);
+
+            return filterMaxViolationList;
         }
 
+    }
+
+
+    public int numberOfCriticalViolationsWithinYear(RestaurantData restaurantData){
+
+        List<ReportData> reports = manager.getReports(restaurantData.getTrackingNumber());
+
+        List<ReportData> reportsWithinYear = new ArrayList<>();
+
+        int criticalViolations = 0;
+
+        for(ReportData reportData : reports){
+            Date inspectionDate = reportData.getInspectionDate();
+
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+            Date currentDate = new Date();
+
+            long diff = currentDate.getTime() - inspectionDate.getTime();
+            long daysApart = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+            if(daysApart <= 365){
+                criticalViolations = criticalViolations + reportData.getNumCritical();
+            }
+
+        }
+
+        return criticalViolations;
+
+    }
+
+    private boolean isStringEmpty(String string){
+        return (string == null || string.length() == 0);
     }
 
 
