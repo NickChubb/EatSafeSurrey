@@ -1,0 +1,1 @@
+support language: chinese-simplified
