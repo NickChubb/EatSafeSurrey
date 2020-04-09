@@ -49,6 +49,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private RestaurantSearchFilter restaurantSearchFilter;
+    private boolean isActivityPause = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,6 +240,22 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         dataManager.saveData();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        isActivityPause = true;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(isActivityPause){
+            isActivityPause = false;
+            restaurantSearchFilter.setChanged(true);
+            restaurantSearchFilter.updateFilter();
+        }
     }
 
 }

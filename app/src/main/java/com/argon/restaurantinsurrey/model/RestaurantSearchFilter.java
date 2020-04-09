@@ -203,4 +203,7 @@ public class RestaurantSearchFilter {
         return criticalViolations;
     }
 
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
 }
