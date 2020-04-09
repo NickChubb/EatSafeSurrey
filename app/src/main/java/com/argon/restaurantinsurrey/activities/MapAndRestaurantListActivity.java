@@ -160,7 +160,7 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         ratings.add(ReportData.HazardRating.LOW);
         ratings.add(ReportData.HazardRating.MODERATE);
         ratings.add(ReportData.HazardRating.HIGH);
-        
+
         for(ReportData.HazardRating rating: ratings){
             String name = DataFactory.getHazardsName(this, rating);
             RadioButton radioButton = new RadioButton(this);

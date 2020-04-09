@@ -62,8 +62,8 @@
     <!--    Map and List Activity   -->
     <string name="enter_a_restaurant_name">Enter a restaurant name</string>
     <string name="text_filter_by">Filter by</string>
-    <string name="text_min_critical_violations">Minimum Critical Violations in a Year:</string>
-    <string name="text_max_critical_violations">Maximum Critical Violations in a Year:</string>
+    <string name="text_min_critical_violations">Minimum Critical Violations within a Year:</string>
+    <string name="text_max_critical_violations">Maximum Critical Violations within a Year:</string>
     <string name="text_favourites">Favourites</string>
 
     <!-- UpdateActivity -->
