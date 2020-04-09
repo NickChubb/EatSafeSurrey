@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+/*
+ *   This class contains functions to filter user preferences to restaurants
+ *
+ */
 public class SearchFilter {
 
     final public static String TAG = "SearchFilter";
