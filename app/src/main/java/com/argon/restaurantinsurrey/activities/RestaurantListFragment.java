@@ -30,6 +30,7 @@ public class RestaurantListFragment extends Fragment {
 
     final public static String TAG = "RestaurantListFragment";
     private RestaurantRecyclerAdapter adapter;
+    private boolean isActivityPause = false;
 
     @Nullable
     @Override
@@ -54,5 +55,19 @@ public class RestaurantListFragment extends Fragment {
         adapter.setFilteredRecyclerView(restaurantData);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        isActivityPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isActivityPause){
+            isActivityPause = false;
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 }

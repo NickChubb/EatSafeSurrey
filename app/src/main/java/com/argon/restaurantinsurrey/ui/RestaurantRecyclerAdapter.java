@@ -64,6 +64,12 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         holder.name.setText(current_restaurant.getName());
         ReportData report = manager.getLastInspection(trackingNumber);
 
+        if(manager.checkFavorite(current_restaurant)) {
+            holder.itemView.setBackgroundColor(mContext.getColor(R.color.colorLightGreen));
+        } else {
+            holder.itemView.setBackground(null);
+        }
+
         String inspectionDateText;
         int hazardResourceId;
         int issues;
