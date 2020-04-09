@@ -207,8 +207,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
                     restaurantSearchFilter.setMaxNumOfCritical(maxCritical);
                     restaurantSearchFilter.updateFilter();
                     dialog.dismiss();
-                    searchView.setQuery(restaurantSearchFilter.getFilterName(), false);
-                    searchView.clearFocus();
                 })
                 .setNegativeButton(R.string.text_cancel, (dialog, which) -> dialog.dismiss())
                 .create();

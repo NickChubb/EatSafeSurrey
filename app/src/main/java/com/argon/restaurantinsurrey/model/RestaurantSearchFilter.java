@@ -77,13 +77,20 @@ public class RestaurantSearchFilter {
                 filterRestaurantsList.add(restaurant);
             }
         }
+        this.filterRestaurantsList = filterRestaurantsList;
+        if(!filterName.isEmpty()){
+            updateNameFilter();
+            changed = false;
+            return;
+        }
+
         changed = false;
 
         if(listener != null) {
             listener.notifyFilterUpdated(filterRestaurantsList);
         }
-        this.filterRestaurantsList = filterRestaurantsList;
-        filterName = "";
+
+
     }
 
     public void updateNameFilter(){
