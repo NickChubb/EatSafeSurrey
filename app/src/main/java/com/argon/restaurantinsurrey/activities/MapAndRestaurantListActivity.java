@@ -253,7 +253,6 @@ public class MapAndRestaurantListActivity extends AppCompatActivity {
         super.onResume();
         if(isActivityPause){
             isActivityPause = false;
-            restaurantSearchFilter.setChanged(true);
             restaurantSearchFilter.updateFilter();
         }
     }

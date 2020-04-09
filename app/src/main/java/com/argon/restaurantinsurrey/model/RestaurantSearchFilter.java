@@ -37,7 +37,7 @@ public class RestaurantSearchFilter {
     private boolean filterFavourites;
 
     private ArrayList<RestaurantData> filterRestaurantsList;
-    private boolean changed;
+    static public boolean changed;
 
 
     public RestaurantSearchFilter() {
@@ -203,7 +203,4 @@ public class RestaurantSearchFilter {
         return criticalViolations;
     }
 
-    public void setChanged(boolean changed) {
-        this.changed = changed;
-    }
 }

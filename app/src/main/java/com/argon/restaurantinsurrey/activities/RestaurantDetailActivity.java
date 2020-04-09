@@ -18,6 +18,7 @@ import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
+import com.argon.restaurantinsurrey.model.RestaurantSearchFilter;
 import com.argon.restaurantinsurrey.ui.InspectionRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -157,7 +158,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnMap
                 // add to favourites
                 manager.addFavorite(restaurantData);
             }
-
+            RestaurantSearchFilter.changed = true;
         });
 
     }
