@@ -54,20 +54,6 @@ public class RestaurantListFragment extends Fragment {
     public void setFilteredRestaurant(List<RestaurantData> restaurantData){
         adapter.setFilteredRecyclerView(restaurantData);
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        isActivityPause = true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(isActivityPause){
-            isActivityPause = false;
-            adapter.notifyDataSetChanged();
-        }
-    }
+    
 
 }
