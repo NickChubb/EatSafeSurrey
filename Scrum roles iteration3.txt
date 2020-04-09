@@ -1,4 +1,4 @@
-Scrum Master:  @haopingy
-Product Owner: @nchubb
-Repo Manager: @ywa294
-Team Member: @jll26
+Scrum Master:  @nchubb
+Product Owner: @jll26
+Repo Manager: @haopingy
+Team Member: @ywa294
