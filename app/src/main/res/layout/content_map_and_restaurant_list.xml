@@ -13,11 +13,9 @@
         android:id="@+id/search_bar_map_and_list_activity"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/search_bar_round"
-        android:elevation="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         app:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,11 +72,11 @@
     <Button
         android:id="@+id/button_filter_map_and_list_activity"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         android:background="@drawable/ic_filter_list_black_80dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/search_bar_map_and_list_activity"
+        app:layout_constraintBottom_toBottomOf="@id/search_bar_map_and_list_activity"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -261,4 +261,26 @@ public class DataFactory {
                 return R.color.colorGrey;
         }
     }
+
+    public static String getHazardsName(Context context, ReportData.HazardRating hazardRating) {
+        ArrayList<String> hazardLevels = new ArrayList<>();
+
+        String ret = "";
+        switch (hazardRating) {
+            case OTHER:
+                ret = context.getString(R.string.text_none_hazard);
+                break;
+            case LOW:
+                ret = context.getString(R.string.text_low_hazard);
+                break;
+            case MODERATE:
+                ret = context.getString(R.string.text_moderate_hazard);
+                break;
+            case HIGH:
+                ret = context.getString(R.string.text_high_hazard);
+                break;
+        }
+
+        return ret;
+    }
 }

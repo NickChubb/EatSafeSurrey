@@ -22,12 +22,14 @@ import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
 import java.util.List;
 import java.util.Map;
 
+/*
+Show the list of restaurants
+
+ */
 public class RestaurantListFragment extends Fragment {
 
     final public static String TAG = "RestaurantListFragment";
     private RestaurantRecyclerAdapter adapter;
-    private ReportData.HazardRating filterHazardRating = null;
-    private String filterName = null;
 
     @Nullable
     @Override

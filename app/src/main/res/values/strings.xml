@@ -6,9 +6,13 @@
     <string name="basic_date_format">MM/dd/yyyy</string>
     <string name="text_other">OTHER</string>
 
+    <string name="text_none_hazard">NONE</string>
     <string name="text_high_hazard">HIGH</string>
     <string name="text_moderate_hazard">MODERATE</string>
     <string name="text_low_hazard">LOW</string>
+
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">Cancel</string>
 
     <!--    MainActivity    -->
     <string name="welcome">Welcome!</string>
@@ -58,15 +62,8 @@
     <!--    Map and List Activity   -->
     <string name="enter_a_restaurant_name">Enter a restaurant name</string>
     <string name="text_filter_by">Filter by</string>
-    <string name="text_min_critical_violations">Minimum Critical Violations:</string>
-    <string name="text_max_critical_violations">Maximum Critical Violations:</string>
-    <string name="hazard_level">Hazard level:   </string>
-    <string name="text_ok">OK</string>
-    <string name="text_cancel">CANCEL</string>
-    <string name="hazard_level_filter_option_none">NONE</string>
-    <string name="hazard_level_filter_option_low">LOW</string>
-    <string name="hazard_level_filter_option_moderate">MODERATE</string>
-    <string name="hazard_level_filter_option_high">HIGH</string>
+    <string name="text_min_critical_violations">Minimum Critical Violations in a Year:</string>
+    <string name="text_max_critical_violations">Maximum Critical Violations in a Year:</string>
     <string name="text_favourites">Favourites</string>
 
     <!-- UpdateActivity -->
@@ -74,7 +71,6 @@
     <string name="status_update_downloading_restaurants">Downloading Restaurants Data…</string>
     <string name="status_update_downloading_reports">Downloading Inspection Reports Data…</string>
     <string name="status_update_downloading_images">Downloading Restaurant Images… (%d/%d)</string>
-    <string name="text_update_cancel">Cancel</string>
     <string name="title_update_alert">New Data is Available</string>
     <string name="message_update_alert">Do you want to update? \n\nUpdate restaurant images may takes long.\nIf choose update without images, you can still download images tomorrow.</string>
     <string name="text_update_alert_no">Do not update</string>

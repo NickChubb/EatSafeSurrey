@@ -13,6 +13,10 @@ import android.os.Bundle;
 import com.argon.restaurantinsurrey.R;
 import com.argon.restaurantinsurrey.ui.UpdatedFavoritesAdapter;
 
+/*
+If the user's favorite restaurant has new update, this activity will be shown.
+It tells user what restaurant has been updated.
+ */
 public class UpdatedNotificationActivity extends AppCompatActivity {
 
     @Override

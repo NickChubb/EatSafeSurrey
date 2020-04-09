@@ -23,6 +23,11 @@ import com.argon.restaurantinsurrey.model.UpdateManager;
 
 import org.w3c.dom.Text;
 
+/*
+
+This activity guides user to update the data from internet.
+
+ */
 public class UpdateActivity extends AppCompatActivity {
 
     final public static String TAG = "UpdateActivity";

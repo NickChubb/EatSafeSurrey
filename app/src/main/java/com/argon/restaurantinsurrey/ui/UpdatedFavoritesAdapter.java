@@ -22,6 +22,11 @@ import com.argon.restaurantinsurrey.model.RestaurantData;
 
 import java.util.ArrayList;
 
+/*
+ *   This is the adapter for showing each restaurant in the RecyclerView of UpdatedNotificationActivity.
+ *
+ */
+
 public class UpdatedFavoritesAdapter extends RecyclerView.Adapter<UpdatedFavoritesAdapter.ImageViewHolder> {
 
     final public static String TAG = "UpdatedFavoritesAdapter";

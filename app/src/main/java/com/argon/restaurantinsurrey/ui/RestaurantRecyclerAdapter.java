@@ -30,7 +30,7 @@ import java.util.List;
  *
  */
 
-public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRecyclerAdapter.ImageViewHolder> implements Filterable {
+public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRecyclerAdapter.ImageViewHolder> {
 
     final public static String TAG = "RestaurantRecyclerAdapter";
 
@@ -39,7 +39,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
     private Context mContext;
 
     private ArrayList<RestaurantData> restaurants;
-    private ArrayList<RestaurantData> restaurantsListFull;
 
 
     public RestaurantRecyclerAdapter(Context mContext){
@@ -47,7 +46,6 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         this.mContext = mContext;
 
         restaurants = manager.createRestaurantsList();
-        restaurantsListFull = manager.createRestaurantsList();
     }
 
     @NonNull
@@ -101,39 +99,7 @@ public class RestaurantRecyclerAdapter extends RecyclerView.Adapter<RestaurantRe
         return restaurants.size();
 }
 
-    @Override
-    public Filter getFilter() {
-        return restaurantFilter;
-    }
 
-    private Filter restaurantFilter = new Filter(){
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint){
-            ArrayList<RestaurantData> filteredRestaurantList = new ArrayList<>();
-
-            if(constraint == null || constraint.length() == 0){
-                filteredRestaurantList.addAll(restaurantsListFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for(RestaurantData restaurant : restaurantsListFull){
-                        if(restaurant.getName().toLowerCase().contains(filterPattern)){
-                            filteredRestaurantList.add(restaurant);
-                        }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredRestaurantList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            restaurants.clear();
-            restaurants.addAll((ArrayList)results.values);
-            notifyDataSetChanged();
-        }
-    };
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder{
         TextView name;

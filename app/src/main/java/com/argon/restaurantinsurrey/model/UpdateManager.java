@@ -20,6 +20,12 @@ import java.util.Dictionary;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+/*
+* This is a basic model for updating data from internet.
+* You can get update information and update from this internet
+* during update, UpdateStatusListener will be called so you can refresh the UI.
+ */
+
 public class UpdateManager extends AsyncTask<Short, Integer, Boolean> {
 
     public interface UpdateStatusListener{

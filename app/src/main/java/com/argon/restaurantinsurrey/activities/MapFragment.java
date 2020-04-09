@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -14,15 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -31,7 +27,7 @@ import com.argon.restaurantinsurrey.model.DataFactory;
 import com.argon.restaurantinsurrey.model.DataManager;
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.ui.ClusterMarker;
+import com.argon.restaurantinsurrey.model.ClusterMarker;
 import com.argon.restaurantinsurrey.ui.MyClusterManagerRenderer;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -65,25 +61,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private DataManager dataManager;
-    private List<RestaurantData> restaurantDataList;
-    private List<LatLng> restaurantLatLngList = new ArrayList<>();
-    private List<ReportData> reportDataList;
+    ArrayList<RestaurantData> restaurantList;
     private CustomClusterManager<ClusterMarker> clusterManager;
     private MyClusterManagerRenderer clusterManagerRenderer;
-    private List<ClusterMarker> clusterMarkerList = new ArrayList<>();
     private View viewFrag;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewFrag = inflater.inflate(R.layout.fragment_map,container,false);
-        setUpVariables();
+
+        dataManager = DataManager.getInstance();
+        restaurantList = dataManager.createRestaurantsList();
+
         initializeMap();
         getLocationPermission();
         return viewFrag;
     }
 
-    private void addMapMarkers(){
+    private void setMapMarkers(){
 
         if(mGoogleMap != null ) {
 
@@ -94,11 +90,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 clusterManagerRenderer = new MyClusterManagerRenderer(getActivity(), mGoogleMap, clusterManager);
                 clusterManager.setRenderer(clusterManagerRenderer);
             }
-            for(int i = 0; i < restaurantLatLngList.size(); i++){
-
-                LatLng restaurantLatLng = new LatLng(restaurantLatLngList.get(i).latitude,
-                        restaurantLatLngList.get(i).longitude);
-                RestaurantData restaurant = dataManager.getRestaurant(i);
+            clusterManager.clearItems();
+            for(int i = 0; i < restaurantList.size(); i++){
+                RestaurantData restaurant = restaurantList.get(i);
+                LatLng restaurantLatLng = new LatLng(restaurant.getLat(), restaurant.getLon());
                 String title = restaurant.getName();
                 String snippet = restaurant.getAddress();
                 String trackingNumber = restaurant.getTrackingNumber();
@@ -123,7 +118,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         i
                 );
                 clusterManager.addItem(clusterMarker);
-                clusterMarkerList.add(clusterMarker);
             }
             mGoogleMap.setOnCameraIdleListener(clusterManager);
             mGoogleMap.setOnMarkerClickListener(clusterManager);
@@ -226,7 +220,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         final AlertDialog alertDialog = builder.create();
 
         view.findViewById(R.id.hazard_dialog_go_to_restaurant_btn).setOnClickListener(v -> {
-            Intent intent = RestaurantDetailActivity.makeLaunchIntent(getActivity(), index);
+            int i = dataManager.getIndexForRestaurant(dataManager.getRestaurant(restaurantList.get(index).getTrackingNumber()));
+            Intent intent = RestaurantDetailActivity.makeLaunchIntent(getActivity(), i);
             startActivity(intent);
         });
 
@@ -237,15 +232,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         alertDialog.show();
     }
 
-    private void setUpVariables() {
-        dataManager = DataManager.getInstance();
-
-        for(int i = 0; i < dataManager.getRestaurantsSize(); i++){
-            RestaurantData restaurantData = dataManager.getRestaurant(i);
-            LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
-            restaurantLatLngList.add(restaurantLatLng);
-        }
-    }
 
     private void getDeviceLocation(){
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -322,7 +308,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         getDeviceLocation();
-        addMapMarkers();
+        setMapMarkers();
     }
 
     public class CustomClusterManager<T extends ClusterItem> extends ClusterManager<T> {
@@ -344,62 +330,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void setFilteredMap(List<RestaurantData> restaurantDataList){
-
-        List<LatLng> filteredLatLngList = new ArrayList<>();
-        List<ReportData> filteredReportDataList = new ArrayList<>();
-        List<ClusterMarker> filteredClusterMarkerList = new ArrayList<>();
-        for(RestaurantData restaurantData : restaurantDataList){
-            LatLng restaurantLatLng = new LatLng(restaurantData.getLat(), restaurantData.getLon());
-            filteredLatLngList.add(restaurantLatLng);
-        }
-
-        for(int i = 0; i < filteredLatLngList.size(); i++){
-            LatLng restaurantLatLng = new LatLng(filteredLatLngList.get(i).latitude,
-                    filteredLatLngList.get(i).longitude);
-            String title = restaurantDataList.get(i).getName();
-            String snippet = restaurantDataList.get(i).getAddress();
-            String trackingNumber = restaurantDataList.get(i).getTrackingNumber();
-            filteredReportDataList = dataManager.getReports(trackingNumber);
-
-            ReportData.HazardRating hazardRating;
-            int image;
-            if(filteredReportDataList.isEmpty()) {
-                hazardRating = ReportData.HazardRating.LOW;
-                image = R.drawable.green_warning_sign;
-            } else {
-                hazardRating = filteredReportDataList.get(0).getHazardRating();
-                image = DataFactory.getHazardRatingImage(hazardRating);
-            }
-
-            ClusterMarker clusterMarker = new ClusterMarker(
-                    restaurantLatLng,
-                    title,
-                    getString(R.string.text_map_activity_address_detail, snippet),
-                    image,
-                    hazardRating,
-                    findRestaurantIndex(restaurantDataList.get(i))
-            );
-            filteredClusterMarkerList.add(clusterMarker);
-        }
-
-        clusterManager.clearItems();
-        clusterManager.addItems(filteredClusterMarkerList);
-        clusterManager.cluster();
-
-    }
-
-
-    private int findRestaurantIndex(RestaurantData restaurantData){
-
-        for(int i = 0; i < dataManager.getRestaurantsSize(); i++){
-            RestaurantData restaurant = dataManager.getRestaurant(i);
-            if(restaurant.getTrackingNumber().equals(restaurantData.getTrackingNumber())){
-                return i;
-            }
-        }
-
-        throw new IndexOutOfBoundsException("Cannot find restaurant");
+    public void setFilteredMap(ArrayList<RestaurantData> restaurantDataList){
+        restaurantList = restaurantDataList;
+        setMapMarkers();
     }
 
 

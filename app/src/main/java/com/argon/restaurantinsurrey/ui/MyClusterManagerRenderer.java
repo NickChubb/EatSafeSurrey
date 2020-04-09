@@ -5,22 +5,22 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.core.content.ContextCompat;
-
 import com.argon.restaurantinsurrey.R;
+import com.argon.restaurantinsurrey.model.ClusterMarker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
 
+/*
+This customs the cluster renderer for an advance view.
+ */
 public class MyClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
 
     private final IconGenerator iconGenerator;

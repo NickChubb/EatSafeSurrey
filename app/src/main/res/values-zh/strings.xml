@@ -6,9 +6,13 @@
     <string name="basic_date_format">MM/dd/yyyy</string>
     <string name="text_other">其他</string>
 
+    <string name="text_none_hazard">不选择</string>
     <string name="text_high_hazard">高</string>
     <string name="text_moderate_hazard">中</string>
     <string name="text_low_hazard">低</string>
+
+    <string name="text_ok">好</string>
+    <string name="text_cancel">关闭</string>
 
     <!--    MainActivity    -->
     <string name="welcome">欢迎!</string>
@@ -54,12 +58,18 @@
     <string name="text_map_activity_see_reports">查看报告</string>
     <string name="text_map_activity_address_detail">地址: %s</string>
 
+    <!--    Map and List Activity   -->
+    <string name="enter_a_restaurant_name">输入餐厅名称</string>
+    <string name="text_filter_by">筛选：</string>
+    <string name="text_min_critical_violations">一年内最小严重问题数量:</string>
+    <string name="text_max_critical_violations">一年内最大严重问题数量:</string>
+    <string name="text_favourites">标记为“喜欢”</string>
+
     <!-- UpdateActivity -->
     <string name="status_update_waiting">请稍等…</string>
     <string name="status_update_downloading_restaurants">下载餐厅数据…</string>
     <string name="status_update_downloading_reports">下载报告数据…</string>
     <string name="status_update_downloading_images">下载餐厅图片… (%d/%d)</string>
-    <string name="text_update_cancel">关闭</string>
     <string name="title_update_alert">新数据可用</string>
     <string name="message_update_alert">是否进行更新? \n\n这将会花费一些时间\n如果更新但不下载照片，更新照片将在明天可用</string>
     <string name="text_update_alert_no">不更新</string>

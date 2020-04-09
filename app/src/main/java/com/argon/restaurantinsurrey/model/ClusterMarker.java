@@ -1,10 +1,13 @@
-package com.argon.restaurantinsurrey.ui;
+package com.argon.restaurantinsurrey.model;
 
 import com.argon.restaurantinsurrey.model.ReportData;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterItem;
 
+/*
+    This model saves the required information for a marker.
+ */
 public class ClusterMarker implements ClusterItem {
 
     private LatLng position;
