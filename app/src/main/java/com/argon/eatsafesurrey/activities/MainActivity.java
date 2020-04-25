@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,27 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.UpdateManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import com.argon.eatsafesurrey.R;
 
 /*
  *   This is the activity for showing welcome screen and animation.

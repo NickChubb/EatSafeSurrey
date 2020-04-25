@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 
-import com.argon.restaurantinsurrey.R;
-
-import org.json.JSONObject;
+import com.argon.eatsafesurrey.R;
 
 import java.io.BufferedReader;
 import java.io.File;

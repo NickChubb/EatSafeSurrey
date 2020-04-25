@@ -1,27 +1,18 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.UpdateManager;
-
-import org.w3c.dom.Text;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.UpdateManager;
 
 /*
 

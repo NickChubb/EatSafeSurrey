@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey;
+package com.argon.eatsafesurrey;
 
 import org.junit.Test;
 

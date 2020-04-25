@@ -1,8 +1,6 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;

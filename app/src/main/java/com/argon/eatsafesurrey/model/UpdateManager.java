@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,8 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -16,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 

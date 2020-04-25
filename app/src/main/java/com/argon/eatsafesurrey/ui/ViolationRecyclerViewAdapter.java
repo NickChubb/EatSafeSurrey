@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.ui;
+package com.argon.eatsafesurrey.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.ViolationData;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.ViolationData;
 
 import java.util.ArrayList;
 

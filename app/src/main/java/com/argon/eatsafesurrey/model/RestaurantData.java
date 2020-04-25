@@ -1,7 +1,6 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.Nullable;

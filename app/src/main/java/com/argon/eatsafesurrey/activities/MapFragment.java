@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -22,13 +22,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.model.ClusterMarker;
-import com.argon.restaurantinsurrey.ui.MyClusterManagerRenderer;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.DataFactory;
+import com.argon.eatsafesurrey.model.DataManager;
+import com.argon.eatsafesurrey.model.ReportData;
+import com.argon.eatsafesurrey.model.RestaurantData;
+import com.argon.eatsafesurrey.model.ClusterMarker;
+import com.argon.eatsafesurrey.ui.MyClusterManagerRenderer;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;

@@ -1,15 +1,14 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.argon.restaurantinsurrey.R;
+import com.argon.eatsafesurrey.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

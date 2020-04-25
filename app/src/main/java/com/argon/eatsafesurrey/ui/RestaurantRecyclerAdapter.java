@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.ui;
+package com.argon.eatsafesurrey.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.activities.RestaurantDetailActivity;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.activities.RestaurantDetailActivity;
+import com.argon.eatsafesurrey.model.DataFactory;
+import com.argon.eatsafesurrey.model.DataManager;
+import com.argon.eatsafesurrey.model.ReportData;
+import com.argon.eatsafesurrey.model.RestaurantData;
 
 import java.util.ArrayList;
 import java.util.List;

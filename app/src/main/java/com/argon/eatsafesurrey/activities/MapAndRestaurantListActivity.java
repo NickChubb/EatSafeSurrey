@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,12 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +20,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.model.RestaurantSearchFilter;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.DataFactory;
+import com.argon.eatsafesurrey.model.DataManager;
+import com.argon.eatsafesurrey.model.ReportData;
+import com.argon.eatsafesurrey.model.RestaurantSearchFilter;
 
 import java.util.ArrayList;
 import java.util.List;

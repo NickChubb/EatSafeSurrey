@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.ui.UpdatedFavoritesAdapter;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.ui.UpdatedFavoritesAdapter;
 
 /*
 If the user's favorite restaurant has new update, this activity will be shown.

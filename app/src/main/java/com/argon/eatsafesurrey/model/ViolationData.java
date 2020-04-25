@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.model;
+package com.argon.eatsafesurrey.model;
 
 import android.util.Log;
 

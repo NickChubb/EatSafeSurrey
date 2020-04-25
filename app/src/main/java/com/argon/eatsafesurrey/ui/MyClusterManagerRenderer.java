@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.ui;
+package com.argon.eatsafesurrey.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,8 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.ClusterMarker;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.ClusterMarker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;

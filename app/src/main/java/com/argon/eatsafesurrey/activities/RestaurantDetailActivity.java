@@ -1,10 +1,7 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,12 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.model.RestaurantSearchFilter;
-import com.argon.restaurantinsurrey.ui.InspectionRecyclerAdapter;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.DataManager;
+import com.argon.eatsafesurrey.model.ReportData;
+import com.argon.eatsafesurrey.model.RestaurantData;
+import com.argon.eatsafesurrey.model.RestaurantSearchFilter;
+import com.argon.eatsafesurrey.ui.InspectionRecyclerAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,10 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  *   This is the activity for showing the details of each restaurant

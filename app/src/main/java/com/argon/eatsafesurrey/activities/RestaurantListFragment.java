@@ -1,11 +1,9 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +12,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.RestaurantData;
-import com.argon.restaurantinsurrey.ui.RestaurantRecyclerAdapter;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.RestaurantData;
+import com.argon.eatsafesurrey.ui.RestaurantRecyclerAdapter;
 
 import java.util.List;
-import java.util.Map;
 
 /*
 Show the list of restaurants

@@ -1,4 +1,4 @@
-package com.argon.restaurantinsurrey.activities;
+package com.argon.eatsafesurrey.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.argon.restaurantinsurrey.R;
-import com.argon.restaurantinsurrey.model.DataFactory;
-import com.argon.restaurantinsurrey.model.DataManager;
-import com.argon.restaurantinsurrey.model.ReportData;
-import com.argon.restaurantinsurrey.model.ViolationData;
-import com.argon.restaurantinsurrey.ui.ViolationRecyclerViewAdapter;
+import com.argon.eatsafesurrey.R;
+import com.argon.eatsafesurrey.model.DataFactory;
+import com.argon.eatsafesurrey.model.DataManager;
+import com.argon.eatsafesurrey.model.ReportData;
+import com.argon.eatsafesurrey.model.ViolationData;
+import com.argon.eatsafesurrey.ui.ViolationRecyclerViewAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
